@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        
+        <ui:composition>
+            <p:ajaxStatus style="position: fixed; left: 30%; top: 30%">  
+                <f:facet name="start">  
+                    <h:graphicImage library="images" name="ajax-loader.gif"/>  
+                </f:facet>  
+                <f:facet name="complete">  
+                    <h:outputText value="" />  
+                </f:facet>  
+            </p:ajaxStatus>
+            <p:dataTable
+                var="stat"
+                value="#{statisticsBean.stats}"
+                id="statisticsTable"
+                paginator="true"
+                paginatorAlwaysVisible="true"
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                currentPageReportTemplate="{startRecord}-{endRecord} / {totalRecords}"
+                rowsPerPageTemplate="12, 30, 100"
+                rows="12"
+                resizableColumns="true"
+                rowIndexVar="rowIndex"
+                rowKey="#{stat.periodDate}"
+                style="width: 1200px;">
+                <f:facet name="header">
+                    #{statisticsBean.report.name}
+                    <p:selectOneMenu value="#{statisticsBean.underlying}" style="width: 80px; margin-left: 20px; vertical-align: middle;">
+                        <f:selectItems value="#{statisticsBean.allUnderlyings}"/>
+                        <p:ajax event="change" update="statisticsTable" listener="#{statisticsBean.recalculate()}" onsuccess="createStatisticsCharts();"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{statisticsBean.interval}" style="width: 90px; margin-left: 10px; vertical-align: middle;">
+                        <f:selectItems value="#{statisticsBean.intervals}"/>
+                        <p:ajax event="change" update="statisticsTable" listener="#{statisticsBean.recalculate()}" onsuccess="createStatisticsCharts();"/>
+                    </p:selectOneMenu>
+                </f:facet>
+                <p:column headerText="Period" style="white-space: nowrap;">
+                    <h:outputText value="#{stat.periodDate.time}"><f:convertDateTime pattern="MM/dd/yyyy" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Opened" style="text-align: right;">
+                    <h:outputText value="#{stat.numOpened}"/>
+                </p:column>
+                <p:column headerText="Closed" style="text-align: right;">
+                    <h:outputText value="#{stat.numClosed}"/>
+                </p:column>
+                <p:column headerText="Winners" style="text-align: right;">
+                    <h:outputText value="#{stat.numWinners}"/>
+                </p:column>
+                <p:column headerText="Losers" style="text-align: right;">
+                    <h:outputText value="#{stat.numLosers}"/>
+                </p:column>
+                <p:column headerText="Max Winner" style="text-align: right;">
+                    <h:outputText value="#{stat.maxWinner}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+                <p:column headerText="Max loser" style="text-align: right;">
+                    <h:outputText value="#{stat.maxLoser}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+                <p:column headerText="W Profit" style="text-align: right;">
+                    <h:outputText value="#{stat.winnersProfit}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+                <p:column headerText="L Loss" style="text-align: right;">
+                    <h:outputText value="#{stat.losersLoss}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+                <p:column headerText="PL month" style="text-align: right;">
+                    <h:outputText value="#{stat.profitLoss}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+                <p:column headerText="Cumul PL" style="text-align: right;">
+                    <h:outputText value="#{stat.cumulProfitLoss}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton icon="ui-icon-home" action="index" ajax="false" title="Home"/>
+                    <p:commandButton actionListener="#{statisticsBean.recalculate()}" icon="ui-icon-gear" title="Recalculate" update="statisticsTable" onsuccess="createStatisticsCharts();"/>
+                </f:facet>  
+            </p:dataTable>
+            
+            <div id="c1" class="statchart"></div>
+            <div id="c2" class="statchart"></div>
+            <div id="c3" class="statchart"></div>
+            <div id="c4" class="statchart"></div>
+            <div id="c5" class="statchart"></div>
+            <div id="c6" class="statchart"></div>
+        </ui:composition>
+    </h:body>
+</html>
+

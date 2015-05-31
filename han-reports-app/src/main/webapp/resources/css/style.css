@@ -1,0 +1,29 @@
+/* 
+    Document   : style
+    Created on : Jan 16, 2012, 6:10:05 PM
+    Author     : Robert
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+.pl_green {
+    color: green;
+}
+
+.pl_red {
+    color: red;
+}
+
+.ui-datatable .ui-column-filter.reports-filter {
+    width: 40px;
+}
+
+.statchart {
+    height:300px; 
+    width: 1210px; 
+    margin-top: 20px;
+}

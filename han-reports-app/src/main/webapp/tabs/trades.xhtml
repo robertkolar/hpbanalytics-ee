@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition>
+            <p:ajaxStatus style="position: fixed; left: 30%; top: 30%">  
+                <f:facet name="start">  
+                    <h:graphicImage library="images" name="ajax-loader.gif"/>  
+                </f:facet>  
+                <f:facet name="complete">  
+                    <h:outputText value="" />  
+                </f:facet>  
+            </p:ajaxStatus>
+            <p:dataTable
+                var="t"
+                value="#{tradeBean.trades}"
+                id="tradesTable"
+                paginator="true"
+                paginatorAlwaysVisible="true"
+                rows="20"
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                currentPageReportTemplate="{startRecord}-{endRecord} / {totalRecords}"
+                rowsPerPageTemplate="10, 20, 50, 100"
+                pageLinks="5"
+                resizableColumns="true"
+                rowIndexVar="rowIndex"
+                filteredValue="#{tradeBean.filteredTrades}"
+                style="width: 1500px;"
+                >
+                <f:facet name="header">
+                    Trades for #{tradeBean.report.name}
+                </f:facet>
+                <p:column width="16">
+                    <p:rowToggler />  
+                </p:column>  
+                <p:column headerText="Action">
+                    <h:outputText value="#{t.type}"/>
+                </p:column>
+                <p:column headerText="Quant" style="text-align: right;">
+                    <h:outputText value="#{t.cummulativeQuantity}"/>
+                </p:column>
+                <p:column headerText="Position" style="text-align: right;">
+                    <h:outputText value="#{t.openPosition}"/>
+                </p:column>
+                <p:column headerText="SecType" filterBy="#{t.secType}" filterMatchMode="contains" filterMaxLength="6" filterStyleClass="reports-filter">
+                    <h:outputText value="#{t.secType}"/>
+                </p:column>
+                <p:column headerText="Undl" filterBy="#{t.underlying}" filterMatchMode="contains" filterMaxLength="6" filterStyleClass="reports-filter">
+                    <h:outputText value="#{t.underlying}"/>
+                </p:column>
+                <p:column headerText="Cur">
+                    <h:outputText value="#{t.currency}"/>
+                </p:column>
+                <p:column headerText="Symbol" width="160">
+                    <h:outputText value="#{t.symbol}"/>
+                </p:column>
+                <p:column headerText="Open" style="text-align: right;">
+                    <h:outputText value="#{t.avgOpenPrice}"><f:convertNumber minFractionDigits="2" maxFractionDigits="5"/></h:outputText>
+                </p:column>
+                <p:column headerText="Date Opened" style="white-space: nowrap;" width="160">
+                    <h:outputText value="#{t.dateOpened.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Close" style="text-align: right;">
+                    <h:outputText value="#{t.avgClosePrice}"><f:convertNumber minFractionDigits="2" maxFractionDigits="5"/></h:outputText>
+                </p:column>
+                <p:column headerText="Date Closed" style="white-space: nowrap;" width="160">
+                    <h:outputText value="#{t.dateClosed.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Duration" style="white-space: nowrap;" width="120">
+                    <h:outputText value="#{t.duration}"/>
+                </p:column>
+                <p:column headerText="Status" filterBy="#{t.status}" filterMatchMode="contains" filterMaxLength="6" filterStyleClass="reports-filter">
+                    <h:outputText value="#{t.status}"/>
+                </p:column>
+                <p:column headerText="P/L" style="text-align: right;" styleClass="#{t.profitLoss >= 0 ? 'pl_green' : 'pl_red'}">
+                    <h:outputText value="#{t.profitLoss}"><f:convertNumber minFractionDigits="2"/></h:outputText>
+                </p:column>
+                <p:column headerText="Close" width="30">
+                    <h:outputText styleClass="ui-icon ui-icon-bullet" style="height: 20px; width: 20px;" rendered="#{!t.open}"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-s" rendered="#{t.open}" style="height: 20px; width: 20px;" actionListener="#{tradeCloseBean.closeTrade(t)}" update=":tabView:tform:tpanel" title="Close Trade"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:dataTable value="#{t.splitExecutions}" var="se" style="width: 1200px;">
+                        <p:column headerText="Action">
+                            <h:outputText value="#{se.execution.action}"/>
+                        </p:column>
+                        <p:column headerText="Quant" style="text-align: right;">
+                            <h:outputText value="#{se.splitQuantity}"/>&nbsp;(<h:outputText value="#{se.execution.quantity}"/>)&nbsp;
+                        </p:column>
+                        <p:column headerText="SecType">
+                            <h:outputText value="#{se.execution.secType}"/>
+                        </p:column>
+                        <p:column headerText="Undl">
+                            <h:outputText value="#{se.execution.underlying}"/>
+                        </p:column>
+                        <p:column headerText="Cur">
+                            <h:outputText value="#{se.execution.currency}"/>
+                        </p:column>
+                        <p:column headerText="Symbol" width="160">
+                            <h:outputText value="#{se.execution.symbol}"/>
+                        </p:column>
+                        <p:column headerText="Price" style="text-align: right;">
+                            <h:outputText value="#{se.execution.fillPrice}"><f:convertNumber minFractionDigits="2" maxFractionDigits="5"/></h:outputText>
+                        </p:column>
+                        <p:column headerText="Date" style="white-space: nowrap;" sortBy="#{se.execution.fillDate.time}" width="160">
+                            <h:outputText value="#{se.execution.fillDate.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>&nbsp;
+                        </p:column>
+                        <p:column headerText="Pos" style="text-align: right;">
+                            <h:outputText value="#{se.currentPosition}"/>
+                        </p:column>
+                        <p:column headerText="Comment">
+                            <h:outputText value="#{se.execution.comment}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+                <f:facet name="footer">
+                    <p:commandButton icon="ui-icon-home" action="index" ajax="false" title="Home"/>
+                    <p:commandButton icon="ui-icon-refresh" update=":tabView:tform:tradesTable" actionListener="#{tradeBean.refresh()}" title="Refresh"/>
+                </f:facet> 
+            </p:dataTable>
+            <br/>
+
+            <p:outputPanel id="tpanel">
+                <p:panelGrid rendered="#{tradeCloseBean.rendered}">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="8">Close Trade</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>Action</p:column>
+                            <p:column>Quantity</p:column>
+                            <p:column>Symbol</p:column>
+                            <p:column>SecType</p:column>
+                            <p:column>Price</p:column>
+                            <p:column>Option Close Type</p:column>
+                            <p:column>Fill Date</p:column>
+                            <p:column>Do</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column><h:outputText value="#{tradeCloseBean.execution.action}" style="vertical-align: middle;" /></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.execution.quantity}" style="vertical-align: middle;"/></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.execution.symbol}" style="vertical-align: middle;"/></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.execution.secType}" style="vertical-align: middle;"/></p:column>
+                        <p:column>
+                            <p:inputText required="true" size="10" value="#{tradeCloseBean.price}" disabled="#{tradeCloseBean.isPriceDisabled}" style="vertical-align: middle;">
+                                <f:convertNumber type="number"  minFractionDigits="2" locale="US"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu rendered="#{tradeCloseBean.optionRendered}" value="#{tradeCloseBean.optionCloseType}"  style="vertical-align: middle;">
+                                <p:ajax event="change" update=":tabView:tform:tpanel" listener="#{tradeCloseBean.optionCloseTypeChanged()}"/>
+                                <f:selectItems value="#{tradeCloseBean.optionCloseTypeItems}"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="CLOSE" rendered="#{!tradeCloseBean.optionRendered}"/>
+                        </p:column>
+                        <p:column><p:calendar value="#{tradeCloseBean.date}" disabled="#{tradeCloseBean.isDateDisabled}" pattern="MM/dd/yyyy HH:mm:ss" style="vertical-align: middle;" mindate="#{tradeCloseBean.minDate}" maxdate="#{tradeCloseBean.maxDate}" timeZone="America/New_York"/></p:column>
+                        <p:column>
+                            <p:commandButton actionListener="#{tradeCloseBean.cancel()}" icon="ui-icon-close" update=":tabView:tform:tpanel, :tabView:tform:tradesTable" title="Cancel"/>
+                            <p:commandButton actionListener="#{tradeCloseBean.submit()}" icon="ui-icon-check" update=":tabView:tform:tpanel, :tabView:tform:tradesTable" title="Submit"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{tradeCloseBean.childRendered}">
+                        <p:column><h:outputText value="#{tradeCloseBean.childExecution.action}" /></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.childExecution.quantity}"/></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.childExecution.symbol}"/></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.childExecution.secType}"/></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.childExecution.fillPrice}"><f:convertNumber minFractionDigits="2" maxFractionDigits="8" locale="US" /></h:outputText></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.optionCloseType}"/></p:column>
+                        <p:column><h:outputText value="#{tradeCloseBean.childExecution.fillDate.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText></p:column>
+                        <p:column><h:outputText value=""/></p:column>
+                    </p:row>
+                </p:panelGrid>
+                <div><p:messages/></div>
+            </p:outputPanel>
+
+        </ui:composition>
+    </h:body>
+</html>
+

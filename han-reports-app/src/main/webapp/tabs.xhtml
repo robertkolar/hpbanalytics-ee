@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Report - <h:outputText value="#{index.currentReport}"/></title>
+        <link rel="icon" href="#{resource['images/favicon.ico']}" type="image/x-icon" />
+        <h:outputStylesheet library="css" name="style.css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="js" name="highstock.js"/>
+        <h:outputScript library="js" name="exporting.js"/>
+        <h:outputScript library="js" name="statistics.js"/>
+    </h:head>
+    <h:body>
+        <p:tabView id="tabView">
+            <p:tab title="Executions">
+                <h:form id="eform">
+                    <ui:include src="tabs/executions.xhtml"/>
+                 </h:form>
+            </p:tab>
+            <p:tab title="Trades">
+                <h:form id="tform">
+                    <ui:include src="tabs/trades.xhtml"/>
+                </h:form>
+            </p:tab>
+            <p:tab title="Statistics">
+                <h:form id="sform">
+                    <ui:include src="tabs/statistics.xhtml"/>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </h:body>
+</html>
+

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition>
+            <p:ajaxStatus style="position: fixed; left: 30%; top: 30%">  
+                <f:facet name="start">  
+                    <h:graphicImage library="images" name="ajax-loader.gif"/>  
+                </f:facet>  
+                <f:facet name="complete">  
+                    <h:outputText value="" />  
+                </f:facet>  
+            </p:ajaxStatus>
+            <p:dataTable
+                var="e"
+                value="#{executionBean.executions}"
+                id="executionsTable"
+                paginator="true"
+                paginatorAlwaysVisible="true"
+                rows="20"
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                currentPageReportTemplate="{startRecord}-{endRecord} / {totalRecords}"
+                rowsPerPageTemplate="10, 20, 50, 100"
+                pageLinks="5"
+                resizableColumns="true"
+                rowIndexVar="rowIndex"
+                rowKey="#{e.id}"
+                selection="#{executionBean.selectedExecutions}"
+                filteredValue="#{executionBean.filteredExecution}"
+                style="width: 1500px;"
+                >
+                <f:facet name="header">
+                    Executions for #{executionBean.report.name}
+                </f:facet>
+                <p:column headerText="ID" style="text-align: right;" width="50">
+                    <h:outputText value="#{e.id}"/>
+                </p:column>
+                <p:column headerText="Fill Date" style="white-space: nowrap;" width="160">
+                    <h:outputText value="#{e.fillDate.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Origin" width="80">
+                    <h:outputText value="#{e.origin}"/>
+                </p:column>
+                <p:column headerText="RefID" width="80">
+                    <h:outputText value="#{e.referenceId}"/>
+                </p:column>
+                <p:column headerText="Analytics" width="90">
+                    <h:outputText value="#{e.report.name}"/>
+                </p:column>
+                <p:column headerText="Action">
+                    <h:outputText value="#{e.action}"/>
+                </p:column>
+                <p:column headerText="Quant" style="text-align: right;">
+                    <h:outputText value="#{e.quantity}"/>
+                </p:column>
+                <p:column headerText="SecType" filterBy="#{e.secType}" filterMatchMode="contains" filterMaxLength="6" filterStyleClass="reports-filter">
+                    <h:outputText value="#{e.secType}"/>
+                </p:column>
+                <p:column headerText="Undl" filterBy="#{e.underlying}" filterMatchMode="contains" filterMaxLength="6" filterStyleClass="reports-filter">
+                    <h:outputText value="#{e.underlying}"/>
+                </p:column>
+                <p:column headerText="Cur">
+                    <h:outputText value="#{e.currency}"/>
+                </p:column>
+                <p:column headerText="Symbol" width="160">
+                    <h:outputText value="#{e.symbol}"/>
+                </p:column>
+                <p:column headerText="Fill Price" style="text-align: right;">
+                    <h:outputText value="#{e.fillPrice}"><f:convertNumber minFractionDigits="2" maxFractionDigits="5"/></h:outputText>
+                </p:column>
+                <p:column headerText="Comment">
+                    <h:outputText value="#{e.comment}"/>
+                </p:column>
+                <p:column headerText="Received Date" style="white-space: nowrap;" width="160">
+                    <h:outputText value="#{e.receivedDate.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column width="18" selectionMode="multiple" />
+                <f:facet name="footer">         
+                    <p:commandButton icon="ui-icon-home" action="index" ajax="false" title="Home"/>
+                    <p:commandButton icon="ui-icon-refresh" update=":tabView:eform:executionsTable" actionListener="#{executionBean.refresh()}" title="Refresh"/>
+                    <p:commandButton icon="ui-icon-trash" update=":tabView:eform:edialog" oncomplete="PF('dlg').show();" title="Delete Selected"/>
+                    <p:commandButton icon="ui-icon-plus" update=":tabView:eform:newepanel" actionListener="#{executionBean.setShowNewExecution(true)}" title="Add New"/>
+                </f:facet>  
+            </p:dataTable>
+            
+            <p:dialog id="edialog" header="Dou you want to delete execution(s)?" width="500" widgetVar="dlg" resizable="false" closable="false">
+                <p:dataList value="#{executionBean.selectedExecutions}" var="e">
+                    #{e.print()}  
+                </p:dataList>
+                <div style="margin-top: 10px; float: right;">
+                    <p:commandButton oncomplete="PF('dlg').hide()" value="No"/>
+                    <p:commandButton update=":tabView:eform:newepanel, :tabView:eform:executionsTable" oncomplete="PF('dlg').hide()" actionListener="#{executionBean.deleteSelectedEcecutions()}" value="Yes"/>
+                </div>
+            </p:dialog>
+            <br/>
+            
+            <p:outputPanel id="newepanel">
+                <p:panelGrid rendered="#{executionBean.showNewExecution}">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="9">Add New Execution</p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>Action</p:column>
+                            <p:column>Quantity</p:column>
+                            <p:column>Underlying</p:column>
+                            <p:column>Symbol</p:column>
+                            <p:column>SecType</p:column>
+                            <p:column>Price</p:column>
+                            <p:column>Date Submitted/Filled</p:column>
+                            <p:column>Comment</p:column>
+                            <p:column>Do</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:selectOneMenu value="#{newExecutionBean.newExecution.action}" style="vertical-align: middle;">
+                                <f:selectItems value="#{newExecutionBean.actionItems}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column><p:inputText size="10"  required="true" value="#{newExecutionBean.newExecution.quantity}" style="vertical-align: middle;"><f:convertNumber type="number" locale="US"/></p:inputText></p:column>
+                        <p:column><p:inputText size="10"  required="true" value="#{newExecutionBean.newExecution.underlying}" style="vertical-align: middle;"/></p:column>
+                        <p:column><p:inputText size="30"  required="true" value="#{newExecutionBean.newExecution.symbol}" style="vertical-align: middle;"/></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{newExecutionBean.newExecution.secType}" style="vertical-align: middle;">
+                                <f:selectItems value="#{newExecutionBean.secTypeItems}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column><p:inputText size="10" required="true" value="#{newExecutionBean.newExecution.fillPrice}" style="vertical-align: middle;"><f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="8" locale="US"/></p:inputText></p:column>
+                        <p:column><p:calendar value="#{newExecutionBean.date}" pattern="MM/dd/yyyy HH:mm:ss" style="vertical-align: middle;" maxdate="#{newExecutionBean.maxDate}" timeZone="America/New_York"/></p:column>
+                        <p:column><p:inputText size="20" value="#{newExecutionBean.newExecution.comment}" style="vertical-align: middle;"/></p:column>
+                        <p:column>
+                            <p:commandButton actionListener="#{executionBean.setShowNewExecution(false)}" icon="ui-icon-close" update=":tabView:eform:newepanel" title="Cancel"/>
+                            <p:commandButton actionListener="#{newExecutionBean.submit()}" icon="ui-icon-check" update=":tabView:eform:newepanel, :tabView:eform:executionsTable" title="Submit"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <div><p:messages/></div>
+            </p:outputPanel>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

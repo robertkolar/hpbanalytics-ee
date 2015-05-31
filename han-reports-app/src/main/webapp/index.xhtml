@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>HPB Analytics - Reports</title>
+        <link rel="icon" href="#{resource['images/favicon.ico']}" type="image/x-icon" />
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:ajaxStatus style="position: fixed; left: 30%; top: 30%">  
+                <f:facet name="start">  
+                    <h:graphicImage library="images" name="ajax-loader.gif"/>  
+                </f:facet>  
+                <f:facet name="complete">  
+                    <h:outputText value="" />  
+                </f:facet>  
+            </p:ajaxStatus>
+            <p:dataTable value="#{index.reports}"
+                    var="report"
+                    style="width: 1100px;"
+                    id="analyticsTable"
+                    resizableColumns="true"
+                    rowIndexVar="rowIndex">
+                <f:facet name="header">Reports</f:facet>
+                <p:column headerText="ID" width="40">
+                    <h:outputText value="#{report.id}"/>
+                </p:column>
+                <p:column headerText="Origin" width="100">
+                    <h:outputText value="#{report.origin}"/>
+                </p:column>
+                <p:column headerText="Name" width="100">
+                    <h:outputText value="#{report.name}"/>
+                </p:column>
+                <p:column headerText="Exec" style="text-align: right;">
+                    <h:outputText value="#{index.getNumExecutions(report)}"/>
+                </p:column>
+                <p:column headerText="Trds-Open" style="text-align: right;">
+                    <h:outputText value="#{index.getNumTrades(report)}"/>-<h:outputText value="#{index.getNumOpenTrades(report)}"/>
+                </p:column>
+                <p:column headerText="Undl-Open" style="text-align: right;">
+                    <h:outputText value="#{index.getNumUnderlyings(report)}"/>-<h:outputText value="#{index.getNumOpenUnderlyings(report)}"/>
+                </p:column>
+                <p:column headerText="Started" width="160">
+                    <h:outputText value="#{index.getFirstExecutionDate(report)}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Last" width="160">
+                    <h:outputText value="#{index.getLastExecutionDate(report)}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Action" width="120">
+                    <p:commandButton action="#{index.showTabs(report)}" icon="ui-icon-search" title="View" ajax="false"/>
+                    <p:commandButton onclick="PF('confirmRecalculate').show();" icon="ui-icon-gear" title="Recalculate Analytics" actionListener="#{index.setCurrentReport(report)}"/>
+                    <p:commandButton onclick="PF('confirmDelete').show();" icon="ui-icon-trash" title="Delete" actionListener="#{index.setCurrentReport(report)}"/>
+                </p:column>
+            </p:dataTable>
+            <p:confirmDialog id="confirmRecalculateDialog" message="Do you really want to recalculate analytics for this analytics?" header="Confirm Recalculation" severity="alert" widgetVar="confirmRecalculate">
+                <p:commandButton value="No" onclick="PF('confirmRecalculate').hide();" type="button"/>
+                <p:commandButton value="Yes" oncomplete="PF('confirmRecalculate').hide();" actionListener="#{index.analyzeAll()}" update="analyticsTable"/>
+            </p:confirmDialog> 
+            <p:confirmDialog id="confirmDeleteDialog" message="Do you really want to delete this analytics?" header="Confirm Deletion" severity="alert" widgetVar="confirmDelete">
+                <p:commandButton value="No" onclick="PF('confirmDelete').hide();" type="button"/>
+                <p:commandButton value="Yes" oncomplete="PF('confirmDelete').hide();" actionListener="#{index.deleteAnalytics()}" update="analyticsTable, recentExecutionsTable"/>
+            </p:confirmDialog>
+            <p:commandButton actionListener="#{index.refresh()}" update="analyticsTable, recentExecutionsTable" icon="ui-icon-refresh" title="Refresh"/>
+            <br/>
+            <br/>
+            <p:dataTable
+                    var="e"
+                    value="#{index.recentExecutions}"
+                    id="recentExecutionsTable"
+                    resizableColumns="true"
+                    rowIndexVar="rowIndex"
+                    rowKey="#{e.id}"
+                    style="width: 1500px;"
+                    >
+                <f:facet name="header">
+                    Recent Executions
+                </f:facet>
+                <p:column headerText="ID" style="text-align: right;" width="50">
+                    <h:outputText value="#{e.id}"/>
+                </p:column>
+                <p:column headerText="Fill Date" style="white-space: nowrap;" width="160">
+                    <h:outputText value="#{e.fillDate.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+                <p:column headerText="Origin" width="80">
+                    <h:outputText value="#{e.origin}"/>
+                </p:column>
+                <p:column headerText="RefID" width="80">
+                    <h:outputText value="#{e.referenceId}"/>
+                </p:column>
+                <p:column headerText="Analytics" width="90">
+                    <h:outputText value="#{e.report.name}"/>
+                </p:column>
+                <p:column headerText="Action">
+                    <h:outputText value="#{e.action}"/>
+                </p:column>
+                <p:column headerText="Quant" style="text-align: right;">
+                    <h:outputText value="#{e.quantity}"/>
+                </p:column>
+                <p:column headerText="SecType">
+                    <h:outputText value="#{e.secType}"/>
+                </p:column>
+                <p:column headerText="Undl">
+                    <h:outputText value="#{e.underlying}"/>
+                </p:column>
+                <p:column headerText="Cur">
+                    <h:outputText value="#{e.currency}"/>
+                </p:column>
+                <p:column headerText="Symbol" width="160">
+                    <h:outputText value="#{e.symbol}"/>
+                </p:column>
+                <p:column headerText="Fill Price" style="text-align: right;">
+                    <h:outputText value="#{e.fillPrice}"><f:convertNumber minFractionDigits="2" maxFractionDigits="5"/></h:outputText>
+                </p:column>
+                <p:column headerText="Comment">
+                    <h:outputText value="#{e.comment}"/>
+                </p:column>
+                <p:column headerText="Received Date" style="white-space: nowrap;" width="160">
+                    <h:outputText value="#{e.receivedDate.time}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss.SSS" timeZone="America/New_York"/></h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>

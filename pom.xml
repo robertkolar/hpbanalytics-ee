@@ -4,7 +4,15 @@
 
     <groupId>com.highpowerbear</groupId>
     <artifactId>hpbanalytics</artifactId>
-    <version>3.0-SNAPSHOT</version>
+    <version>3.0</version>
+    <modules>
+        <module>han-c2-logic</module>
+        <module>han-c2-app</module>
+        <module>han-iblogger-logic</module>
+        <module>han-iblogger-app</module>
+        <module>han-reports-logic</module>
+        <module>han-reports-app</module>
+    </modules>
     <packaging>pom</packaging>
 
     <build>
