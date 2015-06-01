@@ -5,7 +5,6 @@ import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.entity.PollEvent;
-
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -26,7 +25,7 @@ import java.util.logging.Logger;
 public class C2DaoImpl implements C2Dao {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
 
-    @PersistenceContext(unitName = "hpbsignals-c2pub-PU")
+    @PersistenceContext(unitName = "hpbanalytics-PU")
     private EntityManager em;
 
     private final String B = "BEGIN " + this.getClass().getSimpleName() + ".";

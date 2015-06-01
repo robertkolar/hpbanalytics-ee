@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class IbLoggerDaoImpl implements IbLoggerDao {
     private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
-    @PersistenceContext(unitName = "hpbsignals-iblog-PU")
+    @PersistenceContext(unitName = "hpbanalytics-PU")
     private EntityManager em;
 
     private final String B = "BEGIN " + this.getClass().getSimpleName() + ".";

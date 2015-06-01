@@ -10,7 +10,7 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
         'Ext.grid.column.Action',
         'Ext.grid.column.Check',
         'Ext.grid.plugin.RowEditing',
-        'IbLogger.view.iblogger.IbLoggerController',
+        'IbLogger.view.iblogger.IbLoggerController'
     ],
     xtype: 'accounts-grid',
     controller: 'iblogger',

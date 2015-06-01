@@ -4,26 +4,26 @@
 Ext.define('C2.view.c2.C2Model', {
     extend: 'Ext.app.ViewModel',
     requires: [
-        'C2.model.C2Signal',
-        'C2.model.C2System',
-        'C2.model.InputRequest'
+        'C2.model.c2.C2Signal',
+        'C2.model.c2.C2System',
+        'C2.model.c2.InputRequest'
     ],
 
     alias: 'viewmodel.c2',
 
     stores: {
         c2Systems: {
-            model: 'C2.model.C2System',
+            model: 'C2.model.c2.C2System',
             autoload: true,
             pageSize: 10
         },
         inputRequests: {
-            model: 'C2.model.InputRequest',
+            model: 'C2.model.c2.InputRequest',
             autoload: true,
             pageSize: 10
         },
         c2Signals: {
-            model: 'C2.model.C2Signal',
+            model: 'C2.model.c2.C2Signal',
             autoload: true,
             pageSize: 10
         }

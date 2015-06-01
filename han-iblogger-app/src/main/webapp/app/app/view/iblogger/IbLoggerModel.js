@@ -4,20 +4,20 @@
 Ext.define('IbLogger.view.iblogger.IbLoggerModel', {
     extend: 'Ext.app.ViewModel',
     requires: [
-        'IbLogger.model.IbOrder',
-        'IbLogger.model.IbAccount'
+        'IbLogger.model.iblogger.IbOrder',
+        'IbLogger.model.iblogger.IbAccount'
     ],
 
     alias: 'viewmodel.iblogger',
 
     stores: {
         ibOrders: {
-            model: 'IbLogger.model.IbOrder',
+            model: 'IbLogger.model.iblogger.IbOrder',
             autoload: true,
-            pageSize: 10
+            pageSize: 25
         },
         ibAccounts: {
-            model: 'IbLogger.model.IbAccount',
+            model: 'IbLogger.model.iblogger.IbAccount',
             autoload: true,
             pageSize: 10
         }

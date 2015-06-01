@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('C2.model.Base', {
+Ext.define('C2.model.c2.Base', {
     extend: 'Ext.data.Model',
 
     requires: [
@@ -13,9 +13,8 @@ Ext.define('C2.model.Base', {
     ],
 
     schema: {
-        id: 'c2pub',
-        namespace: 'HpbSignals.model.c2pub',
-        urlPrefix: C2.common.Definitions.urlPrefix + 'c2pub',
+        namespace: 'C2.model.c2',
+        urlPrefix: C2.common.Definitions.urlPrefix + 'c2',
         proxy: {
             type: 'ajax',
             actionMethods: {

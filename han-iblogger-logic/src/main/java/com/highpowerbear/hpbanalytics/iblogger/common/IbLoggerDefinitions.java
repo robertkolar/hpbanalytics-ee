@@ -9,7 +9,7 @@ public class IbLoggerDefinitions {
     public static final String CONVERSION_ORIGIN_PREFIX_IB = "IB:";
 
     // Settings
-    public static final String LOGGER = "com.highpowerbear.hpbsignals";
+    public static final String LOGGER = "com.highpowerbear.hpbanalytics";
     public static final Integer IB_CONNECT_CLIENT_ID = 0;
     public static final Integer JPA_MAX_RESULTS = 1000;
     public static final Integer MAX_ORDER_HEARTBEAT_FAILS = 5;

@@ -1,8 +1,8 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('IbLogger.model.IbOrder', {
-    extend: 'IbLogger.model.Base',
+Ext.define('IbLogger.model.iblogger.IbOrder', {
+    extend: 'IbLogger.model.iblogger.Base',
 
     fields: [
         {name: 'id', type: 'string'},

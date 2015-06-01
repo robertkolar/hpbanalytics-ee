@@ -8,7 +8,6 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
     requires: [
         'Ext.Ajax',
-        'Ext.MessageBox',
         'IbLogger.common.Definitions',
         'IbLogger.view.iblogger.EventsGrid'
     ],
@@ -37,7 +36,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     },
 
     statusRenderer: function(val, metadata, record) {
-        metadata.style = 'cursor: pointer; background-color: ' + HpbSignals.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
+        metadata.style = 'cursor: pointer; background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
         return val;
     },
 
@@ -49,7 +48,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     },
 
     statusRendererEvent: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + HpbSignals.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
+        metadata.style = 'background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
         return val;
     },
 
@@ -78,7 +77,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
         Ext.Ajax.request({
             method: 'PUT',
-            url: IbLogger.common.Definitions.urlPrefix + 'iblog/ibaccounts/' + accountId + '/connect/' + (con ? 'true' : 'false'),
+            url: IbLogger.common.Definitions.urlPrefix + 'iblogger/ibaccounts/' + accountId + '/connect/' + (con ? 'true' : 'false'),
             success: function(response) {
                 box.hide();
                 grid.getStore().reload();

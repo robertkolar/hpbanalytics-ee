@@ -1,8 +1,8 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.model.C2System', {
-    extend: 'C2.model.Base',
+Ext.define('C2.model.c2.C2System', {
+    extend: 'C2.model.c2.Base',
     idProperty: 'systemId',
 
     fields: [

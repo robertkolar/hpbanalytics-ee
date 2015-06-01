@@ -1,12 +1,12 @@
 package com.highpowerbear.hpbanalytics.iblogger.rest;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerData;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerUtil;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbController;
-import com.highpowerbear.hpbanalytics.iblogger.persistence.IbloggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -22,11 +22,11 @@ import java.util.logging.Logger;
 @Path("iblogger")
 @ApplicationScoped
 public class IbLoggerService {
-    private static final Logger l = Logger.getLogger(IbloggerDefinitions.LOGGER);
+    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
-    @Inject private IbloggerDao ibloggerDao;
+    @Inject private IbLoggerDao ibloggerDao;
     @Inject private IbController ibController;
-    @Inject private IbloggerData ibloggerData;
+    @Inject private IbLoggerData ibloggerData;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,7 +58,7 @@ public class IbLoggerService {
     @Path("iborders")
     public RestList<IbOrder> getIbOrders(@QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
         start = (start != null ? start : 0);
-        limit = (limit != null ? limit : IbloggerDefinitions.JPA_MAX_RESULTS);
+        limit = (limit != null ? limit : IbLoggerDefinitions.JPA_MAX_RESULTS);
         List<IbOrder> ibOrders = new ArrayList<>();
         for (IbOrder ibOrder : ibloggerDao.getIbOrders(start, limit)) {
             Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
@@ -78,7 +78,7 @@ public class IbLoggerService {
         } else {
             ibController.disconnect(ibAccount);
         }
-        IbloggerUtil.waitMilliseconds(IbloggerDefinitions.ONE_SECOND);
+        IbLoggerUtil.waitMilliseconds(IbLoggerDefinitions.ONE_SECOND);
         ibAccount.setIbConnection(ibloggerData.getIbConnectionMap().get(ibAccount));
         ibAccount.getIbConnection().setIsConnected(ibController.isConnected(ibAccount));
         return ibAccount;

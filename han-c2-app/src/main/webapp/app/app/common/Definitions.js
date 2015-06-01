@@ -3,8 +3,8 @@
  */
 Ext.define('C2.common.Definitions', {
     statics: {
-        //urlPrefix: 'http://localhost:28080/han-c2/rest/',
-        urlPrefix: 'http://' + window.location.host + '/han-c2/rest/',
+        urlPrefix: 'http://localhost:28080/han-c2/rest/',
+        //urlPrefix: 'http://' + window.location.host + '/han-c2/rest/',
 
         getRequestStatusColor: function(status) {
             var statusColor;

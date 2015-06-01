@@ -5,8 +5,7 @@ Ext.define('IbLogger.view.iblogger.EventsGrid', {
     extend: 'Ext.grid.Panel',
 
     requires: [
-        'Ext.grid.column.Date',
-        'IbLogger.view.iblogger.IbLoggerController'
+        'Ext.grid.column.Date'
     ],
 
     controller: 'iblogger',

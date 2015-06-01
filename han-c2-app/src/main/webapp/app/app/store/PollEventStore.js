@@ -7,10 +7,10 @@ Ext.define('C2.store.PollEventStore', {
     requires: [
         'C2.common.Definitions',
         'C2.common.Util',
-        'C2.model.PollEvent'
+        'C2.model.c2.PollEvent'
     ],
 
-    model: 'C2.model.PollEvent',
+    model: 'C2.model.c2.PollEvent',
     autoload: true,
     pageSize: 5,
 

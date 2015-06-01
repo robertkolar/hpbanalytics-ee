@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.model.Base', {
+Ext.define('IbLogger.model.iblogger.Base', {
     extend: 'Ext.data.Model',
 
     requires: [
@@ -13,9 +13,9 @@ Ext.define('IbLogger.model.Base', {
     ],
 
     schema: {
-        id: 'iblog',
-        namespace: 'HpbSignals.model.iblog',
-        urlPrefix: IbLogger.common.Definitions.urlPrefix + 'iblog',
+        id: 'iblogger',
+        namespace: 'IbLogger.model.iblogger',
+        urlPrefix: IbLogger.common.Definitions.urlPrefix + 'iblogger',
         proxy: {
             type: 'ajax',
             actionMethods: {

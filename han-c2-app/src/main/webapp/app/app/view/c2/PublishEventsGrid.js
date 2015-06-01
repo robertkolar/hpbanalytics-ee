@@ -5,7 +5,6 @@ Ext.define('C2.view.c2.PublishEventsGrid', {
     extend: 'Ext.grid.Panel',
 
     requires: [
-        'C2.view.c2.C2Controller',
         'Ext.grid.column.Date'
     ],
 

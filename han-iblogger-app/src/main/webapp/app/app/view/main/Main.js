@@ -13,7 +13,9 @@ Ext.define('IbLogger.view.main.Main', {
         'IbLogger.common.Glyphs',
         'IbLogger.view.iblogger.IbLogger',
         'IbLogger.view.main.MainController',
-        'IbLogger.view.main.MainModel'
+        'IbLogger.view.main.MainModel',
+        'IbLogger.model.iblogger.IbOrder',
+        'IbLogger.model.iblogger.IbOrderEvent',
     ],
 
     xtype: 'app-main',
