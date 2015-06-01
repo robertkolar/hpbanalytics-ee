@@ -1,10 +1,10 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerData;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
-import com.highpowerbear.hpbanalytics.iblogger.persistence.IbloggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,21 +17,21 @@ import java.util.Map;
 @Named
 @ApplicationScoped
 public class HeartbeatControl {
-    @Inject private IbloggerData ibloggerData;
-    @Inject private IbloggerDao ibloggerDao;
+    @Inject private IbLoggerData ibLoggerData;
+    @Inject private IbLoggerDao ibLoggerDao;
 
     public void init(IbAccount ibAccount) {
-        ibloggerDao.getIbOpenOrders(ibAccount).forEach(this::addHeartbeat);
+        ibLoggerDao.getIbOpenOrders(ibAccount).forEach(this::addHeartbeat);
     }
 
     public void updateHeartbeats(IbAccount ibAccount) {
-        Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibAccount);
+        Map<IbOrder, Integer> hm = ibLoggerData.getOpenOrderHeartbeatMap().get(ibAccount);
         for (IbOrder ibOrder : hm.keySet()) {
             Integer failedHeartbeatsLeft = hm.get(ibOrder);
             if (failedHeartbeatsLeft <= 0) {
-                if (!IbloggerDefinitions.IbOrderStatus.UNKNOWN.equals(ibOrder.getStatus())) {
-                    ibOrder.addEvent(IbloggerDefinitions.IbOrderStatus.UNKNOWN, null, null);
-                    ibloggerDao.updateIbOrder(ibOrder);
+                if (!IbLoggerDefinitions.IbOrderStatus.UNKNOWN.equals(ibOrder.getStatus())) {
+                    ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.UNKNOWN, null, null);
+                    ibLoggerDao.updateIbOrder(ibOrder);
                 }
                 hm.remove(ibOrder);
             } else {
@@ -41,19 +41,19 @@ public class HeartbeatControl {
     }
 
     public void heartbeatReceived(IbOrder ibOrder) {
-        Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
+        Map<IbOrder, Integer> hm = ibLoggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
         Integer failedHeartbeatsLeft = hm.get(ibOrder);
         if (failedHeartbeatsLeft != null) {
-            hm.put(ibOrder, (failedHeartbeatsLeft < IbloggerDefinitions.MAX_ORDER_HEARTBEAT_FAILS ? failedHeartbeatsLeft + 1 : failedHeartbeatsLeft));
+            hm.put(ibOrder, (failedHeartbeatsLeft < IbLoggerDefinitions.MAX_ORDER_HEARTBEAT_FAILS ? failedHeartbeatsLeft + 1 : failedHeartbeatsLeft));
         }
     }
 
     public void addHeartbeat(IbOrder ibOrder) {
-        ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount()).put(ibOrder, IbloggerDefinitions.MAX_ORDER_HEARTBEAT_FAILS);
+        ibLoggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount()).put(ibOrder, IbLoggerDefinitions.MAX_ORDER_HEARTBEAT_FAILS);
     }
 
     public void removeHeartbeat(IbOrder ibOrder) {
-        Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
+        Map<IbOrder, Integer> hm = ibLoggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
         Integer failedHeartbeatsLeft = hm.get(ibOrder);
         if (failedHeartbeatsLeft != null) {
             hm.remove(ibOrder);

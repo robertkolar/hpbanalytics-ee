@@ -8,19 +8,12 @@
 Ext.define('IbLogger.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
-    requires: [
-        'Ext.window.MessageBox'
-    ],
-
     alias: 'controller.main',
 
-    onClickButton: function () {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
+    refreshAll: function() {
+        var me = this,
+            iblogger = me.lookupReference('iblogger');
 
-    onConfirm: function (choice) {
-        if (choice === 'yes') {
-            //
-        }
+        iblogger.getController().reloadStores();
     }
 });

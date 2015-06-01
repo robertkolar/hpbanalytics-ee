@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.entity;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
@@ -25,7 +25,7 @@ public class IbOrderEvent implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar eventDate;
     @Enumerated(EnumType.STRING)
-    private IbloggerDefinitions.IbOrderStatus status;
+    private IbLoggerDefinitions.IbOrderStatus status;
     private Double updatePrice;
     private Double fillPrice;
     @XmlTransient
@@ -53,11 +53,11 @@ public class IbOrderEvent implements Serializable {
         this.eventDate = eventDate;
     }
 
-    public IbloggerDefinitions.IbOrderStatus getStatus() {
+    public IbLoggerDefinitions.IbOrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(IbloggerDefinitions.IbOrderStatus status) {
+    public void setStatus(IbLoggerDefinitions.IbOrderStatus status) {
         this.status = status;
     }
 

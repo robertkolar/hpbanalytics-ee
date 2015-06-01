@@ -1,12 +1,12 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerData;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerUtil;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
 import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
-import com.highpowerbear.hpbanalytics.iblogger.persistence.IbloggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import com.ib.client.Contract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
@@ -21,10 +21,10 @@ import java.util.logging.Logger;
 @Named
 @ApplicationScoped
 public class OpenOrderHandler {
-    private static final Logger l = Logger.getLogger(IbloggerDefinitions.LOGGER);
+    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
-    @Inject private IbloggerDao ibloggerDao;
-    @Inject private IbloggerData ibloggerData;
+    @Inject private IbLoggerDao ibLoggerDao;
+    @Inject private IbLoggerData ibLoggerData;
     @Inject private OutputProcessor outputProcessor;
     @Inject private HeartbeatControl heartbeatControl;
 
@@ -58,10 +58,10 @@ public class OpenOrderHandler {
         String symbol = contract.m_localSymbol;
 
         if (symbol.split(" ").length > 1) {
-            symbol = IbloggerUtil.removeSpace(symbol);
+            symbol = IbLoggerUtil.removeSpace(symbol);
         }
 
-        IbOrder ibOrderDb = ibloggerDao.getIbOrderByPermId(ibAccount, order.m_permId);
+        IbOrder ibOrderDb = ibLoggerDao.getIbOrderByPermId(ibAccount, order.m_permId);
         if (ibOrderDb != null) {
             updateExistingOrder(ibOrderDb, order);
         } else {
@@ -94,7 +94,7 @@ public class OpenOrderHandler {
     }
 
     private void updateExistingOrder(IbOrder ibOrderDb, Order order) {
-        if (!IbloggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrderDb.getStatus()) && !IbloggerDefinitions.IbOrderStatus.UPDATED.equals(ibOrderDb.getStatus())) {
+        if (!IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrderDb.getStatus()) && !IbLoggerDefinitions.IbOrderStatus.UPDATED.equals(ibOrderDb.getStatus())) {
             return;
         }
         Double updatePrice = null;
@@ -109,9 +109,9 @@ public class OpenOrderHandler {
             }
         }
         if (updatePrice != null) {
-            ibOrderDb.addEvent(IbloggerDefinitions.IbOrderStatus.UPDATED, updatePrice, null);
-            ibloggerDao.updateIbOrder(ibOrderDb);
-            outputProcessor.processConversion(ibOrderDb, IbloggerDefinitions.RequestType.UPDATE);
+            ibOrderDb.addEvent(IbLoggerDefinitions.IbOrderStatus.UPDATED, updatePrice, null);
+            ibLoggerDao.updateIbOrder(ibOrderDb);
+            outputProcessor.processConversion(ibOrderDb, IbLoggerDefinitions.RequestType.UPDATE);
         }
     }
 
@@ -136,9 +136,9 @@ public class OpenOrderHandler {
         ibOrder.setTif(order.m_tif);
         ibOrder.setParentId(order.m_parentId);
         ibOrder.setOcaGroup(order.m_ocaGroup);
-        ibOrder.addEvent(IbloggerDefinitions.IbOrderStatus.SUBMITTED, null, null);
-        ibloggerDao.newIbOrder(ibOrder);
+        ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.SUBMITTED, null, null);
+        ibLoggerDao.newIbOrder(ibOrder);
         heartbeatControl.addHeartbeat(ibOrder);
-        outputProcessor.processConversion(ibOrder, IbloggerDefinitions.RequestType.SUBMIT);
+        outputProcessor.processConversion(ibOrder, IbLoggerDefinitions.RequestType.SUBMIT);
     }
 }

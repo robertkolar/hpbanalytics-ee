@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.entity;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -46,7 +46,7 @@ public class IbOrder implements Serializable {
     private Calendar statusDate;
     private Double fillPrice;
     @Enumerated(EnumType.STRING)
-    private IbloggerDefinitions.IbOrderStatus status;
+    private IbLoggerDefinitions.IbOrderStatus status;
     @OneToMany(mappedBy = "ibOrder", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OrderBy("eventDate DESC, id DESC")
     private List<IbOrderEvent> ibOrderEvents;
@@ -58,7 +58,7 @@ public class IbOrder implements Serializable {
         return ibAccount.getAccountId();
     }
 
-    public void addEvent(IbloggerDefinitions.IbOrderStatus status, Double updatePrice, Double fillPrice) {
+    public void addEvent(IbLoggerDefinitions.IbOrderStatus status, Double updatePrice, Double fillPrice) {
         this.status = status;
         this.statusDate = Calendar.getInstance();
         IbOrderEvent e = new IbOrderEvent();
@@ -67,13 +67,13 @@ public class IbOrder implements Serializable {
         e.setStatus(this.status);
         e.setUpdatePrice(updatePrice);
         e.setFillPrice(fillPrice);
-        if (IbloggerDefinitions.IbOrderStatus.SUBMITTED.equals(status)) {
+        if (IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(status)) {
             this.submitDate = this.statusDate;
         }
-        if (IbloggerDefinitions.IbOrderStatus.UPDATED.equals(status)) {
+        if (IbLoggerDefinitions.IbOrderStatus.UPDATED.equals(status)) {
             this.orderPrice = updatePrice;
         }
-        if (IbloggerDefinitions.IbOrderStatus.FILLED.equals(status)) {
+        if (IbLoggerDefinitions.IbOrderStatus.FILLED.equals(status)) {
             this.fillPrice = e.getFillPrice();
         }
         if (ibOrderEvents == null) {
@@ -234,11 +234,11 @@ public class IbOrder implements Serializable {
         this.fillPrice = fillPrice;
     }
 
-    public IbloggerDefinitions.IbOrderStatus getStatus() {
+    public IbLoggerDefinitions.IbOrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(IbloggerDefinitions.IbOrderStatus status) {
+    public void setStatus(IbLoggerDefinitions.IbOrderStatus status) {
         this.status = status;
     }
 

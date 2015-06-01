@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 @Path("iblogger")
 @ApplicationScoped
-public class IbloggerService {
+public class IbLoggerService {
     private static final Logger l = Logger.getLogger(IbloggerDefinitions.LOGGER);
 
     @Inject private IbloggerDao ibloggerDao;

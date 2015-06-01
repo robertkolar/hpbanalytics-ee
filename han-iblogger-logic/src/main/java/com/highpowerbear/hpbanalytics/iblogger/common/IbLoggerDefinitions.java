@@ -3,7 +3,7 @@ package com.highpowerbear.hpbanalytics.iblogger.common;
 /**
  * Created by robertk on 3/30/15.
  */
-public class IbloggerDefinitions {
+public class IbLoggerDefinitions {
     // Constants
     public static final int ONE_SECOND = 1000; // milliseconds
     public static final String CONVERSION_ORIGIN_PREFIX_IB = "IB:";

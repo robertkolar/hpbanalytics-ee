@@ -3,7 +3,7 @@ package com.highpowerbear.hpbanalytics.iblogger.common;
 import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.HeartbeatControl;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.OpenOrderHandler;
-import com.highpowerbear.hpbanalytics.iblogger.persistence.IbloggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,18 +25,18 @@ public class SingletonRepo {
         return srepo;
     }
 
-    @Inject private IbloggerDao ibloggerDao;
-    @Inject private IbloggerData ibloggerData;
+    @Inject private IbLoggerDao ibLoggerDao;
+    @Inject private IbLoggerData ibLoggerData;
     @Inject private OpenOrderHandler openOrderHandler;
     @Inject private OutputProcessor outputProcessor;
     @Inject private HeartbeatControl heartbeatControl;
 
-    public IbloggerDao getIbloggerDao() {
-        return ibloggerDao;
+    public IbLoggerDao getIbLoggerDao() {
+        return ibLoggerDao;
     }
 
-    public IbloggerData getIbloggerData() {
-        return ibloggerData;
+    public IbLoggerData getIbLoggerData() {
+        return ibLoggerData;
     }
 
     public OpenOrderHandler getOpenOrderHandler() {

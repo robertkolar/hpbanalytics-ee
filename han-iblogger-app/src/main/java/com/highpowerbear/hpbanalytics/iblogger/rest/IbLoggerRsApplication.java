@@ -9,12 +9,12 @@ import java.util.Set;
  * Created by robertk on 3/28/15.
  */
 @ApplicationPath("/rest")
-public class IbloggerRsApplication extends Application {
+public class IbLoggerRsApplication extends Application {
     private Set<Object> singletons = new HashSet<>();
     private Set<Class<?>> classes = new HashSet<>();
 
-    public IbloggerRsApplication() {
-        classes.add(IbloggerService.class);
+    public IbLoggerRsApplication() {
+        classes.add(IbLoggerService.class);
         // singletons.add(new RestService());
     }
 

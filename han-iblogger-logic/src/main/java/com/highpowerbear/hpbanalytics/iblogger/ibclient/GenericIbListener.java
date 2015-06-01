@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.ib.client.*;
 
 import java.util.logging.Logger;
@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * @author Robert
  */
 public class GenericIbListener implements EWrapper {
-    private static final Logger l = Logger.getLogger(IbloggerDefinitions.LOGGER);
+    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
     @Override
     public void bondContractDetails(int reqId, ContractDetails contractDetails) {

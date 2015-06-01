@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.model;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbApiEnums;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class C2Request {
     private String origin; // IB:ibAccountId
     private String referenceId; // permId
-    private IbloggerDefinitions.RequestType requestType;
+    private IbLoggerDefinitions.RequestType requestType;
     private IbApiEnums.Action action;
     private Integer quantity;
     private String symbol;
@@ -40,11 +40,11 @@ public class C2Request {
         this.referenceId = referenceId;
     }
 
-    public IbloggerDefinitions.RequestType getRequestType() {
+    public IbLoggerDefinitions.RequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(IbloggerDefinitions.RequestType requestType) {
+    public void setRequestType(IbLoggerDefinitions.RequestType requestType) {
         this.requestType = requestType;
     }
 

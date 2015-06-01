@@ -1,12 +1,12 @@
 package com.highpowerbear.hpbanalytics.iblogger.conversion;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerUtil;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbApiEnums;
 import com.highpowerbear.hpbanalytics.iblogger.model.C2Request;
 import com.highpowerbear.hpbanalytics.iblogger.model.IbExecution;
-import com.highpowerbear.hpbanalytics.iblogger.persistence.IbloggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,15 +19,15 @@ import java.util.logging.Logger;
 @Named
 @ApplicationScoped
 public class OutputProcessor {
-    private static final Logger l = Logger.getLogger(IbloggerDefinitions.LOGGER);
+    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
-    @Inject private IbloggerDao ibloggerDao;
+    @Inject private IbLoggerDao ibLoggerDao;
     @Inject private MqSender mqSender;
 
-    public void processConversion(IbOrder ibOrder, IbloggerDefinitions.RequestType requestType) {
+    public void processConversion(IbOrder ibOrder, IbLoggerDefinitions.RequestType requestType) {
         if (ibOrder.getIbAccount().isIbtoc2()) {
             C2Request cr = new C2Request();
-            cr.setOrigin(IbloggerDefinitions.CONVERSION_ORIGIN_PREFIX_IB + ibOrder.getIbAccount().getAccountId());
+            cr.setOrigin(IbLoggerDefinitions.CONVERSION_ORIGIN_PREFIX_IB + ibOrder.getIbAccount().getAccountId());
             cr.setReferenceId(String.valueOf(ibOrder.getPermId()));
             cr.setRequestType(requestType);
             cr.setAction(IbApiEnums.Action.getEnumFromName(ibOrder.getAction()));
@@ -38,7 +38,7 @@ public class OutputProcessor {
             cr.setOrderPrice(ibOrder.getOrderPrice());
             cr.setTif(IbApiEnums.Tif.getEnumFromName(ibOrder.getTif()));
             try {
-                mqSender.sendToC2pub(IbloggerUtil.toXml(cr));
+                mqSender.sendToC2pub(IbLoggerUtil.toXml(cr));
             } catch (Exception e) {
                 l.log(Level.SEVERE, "Error", e);
             }
@@ -50,7 +50,7 @@ public class OutputProcessor {
     public void processExecution(IbOrder ibOrder) {
         if (ibOrder.getIbAccount().isAnalytics()) {
             IbExecution ie = new IbExecution();
-            ie.setOrigin(IbloggerDefinitions.CONVERSION_ORIGIN_PREFIX_IB + ibOrder.getIbAccountId());
+            ie.setOrigin(IbLoggerDefinitions.CONVERSION_ORIGIN_PREFIX_IB + ibOrder.getIbAccountId());
             ie.setReferenceId(String.valueOf(ibOrder.getPermId()));
             ie.setAction(IbApiEnums.Action.getEnumFromName(ibOrder.getAction()));
             ie.setQuantity(ibOrder.getQuantity());
@@ -61,7 +61,7 @@ public class OutputProcessor {
             ie.setFillDate(ibOrder.getStatusDate());
             ie.setFillPrice(ibOrder.getFillPrice());
             try {
-                mqSender.sendToAnalytics(IbloggerUtil.toXml(ie));
+                mqSender.sendToAnalytics(IbLoggerUtil.toXml(ie));
             } catch (Exception e) {
                 l.log(Level.SEVERE, "Error", e);
             }

@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Named
 @ApplicationScoped
-public class IbloggerData {
+public class IbLoggerData {
     // ibaccount transient data (not stored in DB)
     private Map<IbAccount, IbConnection> ibConnectionMap = new HashMap<>();
     // checking if open order still exists on IB side and declaring it UNKNOWN if it doesn't exist any more

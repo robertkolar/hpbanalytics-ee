@@ -1,12 +1,12 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerData;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.common.SingletonRepo;
 import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
-import com.highpowerbear.hpbanalytics.iblogger.persistence.IbloggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import com.ib.client.Contract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
@@ -17,8 +17,8 @@ import com.ib.client.OrderState;
  */
 
 public class IbListenerImpl extends GenericIbListener {
-    private IbloggerDao ibloggerDao = SingletonRepo.getInstance().getIbloggerDao();
-    private IbloggerData ibloggerData = SingletonRepo.getInstance().getIbloggerData();
+    private IbLoggerDao ibLoggerDao = SingletonRepo.getInstance().getIbLoggerDao();
+    private IbLoggerData ibLoggerData = SingletonRepo.getInstance().getIbLoggerData();
     private OpenOrderHandler openOrderHandler = SingletonRepo.getInstance().getOpenOrderHandler();
     private OutputProcessor outputProcessor = SingletonRepo.getInstance().getOutputProcessor();
     private HeartbeatControl heartbeatControl = SingletonRepo.getInstance().getHeartbeatControl();
@@ -43,28 +43,28 @@ public class IbListenerImpl extends GenericIbListener {
                 IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status))) {
             return;
         }
-        IbOrder ibOrder = ibloggerDao.getIbOrderByPermId(ibAccount, permId);
+        IbOrder ibOrder = ibLoggerDao.getIbOrderByPermId(ibAccount, permId);
         if (ibOrder == null) {
             return;
         }
-        if (IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) && IbloggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
+        if (IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
             heartbeatControl.heartbeatReceived(ibOrder);
-        } else if (IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status) && remaining == 0 && !IbloggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
-            ibOrder.addEvent(IbloggerDefinitions.IbOrderStatus.FILLED, null, avgFillPrice);
-            ibloggerDao.updateIbOrder(ibOrder);
+        } else if (IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status) && remaining == 0 && !IbLoggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
+            ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.FILLED, null, avgFillPrice);
+            ibLoggerDao.updateIbOrder(ibOrder);
             heartbeatControl.removeHeartbeat(ibOrder);
             outputProcessor.processExecution(ibOrder);
-        } else if (IbApiEnums.OrderStatus.CANCELLED.getName().equalsIgnoreCase(status) && !IbloggerDefinitions.IbOrderStatus.CANCELLED.equals(ibOrder.getStatus())) {
-            ibOrder.addEvent(IbloggerDefinitions.IbOrderStatus.CANCELLED, null, null);
-            ibloggerDao.updateIbOrder(ibOrder);
+        } else if (IbApiEnums.OrderStatus.CANCELLED.getName().equalsIgnoreCase(status) && !IbLoggerDefinitions.IbOrderStatus.CANCELLED.equals(ibOrder.getStatus())) {
+            ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.CANCELLED, null, null);
+            ibLoggerDao.updateIbOrder(ibOrder);
             heartbeatControl.removeHeartbeat(ibOrder);
-            outputProcessor.processConversion(ibOrder, IbloggerDefinitions.RequestType.CANCEL);
+            outputProcessor.processConversion(ibOrder, IbLoggerDefinitions.RequestType.CANCEL);
         }
     }
 
     @Override
     public void managedAccounts(String accountsList) {
         super.managedAccounts(accountsList);
-        ibloggerData.getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
+        ibLoggerData.getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
     }
 }

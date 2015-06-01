@@ -9,7 +9,7 @@ import java.io.StringWriter;
 /**
  * Created by robertk on 3/28/15.
  */
-public class IbloggerUtil {
+public class IbLoggerUtil {
     public static void waitMilliseconds(int milliseconds) {
         try {
             Thread.sleep(milliseconds);

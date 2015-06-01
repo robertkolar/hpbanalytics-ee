@@ -8,7 +8,7 @@ Ext.application({
 
     extend: 'IbLogger.Application',
     
-    autoCreateViewport: 'IbLogger.view.main.Main'
+    autoCreateViewport: false
 	
     //-------------------------------------------------------------------------
     // Most customizations should be made to IbLogger.Application. If you need to

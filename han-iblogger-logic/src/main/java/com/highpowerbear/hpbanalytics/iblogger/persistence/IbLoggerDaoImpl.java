@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.persistence;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbloggerDefinitions;
+import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import javax.ejb.Stateless;
@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  * Created by robertk on 3/28/15.
  */
 @Stateless
-public class IbloggerDaoImpl implements IbloggerDao {
-    private static final Logger l = Logger.getLogger(IbloggerDefinitions.LOGGER);
+public class IbLoggerDaoImpl implements IbLoggerDao {
+    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
     @PersistenceContext(unitName = "hpbsignals-iblog-PU")
     private EntityManager em;
@@ -60,9 +60,9 @@ public class IbloggerDaoImpl implements IbloggerDao {
     public List<IbOrder> getIbOpenOrders(IbAccount ibAccount) {
         TypedQuery<IbOrder> q = em.createQuery("SELECT io FROM IbOrder io WHERE io.ibAccount = :ibAccount AND io.status IN :statuses", IbOrder.class);
         q.setParameter("ibAccount", ibAccount);
-        Set<IbloggerDefinitions.IbOrderStatus> statuses = new HashSet<>();
-        statuses.add(IbloggerDefinitions.IbOrderStatus.SUBMITTED);
-        statuses.add(IbloggerDefinitions.IbOrderStatus.UPDATED);
+        Set<IbLoggerDefinitions.IbOrderStatus> statuses = new HashSet<>();
+        statuses.add(IbLoggerDefinitions.IbOrderStatus.SUBMITTED);
+        statuses.add(IbLoggerDefinitions.IbOrderStatus.UPDATED);
         q.setParameter("statuses", statuses);
         return q.getResultList();
     }

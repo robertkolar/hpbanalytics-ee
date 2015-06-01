@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * Created by robertk on 3/28/15.
  */
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/iblogtoc2pub"),
+        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/iblogger_c2"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
 })
 public class MqListenerBean implements MessageListener {

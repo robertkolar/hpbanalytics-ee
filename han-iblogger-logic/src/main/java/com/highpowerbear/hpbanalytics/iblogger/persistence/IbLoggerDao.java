@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by robertk on 3/28/15.
  */
-public interface IbloggerDao {
+public interface IbLoggerDao {
     IbAccount findIbAccount(String accountId);
     List<IbAccount> getIbAccounts();
     IbAccount updateIbAccount(IbAccount ibAccount);
