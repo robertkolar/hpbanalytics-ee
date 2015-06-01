@@ -7,6 +7,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     alias: 'controller.iblogger',
 
     requires: [
+        'Ext.Ajax',
         'Ext.MessageBox',
         'IbLogger.common.Definitions',
         'IbLogger.view.iblogger.EventsGrid'

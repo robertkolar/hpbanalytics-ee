@@ -8,19 +8,12 @@
 Ext.define('C2.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
-    requires: [
-        'Ext.window.MessageBox'
-    ],
-
     alias: 'controller.main',
 
-    onClickButton: function () {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
+    refreshAll: function() {
+        var me = this,
+            c2 = me.lookupReference('c2');
 
-    onConfirm: function (choice) {
-        if (choice === 'yes') {
-            //
-        }
+        c2.getController().reloadStores();
     }
 });

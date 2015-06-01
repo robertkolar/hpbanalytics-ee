@@ -1,21 +1,21 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.model.Base', {
+Ext.define('C2.model.Base', {
     extend: 'Ext.data.Model',
 
     requires: [
+        'C2.common.Definitions',
+        'C2.common.Util',
         'Ext.data.proxy.Ajax',
         'Ext.data.reader.Json',
-        'Ext.data.writer.Json',
-        'IbLogger.common.Definitions',
-        'IbLogger.common.Util'
+        'Ext.data.writer.Json'
     ],
 
     schema: {
-        id: 'iblog',
-        namespace: 'HpbSignals.model.iblog',
-        urlPrefix: IbLogger.common.Definitions.urlPrefix + 'iblog',
+        id: 'c2pub',
+        namespace: 'HpbSignals.model.c2pub',
+        urlPrefix: C2.common.Definitions.urlPrefix + 'c2pub',
         proxy: {
             type: 'ajax',
             actionMethods: {
@@ -38,7 +38,7 @@ Ext.define('IbLogger.model.Base', {
             },
             listeners: {
                 exception: function(proxy, response, operation) {
-                    IbLogger.common.Util.showErrorMsg(response.responseText);
+                    C2.common.Util.showErrorMsg(response.responseText);
                 }
             }
         }

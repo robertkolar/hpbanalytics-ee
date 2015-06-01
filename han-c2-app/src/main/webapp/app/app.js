@@ -8,7 +8,7 @@ Ext.application({
 
     extend: 'C2.Application',
     
-    autoCreateViewport: 'C2.view.main.Main'
+    autoCreateViewport: false
 	
     //-------------------------------------------------------------------------
     // Most customizations should be made to C2.Application. If you need to

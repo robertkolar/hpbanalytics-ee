@@ -8,40 +8,35 @@
 Ext.define('C2.view.main.Main', {
     extend: 'Ext.container.Container',
     requires: [
+        'C2.common.Glyphs',
+        'C2.view.c2.C2',
         'C2.view.main.MainController',
-        'C2.view.main.MainModel'
+        'C2.view.main.MainModel',
+        'Ext.button.Button',
+        'Ext.layout.container.VBox'
     ],
 
     xtype: 'app-main',
-    
+
     controller: 'main',
     viewModel: {
         type: 'main'
     },
-
+    scrollable: true,
     layout: {
-        type: 'border'
+        type: 'vbox',
+        align: 'stretch'
     },
-
     items: [{
-        xtype: 'panel',
-        bind: {
-            title: '{name}'
-        },
-        region: 'west',
-        html: '<ul><li>This area is commonly used for navigation, for example, using a "tree" component.</li></ul>',
-        width: 250,
-        split: true,
-        tbar: [{
-            text: 'Button',
-            handler: 'onClickButton'
-        }]
-    },{
-        region: 'center',
-        xtype: 'tabpanel',
-        items:[{
-            title: 'Tab 1',
-            html: '<h2>Content appropriate for the current navigation.</h2>'
-        }]
+        xtype: 'button',
+        glyph: C2.common.Glyphs.getGlyph('refresh'),
+        tooltip: 'Refresh All',
+        handler: 'refreshAll',
+        text: 'C2',
+        style: {
+            background: 'DodgerBlue'
+        }
+    }, {
+        xtype: 'c2'
     }]
 });
