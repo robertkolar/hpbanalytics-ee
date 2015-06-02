@@ -4,6 +4,7 @@
 Ext.define('C2.view.c2.C2Controller', {
     extend: 'Ext.app.ViewController',
     requires: [
+        'C2.common.Definitions',
         'C2.store.PollEventStore',
         'C2.view.c2.PollEventsGrid',
         'C2.view.c2.PublishEventsGrid',
@@ -59,7 +60,7 @@ Ext.define('C2.view.c2.C2Controller', {
     },
 
     requestStatusRenderer: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + HpbSignals.common.Definitions.getRequestStatusColor(val) + '; color: white;';
+        metadata.style = 'background-color: ' + C2.common.Definitions.getRequestStatusColor(val) + '; color: white;';
         return val;
     },
 
@@ -68,22 +69,22 @@ Ext.define('C2.view.c2.C2Controller', {
     },
 
     publishStatusRenderer: function(val, metadata, record) {
-        metadata.style = 'cursor: pointer; background-color: ' + HpbSignals.common.Definitions.getPublishStatusColor(val) + '; color: white;';
+        metadata.style = 'cursor: pointer; background-color: ' + C2.common.Definitions.getPublishStatusColor(val) + '; color: white;';
         return val;
     },
 
     publishStatusRendererEvent: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + HpbSignals.common.Definitions.getPublishStatusColor(val) + '; color: white;';
+        metadata.style = 'background-color: ' + C2.common.Definitions.getPublishStatusColor(val) + '; color: white;';
         return val;
     },
 
     pollStatusRenderer: function(val, metadata, record) {
-        metadata.style = 'cursor: pointer; background-color: ' + HpbSignals.common.Definitions.getPollStatusColor(val) + '; color: white;';
+        metadata.style = 'cursor: pointer; background-color: ' + C2.common.Definitions.getPollStatusColor(val) + '; color: white;';
         return val;
     },
 
     pollStatusRendererEvent: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + HpbSignals.common.Definitions.getPollStatusColor(val) + '; color: white;';
+        metadata.style = 'background-color: ' + C2.common.Definitions.getPollStatusColor(val) + '; color: white;';
         return val;
     },
 

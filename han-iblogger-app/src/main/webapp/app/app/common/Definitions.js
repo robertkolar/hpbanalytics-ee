@@ -3,8 +3,8 @@
  */
 Ext.define('IbLogger.common.Definitions', {
     statics: {
-        urlPrefix: 'http://localhost:28080/han-iblogger/rest/',
-        //urlPrefix: 'http://' + window.location.host + '/han-iblogger/rest/',
+        //urlPrefix: 'http://localhost:28080/han-iblogger/rest/iblogger',
+        urlPrefix: 'http://' + window.location.host + '/han-iblogger/rest/iblogger',
 
         getIbOrderStatusColor: function(status) {
             var statusColor;

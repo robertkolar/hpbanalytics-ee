@@ -15,7 +15,7 @@ Ext.define('IbLogger.model.iblogger.Base', {
     schema: {
         id: 'iblogger',
         namespace: 'IbLogger.model.iblogger',
-        urlPrefix: IbLogger.common.Definitions.urlPrefix + 'iblogger',
+        urlPrefix: IbLogger.common.Definitions.urlPrefix,
         proxy: {
             type: 'ajax',
             actionMethods: {

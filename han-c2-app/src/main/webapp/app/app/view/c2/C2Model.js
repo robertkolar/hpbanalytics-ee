@@ -25,7 +25,7 @@ Ext.define('C2.view.c2.C2Model', {
         c2Signals: {
             model: 'C2.model.c2.C2Signal',
             autoload: true,
-            pageSize: 10
+            pageSize: 20
         }
     }
 });

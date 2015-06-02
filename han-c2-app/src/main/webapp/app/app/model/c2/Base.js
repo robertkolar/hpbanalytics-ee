@@ -14,7 +14,7 @@ Ext.define('C2.model.c2.Base', {
 
     schema: {
         namespace: 'C2.model.c2',
-        urlPrefix: C2.common.Definitions.urlPrefix + 'c2',
+        urlPrefix: C2.common.Definitions.urlPrefix,
         proxy: {
             type: 'ajax',
             actionMethods: {

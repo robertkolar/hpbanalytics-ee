@@ -27,7 +27,7 @@ Ext.define('C2.store.PollEventStore', {
             }
         },
         getUrlTemplate: function() {
-            return C2.common.Definitions.urlPrefix + 'c2pub/c2signals/{dbId}/pollevents'
+            return C2.common.Definitions.urlPrefix + '/c2signals/{dbId}/pollevents'
         }
     }
 });
