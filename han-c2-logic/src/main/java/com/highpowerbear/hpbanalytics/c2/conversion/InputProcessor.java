@@ -37,6 +37,7 @@ public class InputProcessor {
     private void processSubmit(C2System c2System, InputRequest inputRequest) {
         C2Signal c2Signal = signalCreator.create(c2System, inputRequest);
         inputRequest.changeStatus(requestHandler.submit(c2Signal) ? C2Definitions.InputStatus.PROCESSED : C2Definitions.InputStatus.ERROR);
+        c2Signal = c2Dao.findC2Signal(c2Signal.getId()); // refresh from DB
         if (!C2Definitions.InputStatus.ERROR.equals(inputRequest.getStatus()) && C2Definitions.ReversalSignalType.PARENT.equals(c2Signal.getReversalSignalType())) {
             C2Signal reversalSignal = signalCreator.createReversal(c2Signal);
             inputRequest.changeStatus(requestHandler.submit(reversalSignal) ? C2Definitions.InputStatus.PROCESSED : C2Definitions.InputStatus.ERROR);
