@@ -9,7 +9,9 @@ import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by robertk on 4/6/15.
@@ -26,7 +28,8 @@ public class HeartbeatControl {
 
     public void updateHeartbeats(IbAccount ibAccount) {
         Map<IbOrder, Integer> hm = ibLoggerData.getOpenOrderHeartbeatMap().get(ibAccount);
-        for (IbOrder ibOrder : hm.keySet()) {
+        Set<IbOrder> keyset = new HashSet<>(hm.keySet());
+        for (IbOrder ibOrder : keyset) {
             Integer failedHeartbeatsLeft = hm.get(ibOrder);
             if (failedHeartbeatsLeft <= 0) {
                 if (!IbLoggerDefinitions.IbOrderStatus.UNKNOWN.equals(ibOrder.getStatus())) {
