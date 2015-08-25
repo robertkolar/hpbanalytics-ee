@@ -13,9 +13,8 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
         'IbLogger.view.iblogger.IbLoggerController'
     ],
     xtype: 'accounts-grid',
-    controller: 'iblogger',
     bind: '{ibAccounts}',
-    title: 'Accounts',
+    title: 'IB Accounts',
     columns: [{
         text: 'Account ID',
         width: 120,
@@ -128,15 +127,15 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
             xtype: 'checkboxfield'
         }
     }, {
-        text: 'PermittedClients',
-        width: 100,
+        text: 'Permit Clients',
+        width: 140,
         dataIndex: 'permittedClients',
         editor: {
             xtype: 'textfield',
             allowBlank: true
         }
     }, {
-        text: 'PermittedAccounts',
+        text: 'Permit Accounts',
         flex: 1,
         dataIndex: 'permittedAccounts',
         editor: {

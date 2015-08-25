@@ -15,7 +15,7 @@ Ext.define('IbLogger.view.main.Main', {
         'IbLogger.view.main.MainController',
         'IbLogger.view.main.MainModel',
         'IbLogger.model.iblogger.IbOrder',
-        'IbLogger.model.iblogger.IbOrderEvent',
+        'IbLogger.model.iblogger.IbOrderEvent'
     ],
 
     xtype: 'app-main',
@@ -30,15 +30,6 @@ Ext.define('IbLogger.view.main.Main', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'button',
-        glyph: IbLogger.common.Glyphs.getGlyph('refresh'),
-        tooltip: 'Refresh All',
-        handler: 'refreshAll',
-        text: 'IB Logger',
-        style: {
-            background: 'DodgerBlue'
-        }
-    }, {
         xtype: 'iblogger'
     }]
 });

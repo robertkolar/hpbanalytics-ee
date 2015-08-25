@@ -23,10 +23,8 @@ Ext.define('IbLogger.view.iblogger.IbLogger', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'accounts-grid',
-        header: false
+        xtype: 'accounts-grid'
     }, {
-        xtype: 'orders-grid',
-        header: false
+        xtype: 'orders-grid'
     }]
 });

@@ -12,6 +12,30 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
         'IbLogger.view.iblogger.EventsGrid'
     ],
 
+    init: function() {
+        var me = this,
+            ws = new WebSocket(IbLogger.common.Definitions.wsUrl),
+            ibAccounts = me.getStore('ibAccounts'),
+            ibOrders = me.getStore('ibOrders');
+
+        ibAccounts.reload();
+        ibOrders.reload();
+
+        ws.onopen = function(evt) {
+            console.log('WS opened');
+        };
+        ws.onclose = function(evt) {
+            console.log('WS closed');
+        };
+        ws.onmessage = function(evt) {
+            console.log('WS message, reloading store...');
+            ibOrders.reload();
+        };
+        ws.onerror = function(evt) {
+            console.log('WS error');
+        };
+    },
+
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {
         if (cellIndex != 2) {
             return;
@@ -21,7 +45,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
         if (!me.eventsGrid) {
             me.eventsGrid =  Ext.create('IbLogger.view.iblogger.EventsGrid');
             me.eventsWindow = Ext.create('widget.events-window', {
-                width: 680
+                width: 540
             });
             me.eventsWindow.add(me.eventsGrid);
         }
@@ -31,34 +55,16 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
         me.eventsWindow.show();
     },
 
-    ibEventIdRenderer: function(val, metadata, record) {
-        return record.data['id'] + '/' + record.data['ibOrderDbId'];
-    },
-
     statusRenderer: function(val, metadata, record) {
         metadata.style = 'cursor: pointer; background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
-        return val;
+        return val.toLowerCase();
     },
 
     connectStatusRenderer: function(val, metadata, record) {
         if (metadata) {
             metadata.style = 'background-color: ' + (val ? 'green' : 'red') + '; color: white;';
         }
-        return (val ? 'CON' : 'DIS');
-    },
-
-    statusRendererEvent: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
-        return val;
-    },
-
-    reloadStores: function() {
-        var me = this,
-            ibAccounts = me.getStore('ibAccounts'),
-            ibOrders = me.getStore('ibOrders');
-
-        ibAccounts.reload();
-        ibOrders.reload();
+        return (val ? 'conn' : 'disconn');
     },
 
     connectIb: function(grid, rowIndex, colIndex) {

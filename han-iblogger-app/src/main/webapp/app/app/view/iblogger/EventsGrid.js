@@ -8,14 +8,15 @@ Ext.define('IbLogger.view.iblogger.EventsGrid', {
         'Ext.grid.column.Date'
     ],
 
-    controller: 'iblogger',
     disableSelection: true,
     header: false,
     columns: [{
         text: 'ID',
         width: 100,
         dataIndex: 'id',
-        renderer: 'ibEventIdRenderer'
+        renderer: function(val, metadata, record) {
+            return record.data['id'] + '/' + record.data['ibOrderDbId'];
+        }
     }, {
         text: 'Event Date',
         width: 180,
@@ -24,15 +25,18 @@ Ext.define('IbLogger.view.iblogger.EventsGrid', {
         format: 'm/d/Y H:i:s.u'
     }, {
         text: 'Status',
-        width: 120,
+        width: 80,
         dataIndex: 'status',
-        renderer: 'statusRendererEvent'
+        renderer: function(val, metadata, record) {
+            metadata.style = 'background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
+            return val.toLowerCase();
+        }
     }, {
-        text: 'Upd Price',
-        width: 120,
+        text: 'Upd',
+        width: 80,
         dataIndex: 'updatePrice'
     }, {
-        text: 'Fill Prc',
+        text: 'Fill',
         flex: 1,
         dataIndex: 'fillPrice'
     }]

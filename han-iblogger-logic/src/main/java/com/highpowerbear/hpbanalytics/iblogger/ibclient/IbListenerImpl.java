@@ -7,6 +7,7 @@ import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.websocket.WebsocketController;
 import com.ib.client.Contract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
@@ -22,6 +23,7 @@ public class IbListenerImpl extends GenericIbListener {
     private OpenOrderHandler openOrderHandler = SingletonRepo.getInstance().getOpenOrderHandler();
     private OutputProcessor outputProcessor = SingletonRepo.getInstance().getOutputProcessor();
     private HeartbeatControl heartbeatControl = SingletonRepo.getInstance().getHeartbeatControl();
+    private WebsocketController websocketController = SingletonRepo.getInstance().getWebsocketController();
 
     private IbAccount ibAccount;
 
@@ -33,6 +35,7 @@ public class IbListenerImpl extends GenericIbListener {
     public void openOrder(int orderId, Contract contract, Order order, OrderState orderState) {
         super.openOrder(orderId, contract, order, orderState);
         openOrderHandler.handle(ibAccount, orderId, contract, order, orderState);
+        websocketController.broadcastIbLoggerMessage("new order");
     }
 
     @Override
@@ -60,6 +63,7 @@ public class IbListenerImpl extends GenericIbListener {
             heartbeatControl.removeHeartbeat(ibOrder);
             outputProcessor.processConversion(ibOrder, IbLoggerDefinitions.RequestType.CANCEL);
         }
+        websocketController.broadcastIbLoggerMessage("order status changed");
     }
 
     @Override

@@ -6,6 +6,9 @@ Ext.define('IbLogger.common.Definitions', {
         //urlPrefix: 'http://localhost:28080/han-iblogger/rest/iblogger',
         urlPrefix: 'http://' + window.location.host + '/han-iblogger/rest/iblogger',
 
+        //wsUrl: 'ws://localhost:28080/han-iblogger/websocket/iblogger',
+        wsUrl: 'ws://' + window.location.host + '/han-iblogger/websocket/iblogger',
+
         getIbOrderStatusColor: function(status) {
             var statusColor;
 

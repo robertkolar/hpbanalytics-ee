@@ -8,7 +8,8 @@ Ext.define('IbLogger.view.iblogger.EventsWindow', {
     border: false,
     width: 1400,
     scrollable: true,
-    maximizable: true,
-    modal: true,
-    closeAction: 'hide'
+    maximizable: false,
+    modal: false,
+    closeAction: 'hide',
+    resizable: false
 });

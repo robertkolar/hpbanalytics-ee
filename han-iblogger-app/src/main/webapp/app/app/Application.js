@@ -31,6 +31,5 @@ Ext.define('IbLogger.Application', {
             layout: 'fit'
         });
         viewport.add(main);
-        main.getController().refreshAll();
     }
 });

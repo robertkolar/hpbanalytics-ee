@@ -4,6 +4,8 @@ import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.HeartbeatControl;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.OpenOrderHandler;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.websocket.WebsocketController;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,6 +32,7 @@ public class SingletonRepo {
     @Inject private OpenOrderHandler openOrderHandler;
     @Inject private OutputProcessor outputProcessor;
     @Inject private HeartbeatControl heartbeatControl;
+    @Inject private WebsocketController websocketController;
 
     public IbLoggerDao getIbLoggerDao() {
         return ibLoggerDao;
@@ -49,5 +52,9 @@ public class SingletonRepo {
 
     public HeartbeatControl getHeartbeatControl() {
         return heartbeatControl;
+    }
+
+    public WebsocketController getWebsocketController() {
+        return websocketController;
     }
 }

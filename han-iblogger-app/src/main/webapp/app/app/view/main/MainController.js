@@ -8,12 +8,5 @@
 Ext.define('IbLogger.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.main',
-
-    refreshAll: function() {
-        var me = this,
-            iblogger = me.lookupReference('iblogger');
-
-        iblogger.getController().reloadStores();
-    }
+    alias: 'controller.main'
 });

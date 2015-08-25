@@ -12,14 +12,12 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
     ],
     bind: '{ibOrders}',
     title: 'IB Orders',
-    controller: 'iblogger',
     listeners: {
         'cellclick': 'showEvents'
     },
-    disableSelection: true,
     columns: [{
         text: 'ID',
-        width: 60,
+        width: 80,
         dataIndex: 'id',
         align: 'right'
     }, {
@@ -30,7 +28,7 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         format: 'm/d/Y H:i:s.u'
     }, {
         text: 'Status',
-        width: 105,
+        width: 80,
         dataIndex: 'status',
         renderer: 'statusRenderer'
     }, {
@@ -52,27 +50,27 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         dataIndex: 'currency'
     }, {
         text: 'Action',
-        width: 80,
+        width: 60,
         dataIndex: 'action'
     }, {
-        text: 'Quant',
+        text: 'Qnt',
         width: 60,
         dataIndex: 'quantity',
         align: 'right'
     }, {
         text: 'Symbol',
-        width: 200,
+        width: 180,
         dataIndex: 'symbol'
     }, {
-        text: 'SecType',
-        width: 80,
+        text: 'Sec',
+        width: 60,
         dataIndex: 'secType'
     }, {
-        text: 'OrdType',
-        width: 80,
+        text: 'Ord',
+        width: 60,
         dataIndex: 'orderType'
     }, {
-        text: 'OrdPrice',
+        text: 'Price',
         width: 80,
         dataIndex: 'orderPrice',
         align: 'right'
@@ -87,28 +85,28 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         xtype: 'datecolumn',
         format: 'm/d/Y H:i:s.u'
     }, {
-        text: 'Fill Price',
+        text: 'Fill',
         width: 80,
         dataIndex: 'fillPrice',
         align: 'right'
     }, {
-        text: 'OrderId',
-        width: 80,
+        text: 'Ord',
+        width: 60,
         dataIndex: 'orderId',
         align: 'right'
     }, {
-        text: 'Parent',
+        text: 'Prnt',
         width: 60,
         dataIndex: 'parentId',
         align: 'right'
     }, {
-        text: 'Cl',
-        width: 40,
+        text: 'Cli',
+        width: 60,
         dataIndex: 'clientId',
         align: 'right'
     }, {
         text: 'HB',
-        width: 40,
+        width: 60,
         dataIndex: 'heartbeatCount',
         align: 'right'
     }, {
