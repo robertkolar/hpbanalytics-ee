@@ -8,12 +8,5 @@
 Ext.define('C2.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.main',
-
-    refreshAll: function() {
-        var me = this,
-            c2 = me.lookupReference('c2');
-
-        c2.getController().reloadStores();
-    }
+    alias: 'controller.main'
 });

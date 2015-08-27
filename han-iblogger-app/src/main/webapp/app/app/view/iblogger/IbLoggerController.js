@@ -14,13 +14,13 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
     init: function() {
         var me = this,
-            ws = new WebSocket(IbLogger.common.Definitions.wsUrl),
             ibAccounts = me.getStore('ibAccounts'),
             ibOrders = me.getStore('ibOrders');
 
         ibAccounts.reload();
         ibOrders.reload();
 
+        var ws = new WebSocket(IbLogger.common.Definitions.wsUrl);
         ws.onopen = function(evt) {
             console.log('WS opened');
         };
@@ -44,9 +44,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
         if (!me.eventsGrid) {
             me.eventsGrid =  Ext.create('IbLogger.view.iblogger.EventsGrid');
-            me.eventsWindow = Ext.create('widget.events-window', {
-                width: 540
-            });
+            me.eventsWindow = Ext.create('widget.events-window');
             me.eventsWindow.add(me.eventsGrid);
         }
         var permId = record.get(record.getFields()[1].getName());

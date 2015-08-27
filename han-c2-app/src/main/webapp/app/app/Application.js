@@ -31,6 +31,5 @@ Ext.define('C2.Application', {
             layout: 'fit'
         });
         viewport.add(main);
-        main.getController().refreshAll();
     }
 });

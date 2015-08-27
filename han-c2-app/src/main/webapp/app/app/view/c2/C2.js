@@ -24,13 +24,10 @@ Ext.define('C2.view.c2.C2', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'systems-grid',
-        header: false
+        xtype: 'systems-grid'
     }, {
-        xtype: 'requests-grid',
-        header: false
+        xtype: 'requests-grid'
     }, {
-        xtype: 'signals-grid',
-        header: false
+        xtype: 'signals-grid'
     }]
 });

@@ -10,6 +10,9 @@ Ext.define('IbLogger.view.iblogger.EventsGrid', {
 
     disableSelection: true,
     header: false,
+    viewConfig: {
+        stripeRows: true
+    },
     columns: [{
         text: 'ID',
         width: 100,

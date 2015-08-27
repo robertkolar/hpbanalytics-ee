@@ -11,12 +11,13 @@ Ext.define('C2.view.c2.PollEventsGrid', {
     title: 'Poll Events',
     header: false,
     disableSelection: true,
-    controller: 'c2',
     columns: [{
         text: 'ID',
         width: 100,
         dataIndex: 'id',
-        renderer: 'c2EventIdRenderer'
+        renderer: function(val, metadata, record) {
+            return record.data['id'] + '/' + record.data['c2SignalDbId'];
+        }
     }, {
         text: 'Event Date',
         width: 180,
@@ -25,23 +26,39 @@ Ext.define('C2.view.c2.PollEventsGrid', {
         format: 'm/d/Y H:i:s.u'
     }, {
         text: 'Status',
-        width: 105,
+        width: 80,
         dataIndex: 'status',
-        renderer: 'pollStatusRendererEvent'
+        renderer: function(val, metadata, record) {
+            metadata.style = 'background-color: ' + C2.common.Definitions.getPollStatusColor(val) + '; color: white;';
+            return val.toLowerCase();
+        }
     }, {
         text: 'C2 Request',
         flex: 1,
         dataIndex: 'c2Request',
-        renderer: 'c2ReqResRenderer'
+        renderer: function(val, metadata, record) {
+            metadata.style = 'white-space: normal; word-wrap: break-word;';
+            return Ext.String.htmlEncode(val);
+        }
     }, {
         text: 'C2 Response',
         width: 500,
         dataIndex: 'c2Response',
-        renderer: 'c2ReqResRenderer'
+        renderer: function(val, metadata, record) {
+            metadata.style = 'white-space: normal; word-wrap: break-word;';
+            return Ext.String.htmlEncode(val);
+        }
     }, {
         text: 'Poll Fields',
         width: 270,
         dataIndex: 'datePosted',
-        renderer: 'pollFieldsRenderer'
+        renderer: function(val, metadata, record) {
+            return  'datePosted: '  +   record.data['datePosted']   +   '<br/>' +
+                    'dateEmailed: ' +   record.data['dateEmailed']  +   '<br/>' +
+                    'dateKilled: '  +   record.data['dateKilled']   +   '<br/>' +
+                    'dateExpired: ' +   record.data['dateExpired']  +   '<br/>' +
+                    'dateTraded: '  +   record.data['dateTraded']   +   '<br/>' +
+                    'tradePrice: '  +   record.data['tradePrice']   +   '<br/>';
+        }
     }]
 });

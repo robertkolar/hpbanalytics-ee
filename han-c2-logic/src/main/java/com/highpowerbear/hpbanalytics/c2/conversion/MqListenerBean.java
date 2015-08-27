@@ -5,6 +5,8 @@ import com.highpowerbear.hpbanalytics.c2.common.C2Util;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
+import com.highpowerbear.hpbanalytics.c2.websocket.WebsocketController;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.TransactionAttribute;
@@ -29,7 +31,7 @@ public class MqListenerBean implements MessageListener {
 
     @Inject private C2Dao c2Dao;
     @Inject private InputProcessor inputProcessor;
-
+    @Inject private WebsocketController websocketController;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NEVER)
@@ -46,6 +48,7 @@ public class MqListenerBean implements MessageListener {
                 c2Dao.newInputRequest(inputRequest);
                 C2System c2System = c2Dao.getC2SystemByConversionOrigin(inputRequest.getOrigin());
                 inputProcessor.process(c2System, inputRequest);
+                websocketController.broadcastC2Message("input processed");
             } else {
                 l.warning("Non-text message received from MQ=iblogtoc2pub, ignoring");
             }

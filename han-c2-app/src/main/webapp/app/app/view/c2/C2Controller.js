@@ -14,6 +14,39 @@ Ext.define('C2.view.c2.C2Controller', {
 
     alias: 'controller.c2',
 
+    init: function() {
+        var me = this,
+            c2Systems = me.getStore('c2Systems'),
+            inputRequests = me.getStore('inputRequests'),
+            c2Signals = me.getStore('c2Signals');
+
+        if (c2Systems) {
+            c2Systems.reload();
+        }
+        if (inputRequests) {
+            inputRequests.reload();
+        }
+        if (c2Signals) {
+            c2Signals.reload();
+        }
+
+        var ws = new WebSocket(C2.common.Definitions.wsUrl);
+        ws.onopen = function(evt) {
+            console.log('WS opened');
+        };
+        ws.onclose = function(evt) {
+            console.log('WS closed');
+        };
+        ws.onmessage = function(evt) {
+            console.log('WS message, reloading stores...');
+            inputRequests.reload();
+            c2Signals.reload();
+        };
+        ws.onerror = function(evt) {
+            console.log('WS error');
+        };
+    },
+
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {
         if (cellIndex == 2) {
             this.showPublishEvents(record);
@@ -61,55 +94,16 @@ Ext.define('C2.view.c2.C2Controller', {
 
     requestStatusRenderer: function(val, metadata, record) {
         metadata.style = 'background-color: ' + C2.common.Definitions.getRequestStatusColor(val) + '; color: white;';
-        return val;
-    },
-
-    c2EventIdRenderer: function(val, metadata, record) {
-        return record.data['id'] + '/' + record.data['c2SignalDbId'];
+        return val.toLowerCase();
     },
 
     publishStatusRenderer: function(val, metadata, record) {
         metadata.style = 'cursor: pointer; background-color: ' + C2.common.Definitions.getPublishStatusColor(val) + '; color: white;';
-        return val;
-    },
-
-    publishStatusRendererEvent: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + C2.common.Definitions.getPublishStatusColor(val) + '; color: white;';
-        return val;
+        return val.toLowerCase();
     },
 
     pollStatusRenderer: function(val, metadata, record) {
         metadata.style = 'cursor: pointer; background-color: ' + C2.common.Definitions.getPollStatusColor(val) + '; color: white;';
-        return val;
-    },
-
-    pollStatusRendererEvent: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + C2.common.Definitions.getPollStatusColor(val) + '; color: white;';
-        return val;
-    },
-
-    c2ReqResRenderer: function(val, metadata, record) {
-        metadata.style = 'white-space: normal; word-wrap: break-word;';
-        return Ext.String.htmlEncode(val);
-    },
-
-    pollFieldsRenderer: function(val, metadata, record) {
-        return  'datePosted: '  +   record.data['datePosted']   +   '<br/>' +
-                'dateEmailed: ' +   record.data['dateEmailed']  +   '<br/>' +
-                'dateKilled: '  +   record.data['dateKilled']   +   '<br/>' +
-                'dateExpired: ' +   record.data['dateExpired']  +   '<br/>' +
-                'dateTraded: '  +   record.data['dateTraded']   +   '<br/>' +
-                'tradePrice: '  +   record.data['tradePrice']   +   '<br/>';
-    },
-
-    reloadStores: function() {
-        var me = this,
-            c2Systems = me.getStore('c2Systems'),
-            inputRequests = me.getStore('inputRequests'),
-            c2signals = me.getStore('c2Signals');
-
-        c2Systems.reload();
-        inputRequests.reload();
-        c2signals.reload();
+        return val.toLowerCase();
     }
 });

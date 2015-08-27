@@ -9,6 +9,7 @@ import com.highpowerbear.hpbanalytics.c2.entity.PublishEvent;
 import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

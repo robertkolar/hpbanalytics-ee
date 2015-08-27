@@ -6,6 +6,9 @@ Ext.define('C2.common.Definitions', {
         //urlPrefix: 'http://localhost:28080/han-c2/rest/c2',
         urlPrefix: 'http://' + window.location.host + '/han-c2/rest/c2',
 
+        //wsUrl: 'ws://localhost:28080/han-c2/websocket/c2',
+        wsUrl: 'ws://' + window.location.host + '/han-c2/websocket/c2',
+
         getRequestStatusColor: function(status) {
             var statusColor;
             switch(status) {

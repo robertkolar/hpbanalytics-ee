@@ -14,7 +14,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerModel', {
         ibOrders: {
             model: 'IbLogger.model.iblogger.IbOrder',
             autoload: true,
-            pageSize: 20
+            pageSize: 25
         },
         ibAccounts: {
             model: 'IbLogger.model.iblogger.IbAccount',

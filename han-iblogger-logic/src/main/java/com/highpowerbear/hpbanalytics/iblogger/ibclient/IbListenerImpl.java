@@ -35,7 +35,6 @@ public class IbListenerImpl extends GenericIbListener {
     public void openOrder(int orderId, Contract contract, Order order, OrderState orderState) {
         super.openOrder(orderId, contract, order, orderState);
         openOrderHandler.handle(ibAccount, orderId, contract, order, orderState);
-        websocketController.broadcastIbLoggerMessage("new order");
     }
 
     @Override

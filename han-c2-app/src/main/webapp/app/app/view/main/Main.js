@@ -30,15 +30,6 @@ Ext.define('C2.view.main.Main', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'button',
-        glyph: C2.common.Glyphs.getGlyph('refresh'),
-        tooltip: 'Refresh All',
-        handler: 'refreshAll',
-        text: 'C2',
-        style: {
-            background: 'DodgerBlue'
-        }
-    }, {
         xtype: 'c2'
     }]
 });
