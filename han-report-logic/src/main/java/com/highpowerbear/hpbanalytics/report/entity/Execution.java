@@ -1,5 +1,7 @@
 package com.highpowerbear.hpbanalytics.report.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
 
 import javax.persistence.*;
@@ -29,10 +31,9 @@ public class Execution implements Serializable, Comparable<Execution> {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar receivedDate;
     @ManyToOne
+    @JsonIgnore
     private Report report;
     private String comment;
-
-    // jaxb parsed fields
     private String origin; // in case of IB origin --> IB:ibAccountId
     private String referenceId; // in case of IB origin --> permId
     @Enumerated(EnumType.STRING)
@@ -47,7 +48,11 @@ public class Execution implements Serializable, Comparable<Execution> {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar fillDate;
     private Double fillPrice;
-    // end jaxb parsed fields
+
+    @JsonProperty
+    public Integer getReportId() {
+        return this.report.getId();
+    }
 
     public Long getId() {
         return id;

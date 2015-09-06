@@ -23,7 +23,7 @@ public class MqSender {
     @Resource(lookup = "java:/jms/queue/iblogger_reports")
     private Queue iblogToAnalyticsQ;
 
-    public void sendToC2pub(String requestXml) {
+    public void sendToC2(String requestXml) {
         l.info("BEGIN send message to MQ=iblogger_c2, xml=" + requestXml);
         JMSProducer producer = jmsContext.createProducer();
         TextMessage message = jmsContext.createTextMessage(requestXml);
@@ -31,7 +31,7 @@ public class MqSender {
         l.info("END send message to MQ=iblogger_c2");
     }
 
-    public void sendToAnalytics(String executionXml) {
+    public void sendToReport(String executionXml) {
         l.info("BEGIN send message to MQ=iblogger_reports, xml=" + executionXml);
         JMSProducer producer = jmsContext.createProducer();
         TextMessage message = jmsContext.createTextMessage(executionXml);

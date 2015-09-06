@@ -1,10 +1,15 @@
 package com.highpowerbear.hpbanalytics.report.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
 import com.highpowerbear.hpbanalytics.report.common.RepUtil;
 import com.highpowerbear.hpbanalytics.report.process.OptionParser;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -16,6 +21,8 @@ import java.util.List;
  *
  * @author robertk
  */
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "rep_trade")
 public class Trade implements Serializable {
@@ -33,7 +40,7 @@ public class Trade implements Serializable {
     private RepDefinitions.Currency currency;
     @Enumerated(EnumType.STRING)
     private RepDefinitions.SecType secType;
-    private Integer cummulativeQuantity;
+    private Integer cumulativeQuantity;
     @Enumerated(EnumType.STRING)
     private RepDefinitions.TradeStatus status;
     private Integer openPosition;
@@ -45,10 +52,16 @@ public class Trade implements Serializable {
     private Calendar dateClosed;
     private Double profitLoss;
     @ManyToOne
+    @JsonIgnore
     private Report report;
     @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("dateFilled ASC")
     private List<SplitExecution> splitExecutions;
+
+    @JsonProperty
+    public Integer getReportId() {
+        return this.report.getId();
+    }
 
     public void calculate() {
         this.report = splitExecutions.iterator().next().execution.getReport();
@@ -60,11 +73,11 @@ public class Trade implements Serializable {
         this.openPosition = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.get(this.splitExecutions.size() - 1).getCurrentPosition());
         Double cummulativeOpenPrice = 0.0;
         Double cummulativeClosePrice = 0.0;
-        this.cummulativeQuantity = 0;
+        this.cumulativeQuantity = 0;
         DecimalFormat df = (RepDefinitions.SecType.CASH.equals(secType) ? new DecimalFormat("#.#####") : new DecimalFormat("#.##"));
         for (SplitExecution se : splitExecutions) {
             if ((this.type == RepDefinitions.TradeType.LONG && se.execution.getAction() == RepDefinitions.Action.BUY) || (this.type == RepDefinitions.TradeType.SHORT && se.execution.getAction() == RepDefinitions.Action.SELL)) {
-                this.cummulativeQuantity += se.getSplitQuantity();
+                this.cumulativeQuantity += se.getSplitQuantity();
                 cummulativeOpenPrice += se.getSplitQuantity() * se.execution.getFillPrice();
             }
             if (this.status == RepDefinitions.TradeStatus.CLOSED) {
@@ -73,10 +86,10 @@ public class Trade implements Serializable {
                 }
             }
         }
-        this.avgOpenPrice = Double.valueOf(df.format(cummulativeOpenPrice/this.cummulativeQuantity));
+        this.avgOpenPrice = Double.valueOf(df.format(cummulativeOpenPrice/this.cumulativeQuantity));
         this.dateOpened = this.getSplitExecutions().get(0).getExecution().getFillDate();
         if (this.status == RepDefinitions.TradeStatus.CLOSED) {
-            this.avgClosePrice = Double.valueOf(df.format(cummulativeClosePrice/this.cummulativeQuantity));
+            this.avgClosePrice = Double.valueOf(df.format(cummulativeClosePrice/this.cumulativeQuantity));
             this.dateClosed = this.getSplitExecutions().get(this.getSplitExecutions().size() - 1).getExecution().getFillDate();
             this.profitLoss = Double.valueOf(df.format(this.type == RepDefinitions.TradeType.LONG ? cummulativeClosePrice - cummulativeOpenPrice : cummulativeOpenPrice - cummulativeClosePrice));
             if (RepDefinitions.SecType.OPT.equals(getSecType())) {
@@ -144,12 +157,12 @@ public class Trade implements Serializable {
         this.type = type;
     }
 
-    public Integer getCummulativeQuantity() {
-        return cummulativeQuantity;
+    public Integer getCumulativeQuantity() {
+        return cumulativeQuantity;
     }
 
-    public void setCummulativeQuantity(Integer cummulativeQuantity) {
-        this.cummulativeQuantity = cummulativeQuantity;
+    public void setCumulativeQuantity(Integer cummulativeQuantity) {
+        this.cumulativeQuantity = cummulativeQuantity;
     }
 
     public RepDefinitions.TradeStatus getStatus() {
@@ -230,27 +243,23 @@ public class Trade implements Serializable {
     public Boolean getOpen() {
         return (status == RepDefinitions.TradeStatus.OPEN);
     }
-    
+
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Trade trade = (Trade) o;
+
+        return !(id != null ? !id.equals(trade.id) : trade.id != null);
+
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Trade)) {
-            return false;
-        }
-        Trade other = (Trade) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
-    
+
     public String print() {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
         return (id + ", " + type + ", " + status + ", " + symbol + ", " + secType + ", " + (dateOpened != null ? df.format(dateOpened.getTime()) : "-") + ", " + (dateClosed != null ? df.format(dateClosed.getTime()) : "-") + ", " + profitLoss);

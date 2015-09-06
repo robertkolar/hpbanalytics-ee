@@ -1,6 +1,12 @@
 package com.highpowerbear.hpbanalytics.report.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -10,6 +16,8 @@ import java.util.Calendar;
  *
  * @author robertk
  */
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "rep_splitexecution")
 public class SplitExecution implements Serializable {
@@ -24,10 +32,22 @@ public class SplitExecution implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateFilled;
     @ManyToOne
+    @JsonIgnore
     Execution execution;
     @ManyToOne
+    @JsonIgnore
     private Trade trade;
-    
+
+    @JsonProperty
+    public Long getExecutionId() {
+        return this.execution.getId();
+    }
+
+    @JsonProperty
+    public Long getTradeId() {
+        return this.trade.getId();
+    }
+
     public Long getId() {
         return id;
     }
@@ -77,25 +97,21 @@ public class SplitExecution implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : super.hashCode());
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SplitExecution that = (SplitExecution) o;
+
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SplitExecution)) {
-            return false;
-        }
-        SplitExecution other = (SplitExecution) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
-    
+
     public String print() {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
         return (id + ", " + execution.getAction() + ", " + execution.getSymbol() + ", " + splitQuantity + " (" + execution.getQuantity() + ")"+ ", "+ currentPosition + ", " + df.format(execution.getFillDate().getTime()));

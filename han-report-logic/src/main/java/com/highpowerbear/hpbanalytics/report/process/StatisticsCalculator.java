@@ -28,7 +28,7 @@ public class StatisticsCalculator implements Serializable {
 
     @Inject private RepDao repDao;
 
-    public List<Statistics> calculateStats(Report report, String underlying, RepDefinitions.StatisticsInterval interval) {
+    public List<Statistics> calculateStats(Report report, RepDefinitions.StatisticsInterval interval, String underlying) {
         l.info("START statistics calculation for " + report.getName() + ", undl=" + underlying + ", interval=" + interval);
         List<Trade> trades = repDao.getTrades(report, underlying);
         List<Statistics> stats = calculateStatistics(trades, interval);
@@ -46,8 +46,9 @@ public class StatisticsCalculator implements Serializable {
         Calendar periodDate = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
         periodDate.setTimeInMillis(firstPeriodDate.getTimeInMillis());
         double cummulProfitLoss = 0.0;
+        int statsCount = 1;
         while (periodDate.getTimeInMillis() <= lastPeriodDate.getTimeInMillis()) {
-            Statistics s= new Statistics();
+            Statistics s = new Statistics(statsCount++);
             Calendar periodDateCopy = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
             periodDateCopy.setTimeInMillis(periodDate.getTimeInMillis());
             s.setPeriodDate(periodDateCopy);

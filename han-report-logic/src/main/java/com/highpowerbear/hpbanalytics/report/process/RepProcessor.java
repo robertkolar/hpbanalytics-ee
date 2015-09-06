@@ -34,7 +34,7 @@ public class RepProcessor implements Serializable  {
             return;
         }
         List<Trade> trades = analyze(executions);
-        repDao.addTrades(trades);
+        repDao.createTrades(trades);
         l.info("END analytics processing for " + report.getName());
     }
     
@@ -86,7 +86,7 @@ public class RepProcessor implements Serializable  {
             List<Execution> executionsToAnalyzeAgain = repDao.getExecutionsAfterExecution(firstSe.getExecution());
             List<Trade> tl = analyzeSingleSymbol(executionsToAnalyzeAgain, (omitFirstSe ? null : firstSe));
             if (!tl.isEmpty()) {
-                repDao.addTrades(tl);
+                repDao.createTrades(tl);
             }
         }
     }
@@ -103,7 +103,7 @@ public class RepProcessor implements Serializable  {
         }
         l.info(sb.toString());
         repDao.deleteTrades(tl);
-        repDao.newExecution(e);
+        repDao.createExecution(e);
         List<Execution> executionsToAnalyzeAgain = new ArrayList<>();
         List<Trade> trades;
         if (!tl.isEmpty()) {
@@ -115,7 +115,7 @@ public class RepProcessor implements Serializable  {
             executionsToAnalyzeAgain.add(e);
             trades = analyzeSingleSymbol(executionsToAnalyzeAgain, null);
         }
-        repDao.addTrades(trades);
+        repDao.createTrades(trades);
     }
     
     private List<Trade> analyze(List<Execution> executions) {

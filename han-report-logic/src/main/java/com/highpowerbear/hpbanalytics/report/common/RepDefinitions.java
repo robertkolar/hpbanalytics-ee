@@ -8,6 +8,7 @@ public class RepDefinitions {
     // settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
     public static final Integer RECENT_EXECUTIONS_LIMIT = 20;
+    public static final int JPA_MAX_RESULTS = 1000;
 
     // constants
     public static final String ORIGIN_MANUAL = "manual";
@@ -101,16 +102,6 @@ public class RepDefinitions {
         public String getName() {
             return name;
         }
-
-        public static Action getEnumFromName(String name) {
-            if (name.equals(BUY.getName())) {
-                return BUY;
-            } else if (name.equals(SELL.getName())) {
-                return SELL;
-            } else {
-                return null;
-            }
-        }
     }
 
     public enum SecType {
@@ -128,20 +119,6 @@ public class RepDefinitions {
         public String getName() {
             return name;
         }
-
-        public static SecType getEnumFromName(String name) {
-            if (name.equals(STK.getName())) {
-                return STK;
-            } else if (name.equals(OPT.getName())) {
-                return OPT;
-            } else if (name.equals(FUT.getName())) {
-                return FUT;
-            } else if (name.equals(CASH.getName())) {
-                return CASH;
-            } else {
-                return null;
-            }
-        }
     }
 
     public enum Currency {
@@ -151,26 +128,6 @@ public class RepDefinitions {
         GBP,
         CHF,
         CAD,
-        JPY;
-
-        public static Currency getEnumFromName(String name) {
-            if (USD.name().equalsIgnoreCase(name)) {
-                return USD;
-            } else if (EUR.name().equalsIgnoreCase(name)) {
-                return EUR;
-            } else if (AUD.name().equalsIgnoreCase(name)) {
-                return AUD;
-            } else if (GBP.name().equalsIgnoreCase(name)) {
-                return GBP;
-            } else if (CHF.name().equalsIgnoreCase(name)) {
-                return CHF;
-            } else if (CAD.name().equalsIgnoreCase(name)) {
-                return CAD;
-            } else if (JPY.name().equalsIgnoreCase(name)) {
-                return JPY;
-            } else {
-                return null;
-            }
-        }
+        JPY
     }
 }

@@ -38,7 +38,7 @@ public class OutputProcessor {
             cr.setOrderPrice(ibOrder.getOrderPrice());
             cr.setTif(IbApiEnums.Tif.getEnumFromName(ibOrder.getTif()));
             try {
-                mqSender.sendToC2pub(IbLoggerUtil.toXml(cr));
+                mqSender.sendToC2(IbLoggerUtil.toXml(cr));
             } catch (Exception e) {
                 l.log(Level.SEVERE, "Error", e);
             }
@@ -61,7 +61,7 @@ public class OutputProcessor {
             ie.setFillDate(ibOrder.getStatusDate());
             ie.setFillPrice(ibOrder.getFillPrice());
             try {
-                mqSender.sendToAnalytics(IbLoggerUtil.toXml(ie));
+                mqSender.sendToReport(IbLoggerUtil.toXml(ie));
             } catch (Exception e) {
                 l.log(Level.SEVERE, "Error", e);
             }
