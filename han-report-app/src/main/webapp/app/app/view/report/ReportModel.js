@@ -16,22 +16,54 @@ Ext.define('Report.view.report.ReportModel', {
     stores: {
         reports: {
             model: 'Report.model.report.Report',
-            autoload: true,
+            proxy: {
+                type: 'ajax',
+                url: Report.common.Definitions.urlPrefix + '',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items',
+                    totalProperty: 'total'
+                }
+            },
             pageSize: 10
         },
         executions: {
-            model: 'Report.model.Execution',
-            autoload: true,
+            model: 'Report.model.report.Execution',
+            proxy: {
+                type: 'ajax',
+                url: Report.common.Definitions.urlPrefix + '/1/executions',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items',
+                    totalProperty: 'total'
+                }
+            },
             pageSize: 25
         },
         trades: {
             model: 'Report.model.report.Trade',
-            autoload: true,
+            proxy: {
+                type: 'ajax',
+                url: Report.common.Definitions.urlPrefix + '/1/trades',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items',
+                    totalProperty: 'total'
+                }
+            },
             pageSize: 25
         },
         statistics: {
             model: 'Report.model.report.Statistics',
-            autoload: true,
+            proxy: {
+                type: 'ajax',
+                url: Report.common.Definitions.urlPrefix + '/1/statistics/MONTH',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items',
+                    totalProperty: 'total'
+                }
+            },
             pageSize: 10
         }
     }

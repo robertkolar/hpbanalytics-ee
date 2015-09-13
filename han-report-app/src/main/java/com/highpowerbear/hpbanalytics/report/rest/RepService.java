@@ -81,6 +81,6 @@ public class RepService {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         List<Statistics> statistics = statisticsCalculator.calculateStats(report, interval, underlying);
-        return Response.ok(statistics).build();
+        return Response.ok(new RestList<>(statistics, (long) statistics.size())).build();
     }
 }

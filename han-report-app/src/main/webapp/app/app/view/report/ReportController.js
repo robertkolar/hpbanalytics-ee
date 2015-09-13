@@ -10,5 +10,23 @@ Ext.define('Report.view.report.ReportController', {
     alias: 'controller.report',
 
     init: function() {
+        var me = this,
+            reports = me.getStore('reports'),
+            executions = me.getStore('executions'),
+            trades = me.getStore('trades'),
+            statistics = me.getStore('statistics');
+
+        if (reports) {
+            reports.reload();
+        }
+        if (executions) {
+            executions.reload();
+        }
+        if (trades) {
+            trades.reload();
+        }
+        if (statistics) {
+            statistics.reload();
+        }
     }
 });

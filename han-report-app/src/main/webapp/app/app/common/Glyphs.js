@@ -11,7 +11,10 @@ Ext.define('Report.common.Glyphs', {
         destroy: 'xf1f8',
         save: 'xf00c',
         cancel: 'xf0e2',
-        refresh: 'xf021'
+        refresh: 'xf021',
+        barchart: 'xf080',
+        orderedlist: 'xf0cb',
+        money: 'xf0d6'
     },
 
     constructor: function(config) {

@@ -3,13 +3,22 @@
  */
 Ext.define('Report.view.report.Report', {
     extend: 'Ext.panel.Panel',
+
+    requires: [
+        'Ext.layout.container.VBox',
+        'Report.view.report.ReportController',
+        'Report.view.report.ReportModel',
+        'Report.view.report.grid.ReportsGrid',
+        'Report.view.report.grid.ExecutionsGrid',
+        'Report.view.report.grid.TradesGrid',
+        'Report.view.report.grid.StatisticsGrid',
+        'Report.common.Glyphs'
+    ],
+
     xtype: 'report',
     reference: 'report',
     header: false,
     border: false,
-    requires: [
-        'Ext.layout.container.VBox'
-    ],
     controller: 'report',
     viewModel: {
         type: 'report'
@@ -19,5 +28,18 @@ Ext.define('Report.view.report.Report', {
         align: 'stretch'
     },
     items: [{
+        xtype: 'reports-grid'
+    }, {
+        xtype: 'tabpanel',
+        items: [{
+            xtype: 'executions-grid',
+            glyph: Report.common.Glyphs.getGlyph('orderedlist')
+        }, {
+            xtype: 'trades-grid',
+            glyph: Report.common.Glyphs.getGlyph('money')
+        }, {
+            xtype: 'statistics-grid',
+            glyph: Report.common.Glyphs.getGlyph('barchart')
+        }]
     }]
 });

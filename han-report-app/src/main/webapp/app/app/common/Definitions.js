@@ -3,10 +3,10 @@
  */
 Ext.define('Report.common.Definitions', {
     statics: {
-        //urlPrefix: 'http://localhost:28080/han-report/rest/report',
-        urlPrefix: 'http://' + window.location.host + '/han-report/rest/report',
+        //urlPrefix: 'http://localhost:28080/han-report-temp/rest/report',
+        urlPrefix: 'http://' + window.location.host + '/han-report-temp/rest/report',
 
-        //wsUrl: 'ws://localhost:28080/han-report/websocket/report',
-        wsUrl: 'ws://' + window.location.host + '/han-report/websocket/report'
+        //wsUrl: 'ws://localhost:28080/han-report-temp/websocket/report',
+        wsUrl: 'ws://' + window.location.host + '/han-report-temp/websocket/report'
     }
 });

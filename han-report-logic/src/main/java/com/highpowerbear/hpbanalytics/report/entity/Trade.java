@@ -63,6 +63,11 @@ public class Trade implements Serializable {
         return this.report.getId();
     }
 
+    @JsonProperty
+    public String getDuration() {
+        return (dateClosed != null ? RepUtil.toDurationString(dateClosed.getTimeInMillis() - dateOpened.getTimeInMillis()) : "");
+    }
+
     public void calculate() {
         this.report = splitExecutions.iterator().next().execution.getReport();
         this.type = (splitExecutions.iterator().next().getCurrentPosition() > 0 ? RepDefinitions.TradeType.LONG : RepDefinitions.TradeType.SHORT);
@@ -230,10 +235,6 @@ public class Trade implements Serializable {
             se.setTrade(this);
         }
         this.splitExecutions = splitExecutions;
-    }
-
-    public String getDuration() {
-        return (dateClosed != null ? RepUtil.toDurationString(dateClosed.getTimeInMillis() - dateOpened.getTimeInMillis()) : "");
     }
 
     public SplitExecution getLastSplitExecution() {
