@@ -1,6 +1,7 @@
-package com.highpowerbear.hpbanalytics.iblogger.websocket;
+package com.highpowerbear.hpbanalytics.report.websocket;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
+
 import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -8,24 +9,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by rkolar on 5/12/14.
+ * Created by robertk on 17.9.2015.
  */
-@ServerEndpoint("/websocket/iblogger")
-public class IbLoggerEndpoint {
-    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
+@ServerEndpoint("/websocket/report")
+public class ReportEndpoint {
+    private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
     @Inject private WebsocketController websocketController;
 
     @OnOpen
     public void addSesssion(Session session) {
         l.fine("Websocket connection opened");
-        websocketController.getIbloggerSessions().add(session);
+        websocketController.getReportSessions().add(session);
     }
 
     @OnMessage
     public void echo(Session session, String message) {
         l.fine("Websocket message received " + message);
-        websocketController.sendIbLoggerMessage(session, message);
+        websocketController.sendReportMessage(session, message);
     }
 
     @OnError
@@ -36,6 +37,6 @@ public class IbLoggerEndpoint {
     @OnClose
     public void removeSession(Session session) {
         l.fine("Websocket connection closed");
-        websocketController.getIbloggerSessions().remove(session);
+        websocketController.getReportSessions().remove(session);
     }
 }

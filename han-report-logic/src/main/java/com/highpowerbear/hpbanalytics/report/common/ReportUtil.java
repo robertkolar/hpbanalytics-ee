@@ -12,11 +12,11 @@ import java.util.TimeZone;
  *
  * @author robertk
  */
-public class RepUtil {
-    public static Calendar toBeginOfPeriod(Calendar cal, RepDefinitions.StatisticsInterval interval) {
+public class ReportUtil {
+    public static Calendar toBeginOfPeriod(Calendar cal, ReportDefinitions.StatisticsInterval interval) {
         Calendar beginPeriodDate = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
         beginPeriodDate.setTimeInMillis(cal.getTimeInMillis());
-        if (RepDefinitions.StatisticsInterval.MONTH.equals(interval)) {
+        if (ReportDefinitions.StatisticsInterval.MONTH.equals(interval)) {
             beginPeriodDate.set(Calendar.DAY_OF_MONTH, 1);
         }
         beginPeriodDate.set(Calendar.HOUR_OF_DAY, 0);

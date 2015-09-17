@@ -9,12 +9,12 @@ import java.util.Set;
  * @author rkolar
  */
 @ApplicationPath("/rest")
-public class RepRsApplication extends Application {
+public class ReportRsApplication extends Application {
     private Set<Object> singletons = new HashSet<>();
     private Set<Class<?>> classes = new HashSet<>();
 
-    public RepRsApplication(){
-        classes.add(RepService.class);
+    public ReportRsApplication(){
+        classes.add(ReportService.class);
         // singletons.add(new RestService());
     }
 

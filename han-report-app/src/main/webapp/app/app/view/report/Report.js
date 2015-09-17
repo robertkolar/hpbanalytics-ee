@@ -28,7 +28,8 @@ Ext.define('Report.view.report.Report', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'reports-grid'
+        xtype: 'reports-grid',
+        reference: 'reportsGrid'
     }, {
         xtype: 'tabpanel',
         items: [{

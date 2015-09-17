@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.report.persistence;
 
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author Robert
  */
 @Stateless
-public class RepDaoImpl implements Serializable, RepDao {
+public class ReportDaoImpl implements Serializable, ReportDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -113,19 +113,18 @@ public class RepDaoImpl implements Serializable, RepDao {
     }
 
     @Override
+    public Execution findExecution(Long id) {
+        return em.find(Execution.class, id);
+    }
+
+    @Override
     public void createExecution(Execution execution) {
         em.persist(execution);
     }
 
     @Override
-    public void deleteExecutions(List<Execution> executions) {
-        if (executions == null) {
-            return;
-        }
-        for (Execution execution : executions) {
-            execution = em.find(Execution.class, execution.getId());
-            em.remove(execution);
-        }
+    public void deleteExecution(Execution execution) {
+        em.remove(execution);
     }
 
     @Override
@@ -139,7 +138,7 @@ public class RepDaoImpl implements Serializable, RepDao {
     public Long getNumOpenTrades(Report report) {
         Query query = em.createQuery("SELECT COUNT(t) FROM Trade t WHERE t.report = :report AND t.status = :tradeStatus");
         query.setParameter("report", report);
-        query.setParameter("tradeStatus", RepDefinitions.TradeStatus.OPEN);
+        query.setParameter("tradeStatus", ReportDefinitions.TradeStatus.OPEN);
         return (Long) query.getSingleResult();
     }
 
@@ -169,7 +168,7 @@ public class RepDaoImpl implements Serializable, RepDao {
     @Override
     public List<Trade> getTradesAffectedByExecution(Execution e) {
         TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report AND (t.dateClosed >= :eDate OR t.status = :tradeStatus) AND t.symbol = :eSymbol ORDER BY t.dateOpened ASC", Trade.class);
-        q.setParameter("tradeStatus", RepDefinitions.TradeStatus.OPEN);
+        q.setParameter("tradeStatus", ReportDefinitions.TradeStatus.OPEN);
         q.setParameter("report", e.getReport());
         q.setParameter("eDate", e.getFillDate());
         q.setParameter("eSymbol", e.getSymbol());
@@ -223,7 +222,7 @@ public class RepDaoImpl implements Serializable, RepDao {
     public Long getNumOpenUnderlyings(Report report) {
         Query query = em.createQuery("SELECT COUNT(DISTINCT se.execution.underlying) FROM SplitExecution se WHERE se.execution.report = :report AND se.trade.status = :tradeStatus");
         query.setParameter("report", report);
-        query.setParameter("tradeStatus", RepDefinitions.TradeStatus.OPEN);
+        query.setParameter("tradeStatus", ReportDefinitions.TradeStatus.OPEN);
         return (Long) query.getSingleResult();
     }
 }

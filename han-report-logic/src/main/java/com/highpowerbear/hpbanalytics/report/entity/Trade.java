@@ -2,8 +2,8 @@ package com.highpowerbear.hpbanalytics.report.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
-import com.highpowerbear.hpbanalytics.report.common.RepUtil;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportUtil;
 import com.highpowerbear.hpbanalytics.report.process.OptionParser;
 
 import javax.persistence.*;
@@ -33,16 +33,16 @@ public class Trade implements Serializable {
     @GeneratedValue(generator="rep_trade")
     private Long id;
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.TradeType type;
+    private ReportDefinitions.TradeType type;
     private String symbol;
     private String underlying;
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.Currency currency;
+    private ReportDefinitions.Currency currency;
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.SecType secType;
+    private ReportDefinitions.SecType secType;
     private Integer cumulativeQuantity;
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.TradeStatus status;
+    private ReportDefinitions.TradeStatus status;
     private Integer openPosition;
     private Double avgOpenPrice;
     @Temporal(TemporalType.TIMESTAMP)
@@ -65,12 +65,12 @@ public class Trade implements Serializable {
 
     @JsonProperty
     public String getDuration() {
-        return (dateClosed != null ? RepUtil.toDurationString(dateClosed.getTimeInMillis() - dateOpened.getTimeInMillis()) : "");
+        return (dateClosed != null ? ReportUtil.toDurationString(dateClosed.getTimeInMillis() - dateOpened.getTimeInMillis()) : "");
     }
 
     public void calculate() {
         this.report = splitExecutions.iterator().next().execution.getReport();
-        this.type = (splitExecutions.iterator().next().getCurrentPosition() > 0 ? RepDefinitions.TradeType.LONG : RepDefinitions.TradeType.SHORT);
+        this.type = (splitExecutions.iterator().next().getCurrentPosition() > 0 ? ReportDefinitions.TradeType.LONG : ReportDefinitions.TradeType.SHORT);
         this.symbol = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getSymbol());
         this.underlying = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getUnderlying());
         this.currency = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getCurrency());
@@ -79,29 +79,29 @@ public class Trade implements Serializable {
         Double cummulativeOpenPrice = 0.0;
         Double cummulativeClosePrice = 0.0;
         this.cumulativeQuantity = 0;
-        DecimalFormat df = (RepDefinitions.SecType.CASH.equals(secType) ? new DecimalFormat("#.#####") : new DecimalFormat("#.##"));
+        DecimalFormat df = (ReportDefinitions.SecType.CASH.equals(secType) ? new DecimalFormat("#.#####") : new DecimalFormat("#.##"));
         for (SplitExecution se : splitExecutions) {
-            if ((this.type == RepDefinitions.TradeType.LONG && se.execution.getAction() == RepDefinitions.Action.BUY) || (this.type == RepDefinitions.TradeType.SHORT && se.execution.getAction() == RepDefinitions.Action.SELL)) {
+            if ((this.type == ReportDefinitions.TradeType.LONG && se.execution.getAction() == ReportDefinitions.Action.BUY) || (this.type == ReportDefinitions.TradeType.SHORT && se.execution.getAction() == ReportDefinitions.Action.SELL)) {
                 this.cumulativeQuantity += se.getSplitQuantity();
                 cummulativeOpenPrice += se.getSplitQuantity() * se.execution.getFillPrice();
             }
-            if (this.status == RepDefinitions.TradeStatus.CLOSED) {
-                if ((this.type == RepDefinitions.TradeType.LONG && se.execution.getAction() == RepDefinitions.Action.SELL) || (this.type == RepDefinitions.TradeType.SHORT && se.execution.getAction() == RepDefinitions.Action.BUY)) {
+            if (this.status == ReportDefinitions.TradeStatus.CLOSED) {
+                if ((this.type == ReportDefinitions.TradeType.LONG && se.execution.getAction() == ReportDefinitions.Action.SELL) || (this.type == ReportDefinitions.TradeType.SHORT && se.execution.getAction() == ReportDefinitions.Action.BUY)) {
                     cummulativeClosePrice += se.getSplitQuantity() * se.execution.getFillPrice();
                 }
             }
         }
         this.avgOpenPrice = Double.valueOf(df.format(cummulativeOpenPrice/this.cumulativeQuantity));
         this.dateOpened = this.getSplitExecutions().get(0).getExecution().getFillDate();
-        if (this.status == RepDefinitions.TradeStatus.CLOSED) {
+        if (this.status == ReportDefinitions.TradeStatus.CLOSED) {
             this.avgClosePrice = Double.valueOf(df.format(cummulativeClosePrice/this.cumulativeQuantity));
             this.dateClosed = this.getSplitExecutions().get(this.getSplitExecutions().size() - 1).getExecution().getFillDate();
-            this.profitLoss = Double.valueOf(df.format(this.type == RepDefinitions.TradeType.LONG ? cummulativeClosePrice - cummulativeOpenPrice : cummulativeOpenPrice - cummulativeClosePrice));
-            if (RepDefinitions.SecType.OPT.equals(getSecType())) {
+            this.profitLoss = Double.valueOf(df.format(this.type == ReportDefinitions.TradeType.LONG ? cummulativeClosePrice - cummulativeOpenPrice : cummulativeOpenPrice - cummulativeClosePrice));
+            if (ReportDefinitions.SecType.OPT.equals(getSecType())) {
                 this.profitLoss *= (OptionParser.isMini(symbol) ? 10 : 100);
             }
-            if (RepDefinitions.SecType.FUT.equals(getSecType())) {
-                this.profitLoss *= RepDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(underlying);
+            if (ReportDefinitions.SecType.FUT.equals(getSecType())) {
+                this.profitLoss *= ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(underlying);
             }
         }
     }
@@ -122,19 +122,19 @@ public class Trade implements Serializable {
         this.underlying = underlying;
     }
 
-    public RepDefinitions.Currency getCurrency() {
+    public ReportDefinitions.Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(RepDefinitions.Currency currency) {
+    public void setCurrency(ReportDefinitions.Currency currency) {
         this.currency = currency;
     }
 
-    public RepDefinitions.SecType getSecType() {
+    public ReportDefinitions.SecType getSecType() {
         return secType;
     }
 
-    public void setSecType(RepDefinitions.SecType secType) {
+    public void setSecType(ReportDefinitions.SecType secType) {
         this.secType = secType;
     }
 
@@ -154,11 +154,11 @@ public class Trade implements Serializable {
         this.id = id;
     }
 
-    public RepDefinitions.TradeType getType() {
+    public ReportDefinitions.TradeType getType() {
         return type;
     }
 
-    public void setType(RepDefinitions.TradeType type) {
+    public void setType(ReportDefinitions.TradeType type) {
         this.type = type;
     }
 
@@ -170,11 +170,11 @@ public class Trade implements Serializable {
         this.cumulativeQuantity = cummulativeQuantity;
     }
 
-    public RepDefinitions.TradeStatus getStatus() {
+    public ReportDefinitions.TradeStatus getStatus() {
         return status;
     }
 
-    public void setStatus(RepDefinitions.TradeStatus status) {
+    public void setStatus(ReportDefinitions.TradeStatus status) {
         this.status = status;
     }
 
@@ -242,7 +242,7 @@ public class Trade implements Serializable {
     }
     
     public Boolean getOpen() {
-        return (status == RepDefinitions.TradeStatus.OPEN);
+        return (status == ReportDefinitions.TradeStatus.OPEN);
     }
 
     @Override

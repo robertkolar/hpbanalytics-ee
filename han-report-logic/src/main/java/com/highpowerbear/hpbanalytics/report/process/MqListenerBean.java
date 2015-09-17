@@ -1,10 +1,11 @@
 package com.highpowerbear.hpbanalytics.report.process;
 
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
-import com.highpowerbear.hpbanalytics.report.common.RepUtil;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportUtil;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
-import com.highpowerbear.hpbanalytics.report.persistence.RepDao;
+import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
+import com.highpowerbear.hpbanalytics.report.websocket.WebsocketController;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
+import javax.websocket.WebSocketContainer;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,13 +25,15 @@ import java.util.logging.Logger;
  */
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/iblogger_reports"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
 })
 public class MqListenerBean implements MessageListener {
-    private static final Logger l = Logger.getLogger(RepDefinitions.LOGGER);
+    private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
-    @Inject private RepDao repDao;
-    @Inject private RepProcessor repProcessor;
+    @Inject private ReportDao reportDao;
+    @Inject private ReportProcessor reportProcessor;
+    @Inject private WebsocketController websocketController;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NEVER)
@@ -38,16 +42,17 @@ public class MqListenerBean implements MessageListener {
             if (message instanceof TextMessage) {
                 String inputXml = ((TextMessage) message).getText();
                 l.info("Text message received from MQ=iblogger_reports, xml=" + inputXml);
-                Execution execution = RepUtil.toExecution(inputXml);
+                Execution execution = ReportUtil.toExecution(inputXml);
                 Calendar now = Calendar.getInstance();
                 execution.setReceivedDate(now);
-                Report report = repDao.getReportByOrigin(execution.getOrigin());
+                Report report = reportDao.getReportByOrigin(execution.getOrigin());
                 if (report == null) {
                     l.warning("No analytics for origin=" + execution.getOrigin() + ", skipping");
                     return;
                 }
                 execution.setReport(report);
-                repProcessor.newExecution(execution);
+                reportProcessor.newExecution(execution);
+                websocketController.broadcastReportMessage("new execution processed");
             } else {
                 l.warning("Non-text message received from MQ=iblogger_reports, ignoring");
             }

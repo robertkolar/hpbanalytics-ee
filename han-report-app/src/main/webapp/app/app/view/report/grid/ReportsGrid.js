@@ -9,6 +9,9 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
         'Ext.toolbar.Paging',
         'Report.view.report.ReportController'
     ],
+    listeners: {
+        select: 'onReportSelect'
+    },
     bind: '{reports}',
     title: 'Reports',
     viewConfig: {

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 @ServerEndpoint("/websocket/c2")
 public class C2Endpoint {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
+
     @Inject private WebsocketController websocketController;
 
     @OnOpen

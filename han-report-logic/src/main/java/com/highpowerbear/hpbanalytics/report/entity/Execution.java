@@ -2,7 +2,7 @@ package com.highpowerbear.hpbanalytics.report.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,14 +37,14 @@ public class Execution implements Serializable, Comparable<Execution> {
     private String origin; // in case of IB origin --> IB:ibAccountId
     private String referenceId; // in case of IB origin --> permId
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.Action action;
+    private ReportDefinitions.Action action;
     private Integer quantity;
     private String symbol;
     private String underlying;
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.Currency currency;
+    private ReportDefinitions.Currency currency;
     @Enumerated(EnumType.STRING)
-    private RepDefinitions.SecType secType;
+    private ReportDefinitions.SecType secType;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar fillDate;
     private Double fillPrice;
@@ -102,19 +102,19 @@ public class Execution implements Serializable, Comparable<Execution> {
         this.referenceId = referenceId;
     }
 
-    public RepDefinitions.Action getAction() {
+    public ReportDefinitions.Action getAction() {
         return action;
     }
 
-    public void setAction(RepDefinitions.Action action) {
+    public void setAction(ReportDefinitions.Action action) {
         this.action = action;
     }
 
-    public RepDefinitions.SecType getSecType() {
+    public ReportDefinitions.SecType getSecType() {
         return secType;
     }
 
-    public void setSecType(RepDefinitions.SecType secType) {
+    public void setSecType(ReportDefinitions.SecType secType) {
         this.secType = secType;
     }
 
@@ -142,11 +142,11 @@ public class Execution implements Serializable, Comparable<Execution> {
         this.underlying = underlying;
     }
 
-    public RepDefinitions.Currency getCurrency() {
+    public ReportDefinitions.Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(RepDefinitions.Currency currency) {
+    public void setCurrency(ReportDefinitions.Currency currency) {
         this.currency = currency;
     }
 

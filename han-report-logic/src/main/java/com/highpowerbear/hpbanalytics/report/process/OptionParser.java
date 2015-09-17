@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.report.process;
 
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 
 import javax.enterprise.context.Dependent;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class OptionParser implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = Logger.getLogger(RepDefinitions.LOGGER);
+    private static final Logger logger = Logger.getLogger(ReportDefinitions.LOGGER);
 
     private static final List<String> miniOptionRoots = new ArrayList<>();
     static {
@@ -41,7 +41,7 @@ public class OptionParser implements Serializable {
     }
     
     private String underlying;
-    private RepDefinitions.OptionType optType;
+    private ReportDefinitions.OptionType optType;
     private Date expDate;
     private Double strikePrice;
     
@@ -54,7 +54,7 @@ public class OptionParser implements Serializable {
         String yy = oSymbol.substring(l-15, l-13);
         String MM = oSymbol.substring(l-13, l-11);
         String dd = oSymbol.substring(l-11, l-9);
-        optType = RepDefinitions.OptionType.getFromShortName(oSymbol.substring(l - 9, l - 8));
+        optType = ReportDefinitions.OptionType.getFromShortName(oSymbol.substring(l - 9, l - 8));
         String str = oSymbol.substring(l-8, l-3);
         String strDec = oSymbol.substring(l-3, l);
         DateFormat df = new SimpleDateFormat("yyMMdd");
@@ -82,7 +82,7 @@ public class OptionParser implements Serializable {
         return underlying;
     }
 
-    public RepDefinitions.OptionType getOptType() {
+    public ReportDefinitions.OptionType getOptType() {
         return optType;
     }
     

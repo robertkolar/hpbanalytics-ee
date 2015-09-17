@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.report;
 
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
@@ -12,8 +12,8 @@ import java.util.logging.Logger;
  */
 @Singleton
 @Startup
-public class RepLifecycle {
-    private static final Logger l = Logger.getLogger(RepDefinitions.LOGGER);
+public class ReportLifecycle {
+    private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
     @PostConstruct
     public void startup() {

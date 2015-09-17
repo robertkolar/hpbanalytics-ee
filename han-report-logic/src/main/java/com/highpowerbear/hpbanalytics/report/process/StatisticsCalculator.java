@@ -1,11 +1,11 @@
 package com.highpowerbear.hpbanalytics.report.process;
 
-import com.highpowerbear.hpbanalytics.report.common.RepDefinitions;
-import com.highpowerbear.hpbanalytics.report.common.RepUtil;
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
+import com.highpowerbear.hpbanalytics.report.common.ReportUtil;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
 import com.highpowerbear.hpbanalytics.report.model.Statistics;
-import com.highpowerbear.hpbanalytics.report.persistence.RepDao;
+import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,25 +24,25 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class StatisticsCalculator implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger l = Logger.getLogger(RepDefinitions.LOGGER);
+    private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
-    @Inject private RepDao repDao;
+    @Inject private ReportDao reportDao;
 
-    public List<Statistics> calculateStats(Report report, RepDefinitions.StatisticsInterval interval, String underlying) {
+    public List<Statistics> calculateStats(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
         l.info("START statistics calculation for " + report.getName() + ", undl=" + underlying + ", interval=" + interval);
-        List<Trade> trades = repDao.getTrades(report, underlying);
+        List<Trade> trades = reportDao.getTrades(report, underlying);
         List<Statistics> stats = calculateStatistics(trades, interval);
         l.info("END statistics statistics calculation for " + report.getName() + ", interval=" + interval);
         return stats;
     }
 
-    private List<Statistics> calculateStatistics(List<Trade> trades, RepDefinitions.StatisticsInterval interval) {
+    private List<Statistics> calculateStatistics(List<Trade> trades, ReportDefinitions.StatisticsInterval interval) {
         List<Statistics> stats = new ArrayList<>();
         if (trades == null || trades.isEmpty()) {
             return stats;
         }
-        Calendar firstPeriodDate = RepUtil.toBeginOfPeriod(this.getFirstDate(trades), interval);
-        Calendar lastPeriodDate = RepUtil.toBeginOfPeriod(this.getLastDate(trades), interval);
+        Calendar firstPeriodDate = ReportUtil.toBeginOfPeriod(this.getFirstDate(trades), interval);
+        Calendar lastPeriodDate = ReportUtil.toBeginOfPeriod(this.getLastDate(trades), interval);
         Calendar periodDate = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
         periodDate.setTimeInMillis(firstPeriodDate.getTimeInMillis());
         double cummulProfitLoss = 0.0;
@@ -90,9 +90,9 @@ public class StatisticsCalculator implements Serializable {
             s.setCumulProfitLoss(cummulProfitLoss);
             stats.add(s);
 
-            if (RepDefinitions.StatisticsInterval.DAY.equals(interval)) {
+            if (ReportDefinitions.StatisticsInterval.DAY.equals(interval)) {
                 periodDate.add(Calendar.DAY_OF_MONTH, +1);
-            } else if (RepDefinitions.StatisticsInterval.MONTH.equals(interval)) {
+            } else if (ReportDefinitions.StatisticsInterval.MONTH.equals(interval)) {
                 periodDate.add(Calendar.MONTH, +1);
             }
         }
@@ -127,20 +127,20 @@ public class StatisticsCalculator implements Serializable {
         return lastDate;
     }
 
-    private int getNumTradesOpenedForPeriod(List<Trade> trades, Calendar periodDate, RepDefinitions.StatisticsInterval interval) {
+    private int getNumTradesOpenedForPeriod(List<Trade> trades, Calendar periodDate, ReportDefinitions.StatisticsInterval interval) {
         int count = 0;
         for (Trade t: trades) {
-            if (RepUtil.toBeginOfPeriod(t.getDateOpened(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
+            if (ReportUtil.toBeginOfPeriod(t.getDateOpened(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
                 count++;
             }
         }
         return count;
     }
 
-    private List<Trade> getTradesClosedForPeriod(List<Trade> trades, Calendar periodDate, RepDefinitions.StatisticsInterval interval) {
+    private List<Trade> getTradesClosedForPeriod(List<Trade> trades, Calendar periodDate, ReportDefinitions.StatisticsInterval interval) {
         List<Trade> tradesClosed = new ArrayList<>();
         for (Trade t: trades) {
-            if (t.getDateClosed() != null && RepUtil.toBeginOfPeriod(t.getDateClosed(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
+            if (t.getDateClosed() != null && ReportUtil.toBeginOfPeriod(t.getDateClosed(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
                 tradesClosed.add(t);
             }
         }

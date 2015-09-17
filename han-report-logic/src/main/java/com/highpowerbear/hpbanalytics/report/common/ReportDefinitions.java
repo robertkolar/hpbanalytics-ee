@@ -4,7 +4,7 @@ package com.highpowerbear.hpbanalytics.report.common;
  *
  * @author Robert
  */
-public class RepDefinitions {
+public class ReportDefinitions {
     // settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
     public static final Integer RECENT_EXECUTIONS_LIMIT = 20;

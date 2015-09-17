@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by robertk on 4/11/15.
  */
-public interface RepDao {
+public interface ReportDao {
     Report getReportByOrigin(String origin);
     Report findReport(Integer id);
     void deleteReport(Report report);
@@ -25,8 +25,9 @@ public interface RepDao {
     List<Execution> getExecutionsAfterExecution(Execution e);
     List<Execution> getExecutionsAfterExecutionInclusive(Execution e);
     boolean existsExecution(Execution e);
+    Execution findExecution(Long id);
     void createExecution(Execution execution);
-    void deleteExecutions(List<Execution> executions);
+    void deleteExecution(Execution execution);
 
     Long getNumTrades(Report report);
     Long getNumOpenTrades(Report report);
