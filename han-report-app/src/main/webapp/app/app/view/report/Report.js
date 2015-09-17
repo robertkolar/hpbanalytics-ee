@@ -16,7 +16,6 @@ Ext.define('Report.view.report.Report', {
     ],
 
     xtype: 'report',
-    reference: 'report',
     header: false,
     border: false,
     controller: 'report',
@@ -29,18 +28,64 @@ Ext.define('Report.view.report.Report', {
     },
     items: [{
         xtype: 'reports-grid',
+        title: 'Reports',
         reference: 'reportsGrid'
     }, {
         xtype: 'tabpanel',
         items: [{
             xtype: 'executions-grid',
+            title: 'Executions',
             glyph: Report.common.Glyphs.getGlyph('orderedlist')
         }, {
             xtype: 'trades-grid',
+            title: 'Trades',
             glyph: Report.common.Glyphs.getGlyph('money')
         }, {
-            xtype: 'statistics-grid',
-            glyph: Report.common.Glyphs.getGlyph('barchart')
+            xtype: 'container',
+            title: 'Statistics',
+            glyph: Report.common.Glyphs.getGlyph('barchart'),
+            items: [{
+                xtype: 'statistics-grid'
+            }, {
+                xtype: 'toolbar',
+                defaults: {
+                    xtype: 'combobox',
+
+                    editable: false,
+                    queryMode: 'local',
+                    displayField: 'name',
+                    valueField: 'abbr'
+                },
+                items: [{
+                    reference: 'intervalCombo',
+                    fieldLabel: 'Interval',
+                    width: 150,
+                    labelWidth: 50,
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['abbr', 'name'],
+                        data: [
+                            {"abbr": "DAY", "name": "Daily"},
+                            {"abbr": "MONTH", "name": "Monthly"}
+                        ]
+                    }),
+                    value: 'MONTH',
+                    listeners: {
+                        change: 'onIntervalChange'
+                    }
+                }, {
+                    reference: 'underlyingCombo',
+                    fieldLabel: 'Underlying',
+                    width: 170,
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        fields: ['underlying']
+                    }),
+                    labelWidth: 70,
+                    margin: '0 0 0 10',
+                    listeners: {
+                        change: 'onUnderlyingChange'
+                    }
+                }]
+            }]
         }]
     }]
 });

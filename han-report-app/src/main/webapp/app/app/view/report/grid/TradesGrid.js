@@ -10,7 +10,6 @@ Ext.define('Report.view.report.grid.TradesGrid', {
         'Report.view.report.ReportController'
     ],
     bind: '{trades}',
-    title: 'Trades',
     viewConfig: {
         stripeRows: true
     },

@@ -55,6 +55,12 @@ Ext.define('C2.view.c2.SystemsGrid', {
             }
         }]
     },
+    dockedItems: [{
+        xtype: 'pagingtoolbar',
+        bind: '{c2Systems}',
+        dock: 'bottom',
+        displayInfo: true
+    }],
     plugins: {
         ptype: 'rowediting',
         clicksToEdit: 2,

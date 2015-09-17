@@ -7,8 +7,6 @@ Ext.define('Report.Application', {
     extend: 'Ext.app.Application',
 
     requires: [
-        'Ext.container.Viewport',
-        'Ext.layout.container.Fit',
         'Report.view.main.Main'
     ],
 

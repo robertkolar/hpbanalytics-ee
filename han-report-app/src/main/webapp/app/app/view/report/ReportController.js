@@ -3,6 +3,7 @@
  */
 Ext.define('Report.view.report.ReportController', {
     extend: 'Ext.app.ViewController',
+
     requires: [
         'Report.common.Definitions'
     ],
@@ -18,9 +19,12 @@ Ext.define('Report.view.report.ReportController', {
             reportsGrid = me.lookupReference('reportsGrid');
 
         if (reports) {
-            reports.reload();
+            reports.load(function(records, operation, success) {
+                if (success) {
+                    reportsGrid.setSelection(reports.first());
+                }
+            });
         }
-        reportsGrid.getSelectionModel().select(0);
 
         var ws = new WebSocket(Report.common.Definitions.wsUrl);
         ws.onopen = function(evt) {
@@ -42,17 +46,44 @@ Ext.define('Report.view.report.ReportController', {
 
     onReportSelect: function(grid, record, index, eOpts) {
         var me = this,
-            reportId = record.data.id,
             executions = me.getStore('executions'),
             trades = me.getStore('trades'),
-            statistics = me.getStore('statistics');
+            statistics = me.getStore('statistics'),
+            interval = me.lookupReference('intervalCombo').getValue();
 
-        executions.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + reportId  + '/executions');
-        trades.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + reportId + '/trades');
-        statistics.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + reportId + reportId + '/statistics/MONTH');
+        me.reportId = record.data.id,
 
-        executions.load(function(records, operation, success) {if (success) {console.log('reloaded executions for reportId=' + reportId)}});
-        trades.load(function(records, operation, success) {if (success) {console.log('reloaded trades for reportId=' + reportId)}});
-        statistics.load(function(records, operation, success) {if (success) {console.log('reloaded statistics for reportId=' + reportId)}});
+        executions.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/executions');
+        trades.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/trades');
+        statistics.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + interval);
+
+        executions.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded executions for report, id=' + me.reportId)
+            }
+        });
+        trades.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded trades for report, id=' + me.reportId)
+            }
+        });
+        statistics.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded statistics for report, id=' + me.reportId + ', interval=' + interval);
+            }
+        });
+    },
+
+    onIntervalChange: function(comboBox, newValue, oldValue, eOpts) {
+        var me = this,
+            statistics = me.getStore('statistics'),
+            interval = me.lookupReference('intervalCombo').getValue();
+
+        statistics.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + interval);
+        statistics.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded statistics for report, id=' + me.reportId + ', interval=' + interval);
+            }
+        });
     }
 });

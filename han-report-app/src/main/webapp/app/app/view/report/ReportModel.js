@@ -18,7 +18,7 @@ Ext.define('Report.view.report.ReportModel', {
             model: 'Report.model.report.Report',
             proxy: {
                 type: 'ajax',
-                url: Report.common.Definitions.urlPrefix + 'reports',
+                url: Report.common.Definitions.urlPrefix + '/reports',
                 reader: {
                     type: 'json',
                     rootProperty: 'items',

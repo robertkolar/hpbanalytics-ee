@@ -13,7 +13,6 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
         select: 'onReportSelect'
     },
     bind: '{reports}',
-    title: 'Reports',
     viewConfig: {
         stripeRows: true
     },
@@ -64,5 +63,11 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             xtype: 'datecolumn',
             format: 'm/d/Y H:i:s.u'
         }]
-    }
+    },
+    dockedItems: [{
+        xtype: 'pagingtoolbar',
+        bind: '{reports}',
+        dock: 'bottom',
+        displayInfo: true
+    }]
 });

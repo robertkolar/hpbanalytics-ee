@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,12 +102,36 @@ public class ReportService {
     @GET
     @Path("reports/{id}/statistics/{interval}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStatistics(@PathParam("id") Integer id, @PathParam("interval") ReportDefinitions.StatisticsInterval interval, @QueryParam("underlying") String underlying) {
+    public Response getStatistics(@PathParam("id") Integer id,
+                                  @PathParam("interval") ReportDefinitions.StatisticsInterval interval,
+                                  @QueryParam("underlying") String underlying,
+                                  @QueryParam("start") Integer start,
+                                  @QueryParam("limit") Integer limit) {
+
         Report report = reportDao.findReport(id);
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         List<Statistics> statistics = statisticsCalculator.calculateStats(report, interval, underlying);
-        return Response.ok(new RestList<>(statistics, (long) statistics.size())).build();
+        List<Statistics> statisticsPage = new ArrayList<>();
+        for (int i = 0; i < statistics.size(); i++) {
+            if (i >= start && i < (start + limit)) {
+                statisticsPage.add(statistics.get(i));
+            }
+        }
+        return Response.ok(new RestList<>(statisticsPage, (long) statistics.size())).build();
+    }
+
+    @GET
+    @Path("reports/{id}/underlyings")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUnderlyings(@PathParam("id") Integer id) {
+        Report report = reportDao.findReport(id);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        List<String> underlyings = reportDao.getUnderlyings(report);
+        underlyings.add(0, ReportDefinitions.ALL_UNDERLYINGS);
+        return Response.ok(underlyings).build();
     }
 }

@@ -10,7 +10,6 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
         'Report.view.report.ReportController'
     ],
     bind: '{statistics}',
-    title: 'Statistics',
     viewConfig: {
         stripeRows: true
     },

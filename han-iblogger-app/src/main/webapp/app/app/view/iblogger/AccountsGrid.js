@@ -151,6 +151,12 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
             }
         }]
     },
+    dockedItems: [{
+        xtype: 'pagingtoolbar',
+        bind: '{ibAccounts}',
+        dock: 'bottom',
+        displayInfo: true
+    }],
     plugins: {
         ptype: 'rowediting',
         clicksToEdit: 2,

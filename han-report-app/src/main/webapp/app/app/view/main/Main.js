@@ -7,6 +7,7 @@
  */
 Ext.define('Report.view.main.Main', {
     extend: 'Ext.container.Container',
+
     requires: [
         'Report.view.main.MainController',
         'Report.view.main.MainModel',
@@ -19,12 +20,11 @@ Ext.define('Report.view.main.Main', {
     viewModel: {
         type: 'main'
     },
-
-    scrollable: true,
     layout: {
         type: 'vbox',
         align: 'stretch'
     },
+    scrollable: true,
     items: [{
         xtype: 'report'
     }]

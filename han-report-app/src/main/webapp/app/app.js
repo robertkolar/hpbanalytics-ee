@@ -6,9 +6,7 @@
 Ext.application({
     name: 'Report',
 
-    extend: 'Report.Application',
-    
-    autoCreateViewport: 'Report.view.main.Main'
+    extend: 'Report.Application'
 	
     //-------------------------------------------------------------------------
     // Most customizations should be made to Report.Application. If you need to

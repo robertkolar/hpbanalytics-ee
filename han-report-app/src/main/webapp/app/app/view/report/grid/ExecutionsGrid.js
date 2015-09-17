@@ -10,7 +10,6 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
         'Report.view.report.ReportController'
     ],
     bind: '{executions}',
-    title: 'Executions',
     viewConfig: {
         stripeRows: true
     },
