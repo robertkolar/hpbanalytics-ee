@@ -157,7 +157,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     public List<Trade> getTrades(Report report, String underlying) {
         TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report" +  (underlying != null ? " AND t.underlying = :underlying" : "") + " ORDER BY t.dateOpened ASC", Trade.class);
         q.setParameter("report", report);
-        if (underlying != null) {
+        if (underlying != null && !underlying.equals(ReportDefinitions.ALL_UNDERLYINGS)) {
             q.setParameter("underlying", underlying);
         }
         List<Trade> list = q.getResultList();

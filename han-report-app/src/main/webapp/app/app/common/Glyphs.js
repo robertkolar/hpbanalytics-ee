@@ -8,13 +8,14 @@ Ext.define('Report.common.Glyphs', {
         webFont: 'FontAwesome',
         add: 'xf067',
         edit: 'xf040',
-        destroy: 'xf1f8',
+        delete: 'xf1f8',
         save: 'xf00c',
         cancel: 'xf0e2',
         refresh: 'xf021',
         barchart: 'xf080',
         orderedlist: 'xf0cb',
-        money: 'xf0d6'
+        money: 'xf0d6',
+        gear: 'xf013'
     },
 
     constructor: function(config) {

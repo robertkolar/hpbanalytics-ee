@@ -46,6 +46,28 @@ public class ReportService {
         return Response.ok(reports).build();
     }
 
+    @PUT
+    @Path("reports/{id}")
+    public Response analyzeReport(@PathParam("id") Integer id) {
+        Report report = reportDao.findReport(id);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        reportProcessor.analyzeAll(report);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("reports/{id}")
+    public Response deleteReport(@PathParam("id") Integer id) {
+        Report report = reportDao.findReport(id);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        reportDao.deleteReport(report);
+        return Response.ok().build();
+    }
+
     @GET
     @Path("reports/{id}/executions")
     @Produces(MediaType.APPLICATION_JSON)
@@ -72,8 +94,6 @@ public class ReportService {
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     @Path("reports/{id}/executions/{executionid}")
     public Response deleteExecution(@PathParam("id") Integer reportId, @PathParam("executionid") Long executionId) {
         Execution execution = reportDao.findExecution(executionId);
@@ -112,7 +132,7 @@ public class ReportService {
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<Statistics> statistics = statisticsCalculator.calculateStats(report, interval, underlying);
+        List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying);
         List<Statistics> statisticsPage = new ArrayList<>();
         for (int i = 0; i < statistics.size(); i++) {
             if (i >= start && i < (start + limit)) {
@@ -120,6 +140,17 @@ public class ReportService {
             }
         }
         return Response.ok(new RestList<>(statisticsPage, (long) statistics.size())).build();
+    }
+
+    @PUT
+    @Path("reports/{id}/statistics/{interval}")
+    public Response recalculateStatistics(@PathParam("id") Integer id, @PathParam("interval") ReportDefinitions.StatisticsInterval interval, @QueryParam("underlying") String underlying) {
+        Report report = reportDao.findReport(id);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        statisticsCalculator.calculateStatistics(report, interval, underlying);
+        return Response.ok().build();
     }
 
     @GET
@@ -130,8 +161,6 @@ public class ReportService {
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<String> underlyings = reportDao.getUnderlyings(report);
-        underlyings.add(0, ReportDefinitions.ALL_UNDERLYINGS);
-        return Response.ok(underlyings).build();
+        return Response.ok(reportDao.getUnderlyings(report)).build();
     }
 }

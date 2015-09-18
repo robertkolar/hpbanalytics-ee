@@ -11,10 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -27,16 +24,25 @@ public class StatisticsCalculator implements Serializable {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
     @Inject private ReportDao reportDao;
+    private Map<String, List<Statistics>> statisticsMap = new HashMap<>(); // caching statistics to prevent excessive recalculation
 
-    public List<Statistics> calculateStats(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
+    public List<Statistics> getStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
+        if(statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying) == null) {
+            calculateStatistics(report, interval, underlying);
+        }
+        return statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying);
+    }
+
+    public List<Statistics> calculateStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
         l.info("START statistics calculation for " + report.getName() + ", undl=" + underlying + ", interval=" + interval);
         List<Trade> trades = reportDao.getTrades(report, underlying);
-        List<Statistics> stats = calculateStatistics(trades, interval);
+        List<Statistics> stats = doCalculate(trades, interval);
+        statisticsMap.put(report.getId() + "_" + interval.name() + "_" + underlying, stats);
         l.info("END statistics statistics calculation for " + report.getName() + ", interval=" + interval);
         return stats;
     }
 
-    private List<Statistics> calculateStatistics(List<Trade> trades, ReportDefinitions.StatisticsInterval interval) {
+    private List<Statistics> doCalculate(List<Trade> trades, ReportDefinitions.StatisticsInterval interval) {
         List<Statistics> stats = new ArrayList<>();
         if (trades == null || trades.isEmpty()) {
             return stats;

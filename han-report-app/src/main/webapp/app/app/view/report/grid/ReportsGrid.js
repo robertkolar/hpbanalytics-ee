@@ -58,10 +58,34 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             format: 'm/d/Y H:i:s.u'
         }, {
             text: 'Last',
-            flex: 1,
+            width: 180,
             dataIndex: 'lastExecutionDate',
             xtype: 'datecolumn',
             format: 'm/d/Y H:i:s.u'
+        }, {
+            xtype: 'widgetcolumn',
+            text: '',
+            width : 50,
+            widget: {
+                xtype: 'button',
+                width: 30,
+                tooltip: 'Analyze Report',
+                glyph: Report.common.Glyphs.getGlyph('gear'),
+                handler: 'onAnalyzeReport'
+            }
+        }, {
+            xtype: 'widgetcolumn',
+            text: '',
+            width : 50,
+            widget: {
+                xtype: 'button',
+                width: 30,
+                tooltip: 'Delete Report',
+                glyph: Report.common.Glyphs.getGlyph('delete'),
+                handler: 'onDeleteReport'
+            }
+        }, {
+            flex: 1
         }]
     },
     dockedItems: [{

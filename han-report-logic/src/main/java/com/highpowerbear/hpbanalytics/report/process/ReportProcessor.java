@@ -103,10 +103,7 @@ public class ReportProcessor implements Serializable  {
     
     private List<SplitExecution> createSplitExecutions(List<Execution> executions) {
         List<SplitExecution> splitExecutions = new ArrayList<>();
-        Set<String> symbols = new HashSet<>();
-        for (Execution e : executions) {
-            symbols.add(e.getSymbol());
-        }
+        Set<String> symbols = executions.stream().map(Execution::getSymbol).collect(Collectors.toSet());
         Map<String, List<Execution>> mapExecutions = new HashMap<>();
         for (String s : symbols) {
             mapExecutions.put(s, new ArrayList<>());

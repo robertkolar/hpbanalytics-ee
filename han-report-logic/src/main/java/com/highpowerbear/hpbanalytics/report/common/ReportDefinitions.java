@@ -13,7 +13,7 @@ public class ReportDefinitions {
     // constants
     public static final String ORIGIN_MANUAL = "manual";
     public static final String NA = "N/A";
-    public static final String ALL_UNDERLYINGS = "--ALL--";
+    public static final String ALL_UNDERLYINGS = "ALLUNDLS";
 
     // enums
     public enum OptionType {

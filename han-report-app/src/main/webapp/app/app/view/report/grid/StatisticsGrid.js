@@ -103,5 +103,51 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
         bind: '{statistics}',
         dock: 'bottom',
         displayInfo: true
+    }, {
+        xtype: 'toolbar',
+        items: [{
+            xtype: 'combobox',
+            editable: false,
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'abbr',
+            reference: 'intervalCombo',
+            fieldLabel: 'Interval',
+            width: 150,
+            labelWidth: 50,
+            store: Ext.create('Ext.data.Store', {
+                fields: ['abbr', 'name'],
+                data: [
+                    {"abbr": "DAY", "name": "Daily"},
+                    {"abbr": "MONTH", "name": "Monthly"}
+                ]
+            }),
+            value: 'MONTH',
+            listeners: {
+                change: 'onIntervalChange'
+            }
+        }, {
+            xtype: 'combobox',
+            editable: false,
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'abbr',
+            reference: 'underlyingCombo',
+            fieldLabel: 'Underlying',
+            width: 170,
+            labelWidth: 70,
+            store: Ext.create('Ext.data.ArrayStore', {
+                fields: ['abbr', 'name']
+            }),
+            margin: '0 0 0 10',
+            listeners: {
+                change: 'onUnderlyingChange'
+            }
+        }, {
+            xtype: 'button',
+            glyph: Report.common.Glyphs.getGlyph('gear'),
+            text: 'Recalculate',
+            handler: 'onRecalculateStatistics'
+        }]
     }]
 });
