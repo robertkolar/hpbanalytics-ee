@@ -6,6 +6,7 @@ import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.SplitExecution;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
 import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
+import com.highpowerbear.hpbanalytics.report.websocket.WebsocketController;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class ReportProcessor implements Serializable  {
 
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
     @Inject private ReportDao reportDao;
+    @Inject private WebsocketController websocketController;
     
     public void analyzeAll(Report report) {
         l.info("START analytics processing for " + report.getName());
@@ -35,7 +37,13 @@ public class ReportProcessor implements Serializable  {
         }
         List<Trade> trades = analyze(executions);
         reportDao.createTrades(trades);
+        websocketController.broadcastReportMessage("report analyzed");
         l.info("END analytics processing for " + report.getName());
+    }
+
+    public void deleteReport(Report report) {
+        reportDao.deleteReport(report);
+        websocketController.broadcastReportMessage("report deleted");
     }
     
     public void deleteEcecution(Execution execution) {
@@ -59,6 +67,7 @@ public class ReportProcessor implements Serializable  {
         if (!newTrades.isEmpty()) {
             reportDao.createTrades(newTrades);
         }
+        websocketController.broadcastReportMessage("execution deleted");
     }
     
     public void newExecution(Execution e) {
@@ -86,6 +95,7 @@ public class ReportProcessor implements Serializable  {
             trades = analyzeSingleSymbol(executionsToAnalyzeAgain, null);
         }
         reportDao.createTrades(trades);
+        websocketController.broadcastReportMessage("new execution processed");
     }
     
     private List<Trade> analyze(List<Execution> executions) {

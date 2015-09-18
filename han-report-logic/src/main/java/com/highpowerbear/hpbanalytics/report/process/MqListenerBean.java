@@ -5,7 +5,6 @@ import com.highpowerbear.hpbanalytics.report.common.ReportUtil;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
-import com.highpowerbear.hpbanalytics.report.websocket.WebsocketController;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -15,7 +14,6 @@ import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.websocket.WebSocketContainer;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +31,6 @@ public class MqListenerBean implements MessageListener {
 
     @Inject private ReportDao reportDao;
     @Inject private ReportProcessor reportProcessor;
-    @Inject private WebsocketController websocketController;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NEVER)
@@ -52,7 +49,6 @@ public class MqListenerBean implements MessageListener {
                 }
                 execution.setReport(report);
                 reportProcessor.newExecution(execution);
-                websocketController.broadcastReportMessage("new execution processed");
             } else {
                 l.warning("Non-text message received from MQ=iblogger_reports, ignoring");
             }

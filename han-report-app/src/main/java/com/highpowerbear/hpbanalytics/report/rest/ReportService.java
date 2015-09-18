@@ -64,7 +64,7 @@ public class ReportService {
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        reportDao.deleteReport(report);
+        reportProcessor.deleteReport(report);
         return Response.ok().build();
     }
 

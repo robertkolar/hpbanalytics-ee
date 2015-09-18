@@ -64,7 +64,6 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             format: 'm/d/Y H:i:s.u'
         }, {
             xtype: 'widgetcolumn',
-            text: '',
             width : 50,
             widget: {
                 xtype: 'button',
@@ -75,7 +74,6 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             }
         }, {
             xtype: 'widgetcolumn',
-            text: '',
             width : 50,
             widget: {
                 xtype: 'button',

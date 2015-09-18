@@ -84,6 +84,16 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
             text: 'Comment',
             flex: 1,
             dataIndex: 'comment'
+        }, {
+            xtype: 'widgetcolumn',
+            width : 50,
+            widget: {
+                xtype: 'button',
+                width: 30,
+                tooltip: 'Delete Execution',
+                glyph: Report.common.Glyphs.getGlyph('delete'),
+                handler: 'onDeleteExecution'
+            }
         }]
     },
     dockedItems: [{

@@ -13,6 +13,9 @@ Ext.define('Report.view.report.ReportController', {
     init: function() {
         var me = this,
             reports = me.getStore('reports'),
+            executions = me.getStore('executions'),
+            trades = me.getStore('trades'),
+            statistics = me.getStore('statistics'),
             reportsGrid = me.lookupReference('reportsGrid');
 
         if (reports) {
@@ -32,7 +35,10 @@ Ext.define('Report.view.report.ReportController', {
         };
         ws.onmessage = function(evt) {
             console.log('WS message, content=' + evt.data + ' --> reloading stores...');
-            me.reloadAll();
+            reports.reload();
+            executions.reload();
+            trades.reload();
+            statistics.reload();
         };
         ws.onerror = function(evt) {
             console.log('WS error');
@@ -65,9 +71,6 @@ Ext.define('Report.view.report.ReportController', {
                 underlyingCombo.getStore.loadData(undlsData);
                 underlyingCombo.setValue('ALLUNDLS');
                 statistics.getProxy().setExtraParam('underlying', underlyingCombo.getValue());
-            },
-            failure: function(response, opts) {
-                console.log('cannot get underlyings from server, status=' + response.status);
             }
         });
         executions.load(function(records, operation, success) {
@@ -105,13 +108,7 @@ Ext.define('Report.view.report.ReportController', {
         Ext.Ajax.request({
             method: 'PUT',
             url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/statistics/' + interval,
-            params: {underlying: underlying},
-            success: function(response, opts) {
-                console.log('successfully recalculated statistics for report id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
-            },
-            failure: function(response, opts) {
-                console.log('cannot recalculate statistics, status=' + response.status);
-            }
+            params: {underlying: underlying}
         });
 
         me.reloadStatistics();
@@ -131,13 +128,6 @@ Ext.define('Report.view.report.ReportController', {
                     Ext.Ajax.request({
                         method: 'PUT',
                         url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId ,
-                        success: function(response, opts) {
-                            console.log('successfully analyzed report id=' + me.reportId);
-                            me.reloadAll();
-                        },
-                        failure: function(response, opts) {
-                            console.log('cannot analyze report, status=' + response.status);
-                        }
                     });
                 }
             }
@@ -161,12 +151,33 @@ Ext.define('Report.view.report.ReportController', {
                         method: 'DELETE',
                         url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId ,
                         success: function(response, opts) {
-                            console.log('successfully deleted report id=' + me.reportId);
-                            reportsGrid.setSelection(reports.first());
-                        },
-                        failure: function(response, opts) {
-                            console.log('cannot delete report, status=' + response.status);
+                            reports.load(function(records, operation, success) {
+                                if (success) {
+                                    reportsGrid.setSelection(reports.first());
+                                }
+                            });
                         }
+                    });
+                }
+            }
+        });
+    },
+
+    onDeleteExecution: function(button) {
+        var me = this,
+            executions = me.getStore('executions'),
+            execution = button.getWidgetRecord().data;
+
+        Ext.Msg.show({
+            title:'Delete Execution?',
+            message: 'Are you sure you want to delete the execution, id=' + execution.id + '?',
+            buttons: Ext.Msg.YESNO,
+            icon: Ext.Msg.QUESTION,
+            fn: function(btn) {
+                if (btn === 'yes') {
+                    Ext.Ajax.request({
+                        method: 'DELETE',
+                        url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/executions/' + execution.id
                     });
                 }
             }
@@ -184,18 +195,5 @@ Ext.define('Report.view.report.ReportController', {
                 console.log('reloaded statistics for report, id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
             }
         });
-    },
-
-    reloadAll: function() {
-        var me = this,
-            reports = me.getStore('reports'),
-            executions = me.getStore('executions'),
-            trades = me.getStore('trades'),
-            statistics = me.getStore('statistics');
-
-        reports.reload();
-        executions.reload();
-        trades.reload();
-        statistics.reload();
     }
 });
