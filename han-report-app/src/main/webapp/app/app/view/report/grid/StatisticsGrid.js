@@ -7,7 +7,8 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.ReportController'
+        'Report.view.report.ReportController',
+        'Ext.form.field.ComboBox'
     ],
     bind: '{statistics}',
     viewConfig: {
@@ -145,6 +146,7 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
             }
         }, {
             xtype: 'button',
+            margin: '0 0 0 10',
             glyph: Report.common.Glyphs.getGlyph('gear'),
             text: 'Recalculate',
             handler: 'onRecalculateStatistics'

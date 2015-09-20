@@ -124,7 +124,8 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @Override
     public void deleteExecution(Execution execution) {
-        em.remove(execution);
+        Execution executionDb = em.find(Execution.class, execution.getId());
+        em.remove(executionDb);
     }
 
     @Override
@@ -155,9 +156,12 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @Override
     public List<Trade> getTrades(Report report, String underlying) {
+        if (ReportDefinitions.ALL_UNDERLYINGS.equals(underlying)) {
+            underlying = null;
+        }
         TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report" +  (underlying != null ? " AND t.underlying = :underlying" : "") + " ORDER BY t.dateOpened ASC", Trade.class);
         q.setParameter("report", report);
-        if (underlying != null && !underlying.equals(ReportDefinitions.ALL_UNDERLYINGS)) {
+        if (underlying != null) {
             q.setParameter("underlying", underlying);
         }
         List<Trade> list = q.getResultList();

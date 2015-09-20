@@ -100,7 +100,7 @@ public class ReportService {
         if (execution == null || !reportId.equals(execution.getReportId())) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        reportProcessor.deleteEcecution(execution);
+        reportProcessor.deleteExecution(execution);
         return Response.ok().build();
     }
 

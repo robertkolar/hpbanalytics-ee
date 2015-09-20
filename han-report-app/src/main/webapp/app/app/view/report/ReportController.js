@@ -66,9 +66,9 @@ Ext.define('Report.view.report.ReportController', {
                 var undlsData = [];
                 undlsData.push(['ALLUNDLS', '--All--']);
                 for (var i = 0; i < undls.length; i++) {
-                    undlsData.push([undls[i]], undls[i]);
+                    undlsData.push([undls[i], undls[i]]);
                 }
-                underlyingCombo.getStore.loadData(undlsData);
+                underlyingCombo.getStore().loadData(undlsData);
                 underlyingCombo.setValue('ALLUNDLS');
                 statistics.getProxy().setExtraParam('underlying', underlyingCombo.getValue());
             }
@@ -127,7 +127,7 @@ Ext.define('Report.view.report.ReportController', {
                 if (btn === 'yes') {
                     Ext.Ajax.request({
                         method: 'PUT',
-                        url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId ,
+                        url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId
                     });
                 }
             }
@@ -142,7 +142,7 @@ Ext.define('Report.view.report.ReportController', {
 
         Ext.Msg.show({
             title:'Analyze Report?',
-            message: 'All trades will be deleted and recreated again',
+            message: 'All trades will be deleted and recreated again...',
             buttons: Ext.Msg.YESNO,
             icon: Ext.Msg.QUESTION,
             fn: function(btn) {

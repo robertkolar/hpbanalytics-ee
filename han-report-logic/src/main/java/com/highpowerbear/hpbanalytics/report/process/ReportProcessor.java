@@ -26,27 +26,30 @@ public class ReportProcessor implements Serializable  {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
     @Inject private ReportDao reportDao;
     @Inject private WebsocketController websocketController;
+    @Inject private StatisticsCalculator statisticsCalculator;
     
     public void analyzeAll(Report report) {
-        l.info("START analytics processing for " + report.getName());
+        l.info("START report processing for " + report.getName());
         reportDao.deleteAllTrades(report);
         List<Execution> executions = reportDao.getExecutions(report);
         if (executions.isEmpty()) {
-            l.info("END analytics processing for " + report.getName() + ", no executions, skipping");
+            l.info("END report processing for " + report.getName() + ", no executions, skipping");
             return;
         }
         List<Trade> trades = analyze(executions);
         reportDao.createTrades(trades);
+        statisticsCalculator.clearCache(report);
         websocketController.broadcastReportMessage("report analyzed");
-        l.info("END analytics processing for " + report.getName());
+        l.info("END report processing for " + report.getName());
     }
 
     public void deleteReport(Report report) {
         reportDao.deleteReport(report);
+        statisticsCalculator.clearCache(report);
         websocketController.broadcastReportMessage("report deleted");
     }
     
-    public void deleteEcecution(Execution execution) {
+    public void deleteExecution(Execution execution) {
         StringBuilder sb = new StringBuilder();
         sb.append("Trades affected by execution: ").append(execution.print()).append("\n");
         List<Trade> tradesAffected = reportDao.getTradesAffectedByExecution(execution);
@@ -67,34 +70,36 @@ public class ReportProcessor implements Serializable  {
         if (!newTrades.isEmpty()) {
             reportDao.createTrades(newTrades);
         }
+        statisticsCalculator.clearCache(execution.getReport());
         websocketController.broadcastReportMessage("execution deleted");
     }
     
-    public void newExecution(Execution e) {
-        List<Trade> tl = reportDao.getTradesAffectedByExecution(e);
+    public void newExecution(Execution execution) {
+        List<Trade> tl = reportDao.getTradesAffectedByExecution(execution);
         StringBuilder sb = new StringBuilder();
-        sb.append("Trades affected by execution: ").append(e.print()).append("\n");
+        sb.append("Trades affected by execution: ").append(execution.print()).append("\n");
         for (Trade t : tl) {
            sb.append("Trade: ").append(t.print()).append("\n");
             for (SplitExecution se : t.getSplitExecutions()) {
-                sb.append("Split executon: ").append(se.print()).append("\n");
+                sb.append("Split execution: ").append(se.print()).append("\n");
             }
         }
         l.info(sb.toString());
         reportDao.deleteTrades(tl);
-        reportDao.createExecution(e);
+        reportDao.createExecution(execution);
         List<Execution> executionsToAnalyzeAgain = new ArrayList<>();
         List<Trade> trades;
         if (!tl.isEmpty()) {
             SplitExecution firstSe = tl.get(0).getSplitExecutions().get(0);
-            boolean isNewAfterFirst = e.getFillDate().after(firstSe.getExecution().getFillDate());
-            executionsToAnalyzeAgain = (isNewAfterFirst ? reportDao.getExecutionsAfterExecution(firstSe.getExecution()) : reportDao.getExecutionsAfterExecutionInclusive(e));
+            boolean isNewAfterFirst = execution.getFillDate().after(firstSe.getExecution().getFillDate());
+            executionsToAnalyzeAgain = (isNewAfterFirst ? reportDao.getExecutionsAfterExecution(firstSe.getExecution()) : reportDao.getExecutionsAfterExecutionInclusive(execution));
             trades = analyzeSingleSymbol(executionsToAnalyzeAgain, (isNewAfterFirst ? firstSe : null));
         } else {
-            executionsToAnalyzeAgain.add(e);
+            executionsToAnalyzeAgain.add(execution);
             trades = analyzeSingleSymbol(executionsToAnalyzeAgain, null);
         }
         reportDao.createTrades(trades);
+        statisticsCalculator.clearCache(execution.getReport());
         websocketController.broadcastReportMessage("new execution processed");
     }
     

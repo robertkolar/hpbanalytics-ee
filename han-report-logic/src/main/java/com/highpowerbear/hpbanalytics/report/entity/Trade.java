@@ -76,27 +76,27 @@ public class Trade implements Serializable {
         this.currency = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getCurrency());
         this.secType = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getSecType());
         this.openPosition = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.get(this.splitExecutions.size() - 1).getCurrentPosition());
-        Double cummulativeOpenPrice = 0.0;
-        Double cummulativeClosePrice = 0.0;
+        Double cumulativeOpenPrice = 0.0;
+        Double cumulativeClosePrice = 0.0;
         this.cumulativeQuantity = 0;
         DecimalFormat df = (ReportDefinitions.SecType.CASH.equals(secType) ? new DecimalFormat("#.#####") : new DecimalFormat("#.##"));
         for (SplitExecution se : splitExecutions) {
             if ((this.type == ReportDefinitions.TradeType.LONG && se.execution.getAction() == ReportDefinitions.Action.BUY) || (this.type == ReportDefinitions.TradeType.SHORT && se.execution.getAction() == ReportDefinitions.Action.SELL)) {
                 this.cumulativeQuantity += se.getSplitQuantity();
-                cummulativeOpenPrice += se.getSplitQuantity() * se.execution.getFillPrice();
+                cumulativeOpenPrice += se.getSplitQuantity() * se.execution.getFillPrice();
             }
             if (this.status == ReportDefinitions.TradeStatus.CLOSED) {
                 if ((this.type == ReportDefinitions.TradeType.LONG && se.execution.getAction() == ReportDefinitions.Action.SELL) || (this.type == ReportDefinitions.TradeType.SHORT && se.execution.getAction() == ReportDefinitions.Action.BUY)) {
-                    cummulativeClosePrice += se.getSplitQuantity() * se.execution.getFillPrice();
+                    cumulativeClosePrice += se.getSplitQuantity() * se.execution.getFillPrice();
                 }
             }
         }
-        this.avgOpenPrice = Double.valueOf(df.format(cummulativeOpenPrice/this.cumulativeQuantity));
+        this.avgOpenPrice = Double.valueOf(df.format(cumulativeOpenPrice/this.cumulativeQuantity));
         this.dateOpened = this.getSplitExecutions().get(0).getExecution().getFillDate();
         if (this.status == ReportDefinitions.TradeStatus.CLOSED) {
-            this.avgClosePrice = Double.valueOf(df.format(cummulativeClosePrice/this.cumulativeQuantity));
+            this.avgClosePrice = Double.valueOf(df.format(cumulativeClosePrice/this.cumulativeQuantity));
             this.dateClosed = this.getSplitExecutions().get(this.getSplitExecutions().size() - 1).getExecution().getFillDate();
-            this.profitLoss = Double.valueOf(df.format(this.type == ReportDefinitions.TradeType.LONG ? cummulativeClosePrice - cummulativeOpenPrice : cummulativeOpenPrice - cummulativeClosePrice));
+            this.profitLoss = Double.valueOf(df.format(this.type == ReportDefinitions.TradeType.LONG ? cumulativeClosePrice - cumulativeOpenPrice : cumulativeOpenPrice - cumulativeClosePrice));
             if (ReportDefinitions.SecType.OPT.equals(getSecType())) {
                 this.profitLoss *= (OptionParser.isMini(symbol) ? 10 : 100);
             }

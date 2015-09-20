@@ -13,6 +13,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by robertk on 4/26/15.
@@ -25,6 +26,11 @@ public class StatisticsCalculator implements Serializable {
 
     @Inject private ReportDao reportDao;
     private Map<String, List<Statistics>> statisticsMap = new HashMap<>(); // caching statistics to prevent excessive recalculation
+
+    public void clearCache(Report report) {
+        Map<String, List<Statistics>> shanpshotMap = new HashMap<>(statisticsMap);
+        shanpshotMap.keySet().stream().filter(key -> key.startsWith(report.getId() + "_")).forEach(statisticsMap::remove);
+    }
 
     public List<Statistics> getStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
         if(statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying) == null) {
@@ -144,12 +150,6 @@ public class StatisticsCalculator implements Serializable {
     }
 
     private List<Trade> getTradesClosedForPeriod(List<Trade> trades, Calendar periodDate, ReportDefinitions.StatisticsInterval interval) {
-        List<Trade> tradesClosed = new ArrayList<>();
-        for (Trade t: trades) {
-            if (t.getDateClosed() != null && ReportUtil.toBeginOfPeriod(t.getDateClosed(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
-                tradesClosed.add(t);
-            }
-        }
-        return tradesClosed;
+        return trades.stream().filter(t -> t.getDateClosed() != null && ReportUtil.toBeginOfPeriod(t.getDateClosed(), interval).getTimeInMillis() == periodDate.getTimeInMillis()).collect(Collectors.toList());
     }
 }

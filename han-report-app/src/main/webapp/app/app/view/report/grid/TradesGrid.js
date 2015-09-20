@@ -54,12 +54,13 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             width: 180,
             dataIndex: 'symbol'
         }, {
-            type: 'numbercolumn',
-            format: '0.00',
             text: 'Open',
-            width: 80,
+            width: 100,
             dataIndex: 'avgOpenPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }, {
             text: 'Open Date',
             width: 180,
@@ -67,12 +68,13 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             xtype: 'datecolumn',
             format: 'm/d/Y H:i:s.u'
         }, {
-            xtype: 'numbercolumn',
-            format: '0.00',
             text: 'Close',
-            width: 80,
+            width: 100,
             dataIndex: 'avgClosePrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }, {
             text: 'Close Date',
             width: 180,

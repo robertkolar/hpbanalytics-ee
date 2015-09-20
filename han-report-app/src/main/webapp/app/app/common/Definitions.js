@@ -6,7 +6,7 @@ Ext.define('Report.common.Definitions', {
         //urlPrefix: 'http://localhost:28080/han-report-temp/rest/report',
         urlPrefix: 'http://' + window.location.host + '/han-report-temp/rest/report',
 
-        //wsUrl: 'ws://localhost:28080/han-report-temp/websocket/report',
+        //wsUrl: 'ws://localhost:28080/han-report-temp/websocket/report'
         wsUrl: 'ws://' + window.location.host + '/han-report-temp/websocket/report'
     }
 });

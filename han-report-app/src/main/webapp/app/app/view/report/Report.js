@@ -12,7 +12,8 @@ Ext.define('Report.view.report.Report', {
         'Report.view.report.grid.ExecutionsGrid',
         'Report.view.report.grid.TradesGrid',
         'Report.view.report.grid.StatisticsGrid',
-        'Report.common.Glyphs'
+        'Report.common.Glyphs',
+        'Ext.tab.Panel'
     ],
 
     xtype: 'report',

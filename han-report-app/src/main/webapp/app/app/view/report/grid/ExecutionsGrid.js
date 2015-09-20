@@ -68,12 +68,13 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
             width: 180,
             dataIndex: 'symbol'
         }, {
-            xtype: 'numbercolumn',
-            format: '0.00',
             text: 'Fill',
-            width: 80,
+            width: 100,
             dataIndex: 'fillPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }, {
             text: 'Received Date',
             width: 180,

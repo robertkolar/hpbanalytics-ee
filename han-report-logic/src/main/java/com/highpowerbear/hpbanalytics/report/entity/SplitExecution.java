@@ -48,6 +48,28 @@ public class SplitExecution implements Serializable {
         return this.trade.getId();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SplitExecution that = (SplitExecution) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (currentPosition != null ? !currentPosition.equals(that.currentPosition) : that.currentPosition != null)
+            return false;
+        return !(execution != null ? !execution.equals(that.execution) : that.execution != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (currentPosition != null ? currentPosition.hashCode() : 0);
+        result = 31 * result + (execution != null ? execution.hashCode() : 0);
+        return result;
+    }
+
     public Long getId() {
         return id;
     }
@@ -94,22 +116,6 @@ public class SplitExecution implements Serializable {
 
     public void setDateFilled(Calendar dateFilled) {
         this.dateFilled = dateFilled;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SplitExecution that = (SplitExecution) o;
-
-        return !(id != null ? !id.equals(that.id) : that.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 
     public String print() {
