@@ -110,7 +110,6 @@ Ext.define('Report.view.report.ReportController', {
             url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/statistics/' + interval,
             params: {underlying: underlying}
         });
-
         me.reloadStatistics();
     },
 
@@ -193,7 +192,52 @@ Ext.define('Report.view.report.ReportController', {
         statistics.load(function(records, operation, success) {
             if (success) {
                 console.log('reloaded statistics for report, id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
+                me.createCharts();
             }
         });
+    },
+
+    createCharts: function() {
+        var me = this,
+            statistics = me.getStore('statistics'),
+            numberOpened = [],
+            numberClosed = [],
+            numberWinners = [],
+            numberLosers = [],
+            maxWinner = [],
+            maxLoser = [],
+            winnersProfit = [],
+            losersLoss = [],
+            profitLoss = [],
+            cumulativePl = [];
+
+        if (me.hpbC1) {me.hpbC1.destroy();}
+        if (me.hpbC2) {me.hpbC2.destroy();}
+        if (me.hpbC3) {me.hpbC3.destroy();}
+        if (me.hpbC4) {me.hpbC4.destroy();}
+        if (me.hpbC5) {me.hpbC5.destroy();}
+        if (me.hpbC6) {me.hpbC6.destroy();}
+
+        statistics.each(function (record, id) {
+            var d = record.data;
+
+            numberOpened.push([d.timeInMillis, d.numOpened]);
+            numberClosed.push([d.timeInMillis, d.numClosed]);
+            numberWinners.push([d.timeInMillis, d.numWinners]);
+            numberLosers.push([d.timeInMillis, d.numLosers]);
+            maxWinner.push([d.timeInMillis, d.maxWinner]);
+            maxLoser.push([d.timeInMillis, d.maxLoser]);
+            winnersProfit.push([d.timeInMillis, d.winnersProfit]);
+            losersLoss.push([d.timeInMillis, d.losersLoss]);
+            profitLoss.push([d.timeInMillis, d.profitLoss]);
+            cumulativePl.push([d.timeInMillis, d.cumulProfitLoss]);
+        });
+
+        me.hpbC1 = HpbChart.createC1(numberOpened, numberClosed);
+        me.hpbC2 = HpbChart.createC2(numberWinners, numberLosers);
+        me.hpbC3 = HpbChart.createC3(maxWinner, maxLoser);
+        me.hpbC4 = HpbChart.createC4(winnersProfit, losersLoss);
+        me.hpbC5 = HpbChart.createC5(profitLoss);
+        me.hpbC6 = HpbChart.createC6(cumulativePl);
     }
 });
