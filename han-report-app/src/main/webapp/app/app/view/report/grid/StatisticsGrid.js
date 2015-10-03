@@ -27,8 +27,9 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
             text: 'Period',
             width: 100,
             dataIndex: 'periodDate',
-            xtype: 'datecolumn',
-            format: 'm/d/Y'
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.date(new Date(val), 'm/d/Y');
+            }
         }, {
             text: '#Opn',
             width: 80,
@@ -101,6 +102,7 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
     },
     dockedItems: [{
         xtype: 'pagingtoolbar',
+        reference: 'statisticsPaging',
         bind: '{statistics}',
         dock: 'bottom',
         displayInfo: true
@@ -147,9 +149,25 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
         }, {
             xtype: 'button',
             margin: '0 0 0 10',
-            glyph: Report.common.Glyphs.getGlyph('gear'),
             text: 'Recalculate',
-            handler: 'onRecalculateStatistics'
+            handler: 'onRecalculateStatistics',
+            listeners: {
+                beforerender: function(c, eOpts) {
+                    c.setGlyph(Report.common.Glyphs.getGlyph('gear'));
+                }
+            }
+        }, {
+            xtype: 'button',
+            reference: 'chartsButton',
+            enableToggle: true,
+            margin: '0 0 0 10',
+            text: 'Charts',
+            listeners: {
+                beforerender: function(c, eOpts) {
+                    c.setGlyph(Report.common.Glyphs.getGlyph('barchart'));
+                },
+                toggle: 'onChartsToggle'
+            }
         }]
     }]
 });

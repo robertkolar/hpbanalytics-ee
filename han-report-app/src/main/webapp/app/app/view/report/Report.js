@@ -33,29 +33,30 @@ Ext.define('Report.view.report.Report', {
         reference: 'reportsGrid'
     }, {
         xtype: 'tabpanel',
+        listeners: {
+            beforerender: 'setGlyphs'
+        },
         items: [{
             xtype: 'executions-grid',
             title: 'Executions',
-            glyph: Report.common.Glyphs.getGlyph('orderedlist')
+            reference: 'executionsPanel'
         }, {
             xtype: 'trades-grid',
             title: 'Trades',
-            glyph: Report.common.Glyphs.getGlyph('money')
+            reference: 'tradesPanel'
         }, {
-            xtype: 'container',
+            xtype: 'panel',
             title: 'Statistics',
-            glyph: Report.common.Glyphs.getGlyph('barchart'),
+            reference: 'statisticsPanel',
             items: [{
                 xtype: 'statistics-grid'
             }, {
                 xtype: 'container',
+                reference: 'chartsContainer',
                 defaults: {
-                    height: 300,
+                    height: 400,
                     width: 1210,
-                    margin: '20 0 0 0'
-                },
-                listeners: {
-                    afterrender: 'createCharts'
+                    margin: '0 0 20 0'
                 },
                 items: [{
                     html: '<div id="hpb_c1"></div>'

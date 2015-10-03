@@ -18,7 +18,7 @@ Ext.define('Report.view.report.ReportModel', {
             model: 'Report.model.report.Report',
             proxy: {
                 type: 'ajax',
-                url: Report.common.Definitions.urlPrefix + '/reports',
+                //url: Report.common.Definitions.urlPrefix + '/reports';
                 reader: {
                     type: 'json',
                     rootProperty: 'items',
@@ -65,6 +65,18 @@ Ext.define('Report.view.report.ReportModel', {
                 }
             },
             pageSize: 10
+        },
+        charts: {
+            model: 'Report.model.report.Statistics',
+            proxy: {
+                type: 'ajax',
+                //url: Report.common.Definitions.urlPrefix + 'reports/1/charts/MONTH',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items',
+                    totalProperty: 'total'
+                }
+            }
         }
     }
 });

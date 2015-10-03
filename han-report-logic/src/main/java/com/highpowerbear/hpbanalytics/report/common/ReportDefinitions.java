@@ -7,7 +7,6 @@ package com.highpowerbear.hpbanalytics.report.common;
 public class ReportDefinitions {
     // settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
-    public static final Integer RECENT_EXECUTIONS_LIMIT = 20;
     public static final int JPA_MAX_RESULTS = 1000;
 
     // constants

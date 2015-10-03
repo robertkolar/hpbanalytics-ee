@@ -142,6 +142,21 @@ public class ReportService {
         return Response.ok(new RestList<>(statisticsPage, (long) statistics.size())).build();
     }
 
+    @GET
+    @Path("reports/{id}/charts/{interval}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCharts(@PathParam("id") Integer id,
+                              @PathParam("interval") ReportDefinitions.StatisticsInterval interval,
+                              @QueryParam("underlying") String underlying) {
+
+        Report report = reportDao.findReport(id);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying);
+        return Response.ok(new RestList<>(statistics, (long) statistics.size())).build();
+    }
+
     @PUT
     @Path("reports/{id}/statistics/{interval}")
     public Response recalculateStatistics(@PathParam("id") Integer id, @PathParam("interval") ReportDefinitions.StatisticsInterval interval, @QueryParam("underlying") String underlying) {

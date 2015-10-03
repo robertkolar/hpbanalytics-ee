@@ -108,6 +108,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
     },
     dockedItems: [{
         xtype: 'pagingtoolbar',
+        reference: 'tradesPaging',
         bind: '{trades}',
         dock: 'bottom',
         displayInfo: true

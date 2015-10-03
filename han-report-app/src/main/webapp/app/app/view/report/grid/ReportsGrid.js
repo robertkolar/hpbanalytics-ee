@@ -69,8 +69,12 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
                 xtype: 'button',
                 width: 30,
                 tooltip: 'Analyze Report',
-                glyph: Report.common.Glyphs.getGlyph('gear'),
-                handler: 'onAnalyzeReport'
+                handler: 'onAnalyzeReport',
+                listeners: {
+                    beforerender: function(c, eOpts) {
+                        c.setGlyph(Report.common.Glyphs.getGlyph('gear'));
+                    }
+                }
             }
         }, {
             xtype: 'widgetcolumn',
@@ -79,8 +83,12 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
                 xtype: 'button',
                 width: 30,
                 tooltip: 'Delete Report',
-                glyph: Report.common.Glyphs.getGlyph('delete'),
-                handler: 'onDeleteReport'
+                handler: 'onDeleteReport',
+                listeners: {
+                    beforerender: function(c, eOpts) {
+                        c.setGlyph(Report.common.Glyphs.getGlyph('delete'));
+                    }
+                }
             }
         }, {
             flex: 1

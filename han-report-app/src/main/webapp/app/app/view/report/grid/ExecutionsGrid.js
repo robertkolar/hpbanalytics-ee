@@ -92,13 +92,18 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
                 xtype: 'button',
                 width: 30,
                 tooltip: 'Delete Execution',
-                glyph: Report.common.Glyphs.getGlyph('delete'),
-                handler: 'onDeleteExecution'
+                handler: 'onDeleteExecution',
+                listeners: {
+                    beforerender: function(c, eOpts) {
+                        c.setGlyph(Report.common.Glyphs.getGlyph('delete'));
+                    }
+                }
             }
         }]
     },
     dockedItems: [{
         xtype: 'pagingtoolbar',
+        reference: 'executionsPaging',
         bind: '{executions}',
         dock: 'bottom',
         displayInfo: true

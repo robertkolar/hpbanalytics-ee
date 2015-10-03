@@ -16,9 +16,11 @@ Ext.define('Report.view.report.ReportController', {
             executions = me.getStore('executions'),
             trades = me.getStore('trades'),
             statistics = me.getStore('statistics'),
+            charts = me.getStore('charts'),
             reportsGrid = me.lookupReference('reportsGrid');
 
         if (reports) {
+            reports.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports');
             reports.load(function(records, operation, success) {
                 if (success) {
                     reportsGrid.setSelection(reports.first());
@@ -35,10 +37,12 @@ Ext.define('Report.view.report.ReportController', {
         };
         ws.onmessage = function(evt) {
             console.log('WS message, content=' + evt.data + ' --> reloading stores...');
+            me.lookupReference('chartsButton').toggle(false);
             reports.reload();
             executions.reload();
             trades.reload();
             statistics.reload();
+            charts.reload();
         };
         ws.onerror = function(evt) {
             console.log('WS error');
@@ -50,14 +54,19 @@ Ext.define('Report.view.report.ReportController', {
             executions = me.getStore('executions'),
             trades = me.getStore('trades'),
             statistics = me.getStore('statistics'),
+            charts = me.getStore('charts'),
             interval = me.lookupReference('intervalCombo').getValue(),
-            underlyingCombo =  me.lookupReference('underlyingCombo');
+            underlyingCombo =  me.lookupReference('underlyingCombo'),
+            executionsPaging = me.lookupReference('executionsPaging'),
+            tradesPaging = me.lookupReference('tradesPaging'),
+            statisticsPaging = me.lookupReference('statisticsPaging');
 
         me.reportId = record.data.id;
 
         executions.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/executions');
         trades.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/trades');
         statistics.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + interval);
+        charts.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/charts/' + interval);
 
         Ext.Ajax.request({
             url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/underlyings',
@@ -71,8 +80,21 @@ Ext.define('Report.view.report.ReportController', {
                 underlyingCombo.getStore().loadData(undlsData);
                 underlyingCombo.setValue('ALLUNDLS');
                 statistics.getProxy().setExtraParam('underlying', underlyingCombo.getValue());
+                charts.getProxy().setExtraParam('underlying', underlyingCombo.getValue());
             }
         });
+
+        me.lookupReference('chartsButton').toggle(false);
+        if (executionsPaging.getStore().isLoaded()) {
+            executionsPaging.moveFirst();
+        }
+        if (tradesPaging.getStore().isLoaded()) {
+            tradesPaging.moveFirst();
+        }
+        if (statisticsPaging.getStore().isLoaded()) {
+            statisticsPaging.moveFirst();
+        }
+
         executions.load(function(records, operation, success) {
             if (success) {
                 console.log('reloaded executions for report, id=' + me.reportId)
@@ -83,21 +105,23 @@ Ext.define('Report.view.report.ReportController', {
                 console.log('reloaded trades for report, id=' + me.reportId)
             }
         });
-        me.reloadStatistics();
+        me.reloadStatisticsAndCharts();
     },
 
     onIntervalChange: function(comboBox, newValue, oldValue, eOpts) {
         var me = this;
 
         me.getStore('statistics').getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + me.lookupReference('intervalCombo').getValue());
-        me.reloadStatistics();
+        me.getStore('charts').getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/charts/' + me.lookupReference('intervalCombo').getValue());
+        me.reloadStatisticsAndCharts();
     },
 
     onUnderlyingChange: function(comboBox, newValue, oldValue, eOpts) {
         var me = this;
 
         me.getStore('statistics').getProxy().setExtraParam('underlying', me.lookupReference('underlyingCombo').getValue());
-        me.reloadStatistics();
+        me.getStore('charts').getProxy().setExtraParam('underlying', me.lookupReference('underlyingCombo').getValue());
+        me.reloadStatisticsAndCharts();
     },
 
     onRecalculateStatistics: function(button, evt) {
@@ -110,12 +134,11 @@ Ext.define('Report.view.report.ReportController', {
             url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/statistics/' + interval,
             params: {underlying: underlying}
         });
-        me.reloadStatistics();
+        me.reloadStatisticsAndCharts();
     },
 
     onAnalyzeReport: function(button) {
-        var me = this,
-            report = button.getWidgetRecord().data;
+        var me = this;
 
         Ext.Msg.show({
             title:'Analyze Report?',
@@ -136,8 +159,7 @@ Ext.define('Report.view.report.ReportController', {
     onDeleteReport: function(button) {
         var me = this,
             reports = me.getStore('reports'),
-            reportsGrid = me.lookupReference('reportsGrid'),
-            report = button.getWidgetRecord().data;
+            reportsGrid = me.lookupReference('reportsGrid');
 
         Ext.Msg.show({
             title:'Analyze Report?',
@@ -183,23 +205,29 @@ Ext.define('Report.view.report.ReportController', {
         });
     },
 
-    reloadStatistics: function() {
+    reloadStatisticsAndCharts: function() {
         var me = this,
             statistics = me.getStore('statistics'),
+            charts = me.getStore('charts'),
             interval = me.lookupReference('intervalCombo').getValue(),
             underlying =  me.lookupReference('underlyingCombo').getValue();
 
         statistics.load(function(records, operation, success) {
             if (success) {
                 console.log('reloaded statistics for report, id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
+            }
+        });
+        charts.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded charts for report, id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
                 me.createCharts();
             }
         });
     },
 
-    createCharts: function() {
+    createCharts: function(tabPanel, newCard, oldCard, eOpts) {
         var me = this,
-            statistics = me.getStore('statistics'),
+            statistics = me.getStore('charts'),
             numberOpened = [],
             numberClosed = [],
             numberWinners = [],
@@ -211,6 +239,10 @@ Ext.define('Report.view.report.ReportController', {
             profitLoss = [],
             cumulativePl = [];
 
+        if (!Ext.get('hpb_c1')) {
+            return;
+        }
+
         if (me.hpbC1) {me.hpbC1.destroy();}
         if (me.hpbC2) {me.hpbC2.destroy();}
         if (me.hpbC3) {me.hpbC3.destroy();}
@@ -221,16 +253,16 @@ Ext.define('Report.view.report.ReportController', {
         statistics.each(function (record, id) {
             var d = record.data;
 
-            numberOpened.push([d.timeInMillis, d.numOpened]);
-            numberClosed.push([d.timeInMillis, d.numClosed]);
-            numberWinners.push([d.timeInMillis, d.numWinners]);
-            numberLosers.push([d.timeInMillis, d.numLosers]);
-            maxWinner.push([d.timeInMillis, d.maxWinner]);
-            maxLoser.push([d.timeInMillis, d.maxLoser]);
-            winnersProfit.push([d.timeInMillis, d.winnersProfit]);
-            losersLoss.push([d.timeInMillis, d.losersLoss]);
-            profitLoss.push([d.timeInMillis, d.profitLoss]);
-            cumulativePl.push([d.timeInMillis, d.cumulProfitLoss]);
+            numberOpened.push([d.periodDate, d.numOpened]);
+            numberClosed.push([d.periodDate, d.numClosed]);
+            numberWinners.push([d.periodDate, d.numWinners]);
+            numberLosers.push([d.periodDate, d.numLosers]);
+            maxWinner.push([d.periodDate, d.maxWinner]);
+            maxLoser.push([d.periodDate, d.maxLoser]);
+            winnersProfit.push([d.periodDate, d.winnersProfit]);
+            losersLoss.push([d.periodDate, d.losersLoss]);
+            profitLoss.push([d.periodDate, d.profitLoss]);
+            cumulativePl.push([d.periodDate, d.cumulProfitLoss]);
         });
 
         me.hpbC1 = HpbChart.createC1(numberOpened, numberClosed);
@@ -239,5 +271,25 @@ Ext.define('Report.view.report.ReportController', {
         me.hpbC4 = HpbChart.createC4(winnersProfit, losersLoss);
         me.hpbC5 = HpbChart.createC5(profitLoss);
         me.hpbC6 = HpbChart.createC6(cumulativePl);
+    },
+
+    setGlyphs: function() {
+        var me = this;
+
+        me.lookupReference('executionsPanel').setGlyph(Report.common.Glyphs.getGlyph('orderedlist'));
+        me.lookupReference('tradesPanel').setGlyph(Report.common.Glyphs.getGlyph('money'));
+        me.lookupReference('statisticsPanel').setGlyph(Report.common.Glyphs.getGlyph('barchart'));
+    },
+
+    onChartsToggle: function(button, pressed, eOpts) {
+        var me = this,
+            chartsContainer = me.lookupReference('chartsContainer');
+
+        if (pressed) {
+            chartsContainer.setVisible(true);
+            me.createCharts();
+        } else {
+            chartsContainer.setVisible(false);
+        }
     }
 });

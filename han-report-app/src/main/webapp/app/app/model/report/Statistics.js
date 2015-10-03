@@ -5,7 +5,7 @@ Ext.define('Report.model.report.Statistics', {
     extend: 'Report.model.report.Base',
 
     fields: [
-        {name: 'periodDate', type: 'date', dateFormat: 'time'},
+        'periodDate',
         'numOpened',
         'numClosed',
         'numWinners',
