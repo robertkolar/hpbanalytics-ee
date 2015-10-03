@@ -77,12 +77,18 @@ Ext.define('C2.view.c2.SignalsGrid', {
             text: 'LMT',
             width: 80,
             dataIndex: 'limitPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }, {
             text: 'STP',
             width: 80,
             dataIndex: 'stopPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }, {
             text: 'Dur',
             width: 60,
@@ -117,7 +123,10 @@ Ext.define('C2.view.c2.SignalsGrid', {
             text: 'Trd',
             width: 80,
             dataIndex: 'tradePrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }]
     },
     dockedItems: [{

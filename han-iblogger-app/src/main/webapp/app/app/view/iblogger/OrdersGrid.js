@@ -80,7 +80,10 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
             text: 'Price',
             width: 80,
             dataIndex: 'orderPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return (val ? Ext.util.Format.number(val, '0.00###') : '-');
+            }
         }, {
             text: 'TIF',
             width: 60,
@@ -95,7 +98,10 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
             text: 'Fill',
             width: 80,
             dataIndex: 'fillPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return (val ? Ext.util.Format.number(val, '0.00###') : '-');
+            }
         }, {
             text: 'Ord',
             width: 60,

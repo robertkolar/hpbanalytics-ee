@@ -72,7 +72,10 @@ Ext.define('C2.view.c2.RequestsGrid', {
             text: 'Price',
             width: 80,
             dataIndex: 'orderPrice',
-            align: 'right'
+            align: 'right',
+            renderer: function(val, metadata, record) {
+                return Ext.util.Format.number(val, '0.00###');
+            }
         }, {
             text: 'TIF',
             width: 60,
