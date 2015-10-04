@@ -8,7 +8,7 @@ Ext.define('Report.view.report.ReportController', {
         'Report.common.Definitions'
     ],
 
-    alias: 'controller.report',
+    alias: 'controller.han-report',
 
     init: function() {
         var me = this,
@@ -182,6 +182,45 @@ Ext.define('Report.view.report.ReportController', {
                 }
             }
         });
+    },
+
+    onAddExecution: function(button, e, options) {
+        var me = this;
+
+        me.getView().add(Ext.create('Report.view.report.form.ExecutionAddForm', {
+            reference: 'executionAddWindow',
+            title: 'Add New Execution for Report id=' + me.reportId
+        })).show();
+    },
+
+    onSubmitAddExecution: function(button, e, options) {
+        var me = this,
+            form = me.lookupReference('executionAddForm'),
+            window = me.lookupReference('executionAddWindow');
+
+        if (form && form.isValid()) {
+            Ext.Ajax.request({
+                method: 'POST',
+                url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/executions',
+                jsonData: {
+                    action: form.getForm().findField('action').lastValue,
+                    quantity: form.getForm().findField('quantity').lastValue,
+                    underlying: form.getForm().findField('underlying').lastValue,
+                    symbol: form.getForm().findField('symbol').lastValue,
+                    secType: form.getForm().findField('secType').lastValue,
+                    fillPrice: form.getForm().findField('fillPrice').lastValue,
+                    fillDate: form.getForm().findField('fillDate').lastValue,
+                    comment: form.getForm().findField('comment').lastValue
+                },
+                success: function(response, opts) {
+                    window.close();
+                }
+            });
+        }
+    },
+
+    onCancelAddExecution: function(button, e, options) {
+        this.lookupReference('executionAddWindow').close();
     },
 
     onDeleteExecution: function(button) {

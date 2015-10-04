@@ -3,7 +3,7 @@
  */
 Ext.define('Report.view.report.grid.ExecutionsGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'executions-grid',
+    xtype: 'han-executions-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
@@ -107,5 +107,18 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
         bind: '{executions}',
         dock: 'bottom',
         displayInfo: true
+    }, {
+        xtype: 'toolbar',
+        items: [{
+            xtype: 'button',
+            margin: '0 0 0 10',
+            text: 'Add',
+            handler: 'onAddExecution',
+            listeners: {
+                beforerender: function(c, eOpts) {
+                    c.setGlyph(Report.common.Glyphs.getGlyph('add'));
+                }
+            }
+        }]
     }]
 });

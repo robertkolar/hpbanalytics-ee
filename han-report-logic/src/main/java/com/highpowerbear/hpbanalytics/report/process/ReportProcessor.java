@@ -74,7 +74,7 @@ public class ReportProcessor implements Serializable  {
         websocketController.broadcastReportMessage("execution deleted");
     }
     
-    public void newExecution(Execution execution) {
+    public Long newExecution(Execution execution) {
         List<Trade> tl = reportDao.getTradesAffectedByExecution(execution);
         StringBuilder sb = new StringBuilder();
         sb.append("Trades affected by execution: ").append(execution.print()).append("\n");
@@ -101,6 +101,7 @@ public class ReportProcessor implements Serializable  {
         reportDao.createTrades(trades);
         statisticsCalculator.clearCache(execution.getReport());
         websocketController.broadcastReportMessage("new execution processed");
+        return execution.getId();
     }
     
     private List<Trade> analyze(List<Execution> executions) {

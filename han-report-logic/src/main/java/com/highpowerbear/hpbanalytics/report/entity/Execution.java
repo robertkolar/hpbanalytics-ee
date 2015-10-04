@@ -51,7 +51,7 @@ public class Execution implements Serializable, Comparable<Execution> {
 
     @JsonProperty
     public Integer getReportId() {
-        return this.report.getId();
+        return (report != null ? report.getId() : null);
     }
 
     public Long getId() {

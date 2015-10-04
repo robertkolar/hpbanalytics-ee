@@ -15,6 +15,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -88,9 +89,17 @@ public class ReportService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("reports/{id}/executions")
     public Response createExecution(@PathParam("id") Integer reportId, Execution execution) {
+        Report report = reportDao.findReport(reportId);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         execution.setId(null);
-        reportDao.createExecution(execution);
-        return (execution.getId() != null ? Response.ok(execution).build() : Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
+        execution.setReport(report);
+        execution.setReceivedDate(Calendar.getInstance());
+        execution.setOrigin(ReportDefinitions.ORIGIN_MANUAL);
+        execution.setReferenceId(ReportDefinitions.NA);
+        Long executionId = reportProcessor.newExecution(execution);
+        return (executionId != null ? Response.ok(execution).build() : Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
     }
 
     @DELETE

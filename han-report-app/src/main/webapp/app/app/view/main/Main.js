@@ -26,6 +26,6 @@ Ext.define('Report.view.main.Main', {
     },
     scrollable: true,
     items: [{
-        xtype: 'report'
+        xtype: 'han-report'
     }]
 });

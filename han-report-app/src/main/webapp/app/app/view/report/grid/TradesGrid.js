@@ -3,7 +3,7 @@
  */
 Ext.define('Report.view.report.grid.TradesGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'trades-grid',
+    xtype: 'han-trades-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
