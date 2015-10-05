@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -44,13 +46,13 @@ public class Trade implements Serializable {
     @Enumerated(EnumType.STRING)
     private ReportDefinitions.TradeStatus status;
     private Integer openPosition;
-    private Double avgOpenPrice;
+    private BigDecimal avgOpenPrice;
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateOpened;
-    private Double avgClosePrice;
+    private Calendar openDate;
+    private BigDecimal avgClosePrice;
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateClosed;
-    private Double profitLoss;
+    private Calendar closeDate;
+    private BigDecimal profitLoss;
     @ManyToOne
     @JsonIgnore
     private Report report;
@@ -65,10 +67,11 @@ public class Trade implements Serializable {
 
     @JsonProperty
     public String getDuration() {
-        return (dateClosed != null ? ReportUtil.toDurationString(dateClosed.getTimeInMillis() - dateOpened.getTimeInMillis()) : "");
+        return (closeDate != null ? ReportUtil.toDurationString(closeDate.getTimeInMillis() - openDate.getTimeInMillis()) : "");
     }
 
     public void calculate() {
+        MathContext mc = new MathContext(5);
         this.report = splitExecutions.iterator().next().execution.getReport();
         this.type = (splitExecutions.iterator().next().getCurrentPosition() > 0 ? ReportDefinitions.TradeType.LONG : ReportDefinitions.TradeType.SHORT);
         this.symbol = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getSymbol());
@@ -76,32 +79,31 @@ public class Trade implements Serializable {
         this.currency = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getCurrency());
         this.secType = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getSecType());
         this.openPosition = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.get(this.splitExecutions.size() - 1).getCurrentPosition());
-        Double cumulativeOpenPrice = 0.0;
-        Double cumulativeClosePrice = 0.0;
+        BigDecimal cumulativeOpenPrice = new BigDecimal(0.0);
+        BigDecimal cumulativeClosePrice = new BigDecimal(0.0);
         this.cumulativeQuantity = 0;
-        DecimalFormat df = (ReportDefinitions.SecType.CASH.equals(secType) ? new DecimalFormat("#.#####") : new DecimalFormat("#.##"));
         for (SplitExecution se : splitExecutions) {
             if ((this.type == ReportDefinitions.TradeType.LONG && se.execution.getAction() == ReportDefinitions.Action.BUY) || (this.type == ReportDefinitions.TradeType.SHORT && se.execution.getAction() == ReportDefinitions.Action.SELL)) {
                 this.cumulativeQuantity += se.getSplitQuantity();
-                cumulativeOpenPrice += se.getSplitQuantity() * se.execution.getFillPrice();
+                cumulativeOpenPrice = cumulativeOpenPrice.add(new BigDecimal(se.getSplitQuantity()).multiply(se.execution.getFillPrice(), mc));
             }
             if (this.status == ReportDefinitions.TradeStatus.CLOSED) {
                 if ((this.type == ReportDefinitions.TradeType.LONG && se.execution.getAction() == ReportDefinitions.Action.SELL) || (this.type == ReportDefinitions.TradeType.SHORT && se.execution.getAction() == ReportDefinitions.Action.BUY)) {
-                    cumulativeClosePrice += se.getSplitQuantity() * se.execution.getFillPrice();
+                    cumulativeClosePrice = cumulativeClosePrice.add(new BigDecimal(se.getSplitQuantity()).multiply(se.execution.getFillPrice(), mc));
                 }
             }
         }
-        this.avgOpenPrice = Double.valueOf(df.format(cumulativeOpenPrice/this.cumulativeQuantity));
-        this.dateOpened = this.getSplitExecutions().get(0).getExecution().getFillDate();
+        this.avgOpenPrice = cumulativeOpenPrice.divide(new BigDecimal(this.cumulativeQuantity), mc);
+        this.openDate = this.getSplitExecutions().get(0).getExecution().getFillDate();
         if (this.status == ReportDefinitions.TradeStatus.CLOSED) {
-            this.avgClosePrice = Double.valueOf(df.format(cumulativeClosePrice/this.cumulativeQuantity));
-            this.dateClosed = this.getSplitExecutions().get(this.getSplitExecutions().size() - 1).getExecution().getFillDate();
-            this.profitLoss = Double.valueOf(df.format(this.type == ReportDefinitions.TradeType.LONG ? cumulativeClosePrice - cumulativeOpenPrice : cumulativeOpenPrice - cumulativeClosePrice));
+            this.avgClosePrice = cumulativeClosePrice.divide(new BigDecimal(this.cumulativeQuantity), mc);
+            this.closeDate = this.getSplitExecutions().get(this.getSplitExecutions().size() - 1).getExecution().getFillDate();
+            this.profitLoss = (ReportDefinitions.TradeType.LONG.equals(this.type) ? cumulativeClosePrice.subtract(cumulativeOpenPrice, mc) : cumulativeOpenPrice.subtract(cumulativeClosePrice, mc));
             if (ReportDefinitions.SecType.OPT.equals(getSecType())) {
-                this.profitLoss *= (OptionParser.isMini(symbol) ? 10 : 100);
+                this.profitLoss = this.profitLoss.multiply((OptionParser.isMini(symbol) ? new BigDecimal(10) : new BigDecimal(100)), mc);
             }
             if (ReportDefinitions.SecType.FUT.equals(getSecType())) {
-                this.profitLoss *= ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(underlying);
+                this.profitLoss = this.profitLoss.multiply(new BigDecimal(ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(underlying)), mc);
             }
         }
     }
@@ -178,43 +180,43 @@ public class Trade implements Serializable {
         this.status = status;
     }
 
-    public Double getAvgClosePrice() {
-        return avgClosePrice;
+    public Calendar getOpenDate() {
+        return openDate;
     }
 
-    public void setAvgClosePrice(Double avgClosePrice) {
-        this.avgClosePrice = avgClosePrice;
+    public void setOpenDate(Calendar openDate) {
+        this.openDate = openDate;
     }
 
-    public Calendar getDateClosed() {
-        return dateClosed;
+    public Calendar getCloseDate() {
+        return closeDate;
     }
 
-    public void setDateClosed(Calendar dateClosed) {
-        this.dateClosed = dateClosed;
+    public void setCloseDate(Calendar closeDate) {
+        this.closeDate = closeDate;
     }
 
-    public Double getAvgOpenPrice() {
+    public BigDecimal getAvgOpenPrice() {
         return avgOpenPrice;
     }
 
-    public void setAvgOpenPrice(Double avgOpenPrice) {
+    public void setAvgOpenPrice(BigDecimal avgOpenPrice) {
         this.avgOpenPrice = avgOpenPrice;
     }
 
-    public Calendar getDateOpened() {
-        return dateOpened;
+    public BigDecimal getAvgClosePrice() {
+        return avgClosePrice;
     }
 
-    public void setDateOpened(Calendar dateOpened) {
-        this.dateOpened = dateOpened;
+    public void setAvgClosePrice(BigDecimal avgClosePrice) {
+        this.avgClosePrice = avgClosePrice;
     }
 
-    public Double getProfitLoss() {
+    public BigDecimal getProfitLoss() {
         return profitLoss;
     }
 
-    public void setProfitLoss(Double profitLoss) {
+    public void setProfitLoss(BigDecimal profitLoss) {
         this.profitLoss = profitLoss;
     }
 
@@ -263,7 +265,7 @@ public class Trade implements Serializable {
 
     public String print() {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-        return (id + ", " + type + ", " + status + ", " + symbol + ", " + secType + ", " + (dateOpened != null ? df.format(dateOpened.getTime()) : "-") + ", " + (dateClosed != null ? df.format(dateClosed.getTime()) : "-") + ", " + profitLoss);
+        return (id + ", " + type + ", " + status + ", " + symbol + ", " + secType + ", " + (openDate != null ? df.format(openDate.getTime()) : "-") + ", " + (closeDate != null ? df.format(closeDate.getTime()) : "-") + ", " + profitLoss);
     }
 
     @Override

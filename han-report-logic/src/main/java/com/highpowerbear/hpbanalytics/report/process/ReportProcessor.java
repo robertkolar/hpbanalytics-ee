@@ -11,6 +11,7 @@ import com.highpowerbear.hpbanalytics.report.websocket.WebsocketController;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -103,7 +104,22 @@ public class ReportProcessor implements Serializable  {
         websocketController.broadcastReportMessage("new execution processed");
         return execution.getId();
     }
-    
+
+    public List<Execution> assignTrade(Trade trade) {
+        // TODO assign logic
+        return null;
+    }
+
+    public Execution expireTrade(Trade trade) {
+        // TODO expire logic
+        return null;
+    }
+
+    public Execution closeTrade(Trade trade, BigDecimal closePrice, Calendar closeDate) {
+        // TODO close logic
+        return null;
+    }
+
     private List<Trade> analyze(List<Execution> executions) {
         return createTrades(createSplitExecutions(executions));
     }
@@ -147,13 +163,13 @@ public class ReportProcessor implements Serializable  {
                 // split
                 se = new SplitExecution(); // first
                 se.setExecution(e);
-                se.setDateFilled(e.getFillDate());
+                se.setFillDate(e.getFillDate());
                 se.setSplitQuantity(-currentPos);
                 se.setCurrentPosition(0);
                 sesSingleSymbol.add(se); 
                 se = new SplitExecution(); //second
                 se.setExecution(e);
-                se.setDateFilled(e.getFillDate());
+                se.setFillDate(e.getFillDate());
                 se.setSplitQuantity(newPos);
                 se.setCurrentPosition(newPos);
                 sesSingleSymbol.add(se);
@@ -161,13 +177,13 @@ public class ReportProcessor implements Serializable  {
                 // split
                 se = new SplitExecution(); // first
                 se.setExecution(e);
-                se.setDateFilled(e.getFillDate());
+                se.setFillDate(e.getFillDate());
                 se.setSplitQuantity(currentPos);
                 se.setCurrentPosition(0);
                 sesSingleSymbol.add(se);
                 se = new SplitExecution(); //second
                 se.setExecution(e);
-                se.setDateFilled(e.getFillDate());
+                se.setFillDate(e.getFillDate());
                 se.setSplitQuantity(-newPos);
                 se.setCurrentPosition(newPos);
                 sesSingleSymbol.add(se);
@@ -175,7 +191,7 @@ public class ReportProcessor implements Serializable  {
                 // normal
                 se = new SplitExecution();
                 se.setExecution(e);
-                se.setDateFilled(e.getFillDate());
+                se.setFillDate(e.getFillDate());
                 se.setSplitQuantity(e.getQuantity());
                 se.setCurrentPosition(newPos);
                 sesSingleSymbol.add(se);

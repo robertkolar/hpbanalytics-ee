@@ -10,7 +10,7 @@ public class ReportDefinitions {
     public static final int JPA_MAX_RESULTS = 1000;
 
     // constants
-    public static final String ORIGIN_MANUAL = "manual";
+    public static final String ORIGIN_INTERNAL = "INTERNAL";
     public static final String NA = "N/A";
     public static final String ALL_UNDERLYINGS = "ALLUNDLS";
 

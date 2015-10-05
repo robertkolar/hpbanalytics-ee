@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -96,9 +97,10 @@ public class ReportService {
         execution.setId(null);
         execution.setReport(report);
         execution.setReceivedDate(Calendar.getInstance());
-        execution.setOrigin(ReportDefinitions.ORIGIN_MANUAL);
+        execution.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
         execution.setReferenceId(ReportDefinitions.NA);
         Long executionId = reportProcessor.newExecution(execution);
+        execution.setId(executionId);
         return (executionId != null ? Response.ok(execution).build() : Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
     }
 
@@ -126,6 +128,51 @@ public class ReportService {
         List<Trade> trades = reportDao.getTrades(report, start, limit);
         Long numTrades = reportDao.getNumTrades(report);
         return Response.ok(new RestList<>(trades, numTrades)).build();
+    }
+
+    @PUT
+    @Path("reports/{id}/trades/{tradeid}/assign")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response assignTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId) {
+        Report report = reportDao.findReport(id);
+        Trade trade = reportDao.findTrade(tradeId);
+        if (report == null || trade == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if (!ReportDefinitions.SecType.OPT.equals(trade.getSecType()) || !ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(reportProcessor.assignTrade(trade)).build();
+    }
+
+    @PUT
+    @Path("reports/{id}/trades/{tradeid}/expire")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response expireTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId) {
+        Report report = reportDao.findReport(id);
+        Trade trade = reportDao.findTrade(tradeId);
+        if (report == null || trade == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if (!ReportDefinitions.SecType.OPT.equals(trade.getSecType()) || !ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(reportProcessor.expireTrade(trade)).build();
+    }
+
+    @PUT
+    @Path("reports/{id}/trades/{tradeid}/close")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response closeTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId, BigDecimal closePrice, Calendar closeDate) {
+        Report report = reportDao.findReport(id);
+        Trade trade = reportDao.findTrade(tradeId);
+        if (report == null || trade == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if (!ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(reportProcessor.closeTrade(trade, closePrice, closeDate)).build();
     }
 
     @GET

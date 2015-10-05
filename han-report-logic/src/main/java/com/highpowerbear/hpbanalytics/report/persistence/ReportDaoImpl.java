@@ -209,6 +209,11 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     }
 
     @Override
+    public Trade findTrade(Long id) {
+        return em.find(Trade.class, id);
+    }
+
+    @Override
     public List<String> getUnderlyings(Report report) {
         TypedQuery<String> query = em.createQuery("SELECT DISTINCT e.underlying FROM Execution e WHERE e.report = :report", String.class);
         query.setParameter("report", report);

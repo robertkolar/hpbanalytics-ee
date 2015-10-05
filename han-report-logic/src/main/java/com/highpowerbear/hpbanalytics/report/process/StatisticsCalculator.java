@@ -76,17 +76,17 @@ public class StatisticsCalculator implements Serializable {
             double profitLoss;
 
             for (Trade t : tradesClosedForPeriod) {
-                if (t.getProfitLoss() >= 0.0) {
+                if (t.getProfitLoss().doubleValue() >= 0.0) {
                     numWinners++;
-                    winnersProfit += t.getProfitLoss();
-                    if (t.getProfitLoss() > maxWinner) {
-                        maxWinner = t.getProfitLoss();
+                    winnersProfit += t.getProfitLoss().doubleValue();
+                    if (t.getProfitLoss().doubleValue() > maxWinner) {
+                        maxWinner = t.getProfitLoss().doubleValue();
                     }
                 } else {
                     numLosers++;
-                    losersLoss -= t.getProfitLoss();
-                    if (t.getProfitLoss() < maxLoser) {
-                        maxLoser = t.getProfitLoss();
+                    losersLoss -= t.getProfitLoss().doubleValue();
+                    if (t.getProfitLoss().doubleValue() < maxLoser) {
+                        maxLoser = t.getProfitLoss().doubleValue();
                     }
                 }
             }
@@ -112,10 +112,10 @@ public class StatisticsCalculator implements Serializable {
     }
 
     private Calendar getFirstDate(List<Trade> trades) {
-        Calendar firstDateOpened = trades.get(0).getDateOpened();
+        Calendar firstDateOpened = trades.get(0).getOpenDate();
         for (Trade t: trades) {
-            if (t.getDateOpened().before(firstDateOpened)) {
-                firstDateOpened = t.getDateOpened();
+            if (t.getOpenDate().before(firstDateOpened)) {
+                firstDateOpened = t.getOpenDate();
             }
         }
         return firstDateOpened;
@@ -123,16 +123,16 @@ public class StatisticsCalculator implements Serializable {
 
     private Calendar getLastDate(List<Trade> trades) {
         Calendar lastDate;
-        Calendar lastDateOpened = trades.get(0).getDateOpened();
-        Calendar lastDateClosed = trades.get(0).getDateClosed();
+        Calendar lastDateOpened = trades.get(0).getOpenDate();
+        Calendar lastDateClosed = trades.get(0).getCloseDate();
         for (Trade t: trades) {
-            if (t.getDateOpened().after(lastDateOpened)) {
-                lastDateOpened = t.getDateOpened();
+            if (t.getOpenDate().after(lastDateOpened)) {
+                lastDateOpened = t.getOpenDate();
             }
         }
         for (Trade t: trades) {
-            if (t.getDateClosed() != null && (lastDateClosed == null || t.getDateClosed().after(lastDateClosed))) {
-                lastDateClosed = t.getDateClosed();
+            if (t.getCloseDate() != null && (lastDateClosed == null || t.getCloseDate().after(lastDateClosed))) {
+                lastDateClosed = t.getCloseDate();
             }
         }
         lastDate = (lastDateClosed == null || lastDateOpened.after(lastDateClosed) ? lastDateOpened : lastDateClosed);
@@ -142,7 +142,7 @@ public class StatisticsCalculator implements Serializable {
     private int getNumTradesOpenedForPeriod(List<Trade> trades, Calendar periodDate, ReportDefinitions.StatisticsInterval interval) {
         int count = 0;
         for (Trade t: trades) {
-            if (ReportUtil.toBeginOfPeriod(t.getDateOpened(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
+            if (ReportUtil.toBeginOfPeriod(t.getOpenDate(), interval).getTimeInMillis() == periodDate.getTimeInMillis()) {
                 count++;
             }
         }
@@ -150,6 +150,6 @@ public class StatisticsCalculator implements Serializable {
     }
 
     private List<Trade> getTradesClosedForPeriod(List<Trade> trades, Calendar periodDate, ReportDefinitions.StatisticsInterval interval) {
-        return trades.stream().filter(t -> t.getDateClosed() != null && ReportUtil.toBeginOfPeriod(t.getDateClosed(), interval).getTimeInMillis() == periodDate.getTimeInMillis()).collect(Collectors.toList());
+        return trades.stream().filter(t -> t.getCloseDate() != null && ReportUtil.toBeginOfPeriod(t.getCloseDate(), interval).getTimeInMillis() == periodDate.getTimeInMillis()).collect(Collectors.toList());
     }
 }

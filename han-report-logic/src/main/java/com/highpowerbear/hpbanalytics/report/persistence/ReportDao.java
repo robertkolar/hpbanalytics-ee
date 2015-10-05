@@ -37,6 +37,7 @@ public interface ReportDao {
     void createTrades(List<Trade> trades);
     void deleteAllTrades(Report report);
     void deleteTrades(List<Trade> trades);
+    Trade findTrade(Long id);
 
     List<String> getUnderlyings(Report report);
     Long getNumUnderlyings(Report report);

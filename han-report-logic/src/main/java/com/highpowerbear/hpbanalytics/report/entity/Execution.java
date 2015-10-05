@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,7 +35,7 @@ public class Execution implements Serializable, Comparable<Execution> {
     @JsonIgnore
     private Report report;
     private String comment;
-    private String origin; // in case of IB origin --> IB:ibAccountId
+    private String origin; // in case of IB origin --> IB:ibAccountId, in case of manual addition --> manual
     private String referenceId; // in case of IB origin --> permId
     @Enumerated(EnumType.STRING)
     private ReportDefinitions.Action action;
@@ -47,7 +48,7 @@ public class Execution implements Serializable, Comparable<Execution> {
     private ReportDefinitions.SecType secType;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar fillDate;
-    private Double fillPrice;
+    private BigDecimal fillPrice;
 
     @JsonProperty
     public Integer getReportId() {
@@ -158,11 +159,11 @@ public class Execution implements Serializable, Comparable<Execution> {
         this.fillDate = dateFilled;
     }
 
-    public Double getFillPrice() {
+    public BigDecimal getFillPrice() {
         return fillPrice;
     }
 
-    public void setFillPrice(Double fillPrice) {
+    public void setFillPrice(BigDecimal fillPrice) {
         this.fillPrice = fillPrice;
     }
 

@@ -30,7 +30,7 @@ public class SplitExecution implements Serializable {
     private Integer splitQuantity;
     private Integer currentPosition;
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateFilled;
+    private Calendar fillDate;
     @ManyToOne
     @JsonIgnore
     Execution execution;
@@ -110,12 +110,12 @@ public class SplitExecution implements Serializable {
         this.currentPosition = currentPosition;
     }
 
-    public Calendar getDateFilled() {
-        return dateFilled;
+    public Calendar getFillDate() {
+        return fillDate;
     }
 
-    public void setDateFilled(Calendar dateFilled) {
-        this.dateFilled = dateFilled;
+    public void setFillDate(Calendar fillDate) {
+        this.fillDate = fillDate;
     }
 
     public String print() {
