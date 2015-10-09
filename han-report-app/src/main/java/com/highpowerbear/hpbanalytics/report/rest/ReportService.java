@@ -98,7 +98,7 @@ public class ReportService {
         execution.setReport(report);
         execution.setReceivedDate(Calendar.getInstance());
         execution.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
-        execution.setReferenceId(ReportDefinitions.NA);
+        execution.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
         Long executionId = reportProcessor.newExecution(execution);
         execution.setId(executionId);
         return (executionId != null ? Response.ok(execution).build() : Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
@@ -163,7 +163,7 @@ public class ReportService {
     @PUT
     @Path("reports/{id}/trades/{tradeid}/close")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response closeTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId, BigDecimal closePrice, Calendar closeDate) {
+    public Response closeTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId, Calendar closeDate, BigDecimal closePrice) {
         Report report = reportDao.findReport(id);
         Trade trade = reportDao.findTrade(tradeId);
         if (report == null || trade == null) {
@@ -172,7 +172,7 @@ public class ReportService {
         if (!ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(reportProcessor.closeTrade(trade, closePrice, closeDate)).build();
+        return Response.ok(reportProcessor.closeTrade(trade, closeDate, closePrice)).build();
     }
 
     @GET

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import com.highpowerbear.hpbanalytics.report.common.ReportUtil;
-import com.highpowerbear.hpbanalytics.report.process.OptionParser;
+import com.highpowerbear.hpbanalytics.report.process.OptionUtil;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -100,7 +99,7 @@ public class Trade implements Serializable {
             this.closeDate = this.getSplitExecutions().get(this.getSplitExecutions().size() - 1).getExecution().getFillDate();
             this.profitLoss = (ReportDefinitions.TradeType.LONG.equals(this.type) ? cumulativeClosePrice.subtract(cumulativeOpenPrice, mc) : cumulativeOpenPrice.subtract(cumulativeClosePrice, mc));
             if (ReportDefinitions.SecType.OPT.equals(getSecType())) {
-                this.profitLoss = this.profitLoss.multiply((OptionParser.isMini(symbol) ? new BigDecimal(10) : new BigDecimal(100)), mc);
+                this.profitLoss = this.profitLoss.multiply((OptionUtil.isMini(symbol) ? new BigDecimal(10) : new BigDecimal(100)), mc);
             }
             if (ReportDefinitions.SecType.FUT.equals(getSecType())) {
                 this.profitLoss = this.profitLoss.multiply(new BigDecimal(ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(underlying)), mc);
