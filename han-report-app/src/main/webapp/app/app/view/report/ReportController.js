@@ -203,13 +203,16 @@ Ext.define('Report.view.report.ReportController', {
                 method: 'POST',
                 url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/executions',
                 jsonData: {
+                    origin: form.getForm().findField('origin').lastValue,
+                    referenceId: form.getForm().findField('referenceId').lastValue,
                     action: form.getForm().findField('action').lastValue,
                     quantity: form.getForm().findField('quantity').lastValue,
                     underlying: form.getForm().findField('underlying').lastValue,
+                    currency: form.getForm().findField('currency').lastValue,
                     symbol: form.getForm().findField('symbol').lastValue,
                     secType: form.getForm().findField('secType').lastValue,
                     fillPrice: form.getForm().findField('fillPrice').lastValue,
-                    fillDate: form.getForm().findField('fillDate').lastValue,
+                    fillDate: new Date(form.getForm().findField('fillDate').lastValue).getTime(),
                     comment: form.getForm().findField('comment').lastValue
                 },
                 success: function(response, opts) {

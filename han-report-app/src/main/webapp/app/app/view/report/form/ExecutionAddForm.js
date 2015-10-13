@@ -28,6 +28,18 @@ Ext.define('Report.view.report.form.ExecutionAddForm', {
             labelWidth: 80
         },
         items: [{
+            xtype: 'textfield',
+            fieldLabel: 'Origin',
+            name: 'origin',
+            minLength: 1,
+            maxLength: 20
+        }, {
+            xtype: 'textfield',
+            fieldLabel: 'Ref ID',
+            name: 'referenceId',
+            minLength: 1,
+            maxLength: 20
+        }, {
             xtype: 'combobox',
             name: 'action',
             editable: false,
@@ -60,6 +72,13 @@ Ext.define('Report.view.report.form.ExecutionAddForm', {
             maxLength: 30,
             value: 'SPY'
         }, {
+            xtype: 'textfield',
+            fieldLabel: 'Currency',
+            name: 'currency',
+            minLength: 1,
+            maxLength: 10,
+            value: 'USD'
+        }, {
             xtype: 'combobox',
             name: 'secType',
             editable: false,
@@ -82,7 +101,7 @@ Ext.define('Report.view.report.form.ExecutionAddForm', {
             fieldLabel: 'Fill Date',
             name: 'fillDate',
             value: new Date(),
-            format: 'm/d/Y H:i:s'
+            format: 'm/d/Y H:i:s.u'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Comment',
