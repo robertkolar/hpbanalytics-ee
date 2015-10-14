@@ -14,16 +14,11 @@ Ext.define('C2.model.c2.Base', {
 
     schema: {
         namespace: 'C2.model.c2',
-        urlPrefix: C2.common.Definitions.urlPrefix,
         proxy: {
             type: 'ajax',
             actionMethods: {
                 read: 'GET',
                 update: 'PUT'
-            },
-            api: {
-                read: '{prefix}/{entityName:lowercase}s',
-                update: '{prefix}/{entityName:lowercase}s'
             },
             reader: {
                 type: 'json',
@@ -37,7 +32,7 @@ Ext.define('C2.model.c2.Base', {
             },
             listeners: {
                 exception: function(proxy, response, operation) {
-                    C2.common.Util.showErrorMsg(response.responseText);
+                    //C2.common.Util.showErrorMsg(response.responseText);
                 }
             }
         }

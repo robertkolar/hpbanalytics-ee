@@ -33,7 +33,7 @@ public class IbLoggerDaoImpl implements IbLoggerDao {
 
     @Override
     public List<IbAccount> getIbAccounts() {
-        TypedQuery<IbAccount> q = em.createQuery("SELECT ia FROM IbAccount ia", IbAccount.class);
+        TypedQuery<IbAccount> q = em.createQuery("SELECT ia FROM IbAccount ia ORDER BY ia.port", IbAccount.class);
         return q.getResultList();
     }
 

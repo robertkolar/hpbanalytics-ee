@@ -17,10 +17,12 @@ Ext.define('C2.view.c2.C2Controller', {
     init: function() {
         var me = this,
             c2Systems = me.getStore('c2Systems'),
+            c2Signals = me.getStore('c2Signals'),
             inputRequests = me.getStore('inputRequests'),
             systemsGrid = me.lookupReference('systemsGrid');
 
         if (c2Systems) {
+            c2Systems.getProxy().setUrl(C2.common.Definitions.urlPrefix + '/c2systems');
             c2Systems.load(function (records, operation, success) {
                 if (success) {
                     systemsGrid.setSelection(c2Systems.first());
@@ -28,7 +30,12 @@ Ext.define('C2.view.c2.C2Controller', {
             });
         }
         if (inputRequests) {
-            inputRequests.reload();
+            inputRequests.getProxy().setUrl(C2.common.Definitions.urlPrefix + '/inputrequests');
+            inputRequests.load(function(records, operation, success) {
+                if (success) {
+                    console.log('reloaded inputRequests');
+                }
+            });
         }
 
         var ws = new WebSocket(C2.common.Definitions.wsUrl);
@@ -58,12 +65,13 @@ Ext.define('C2.view.c2.C2Controller', {
 
         if (signalsPaging.getStore().isLoaded()) {
             signalsPaging.moveFirst();
+        } else {
+            c2Signals.load(function(records, operation, success) {
+                if (success) {
+                    console.log('reloaded c2Signals for c2SystemId=' + me.c2SystemId)
+                }
+            });
         }
-        c2Signals.load(function(records, operation, success) {
-            if (success) {
-                console.log('reloaded c2Signals for c2SystemId=' + me.c2SystemId)
-            }
-        });
     },
 
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {

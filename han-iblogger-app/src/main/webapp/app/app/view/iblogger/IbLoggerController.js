@@ -15,9 +15,11 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     init: function() {
         var me = this,
             ibAccounts = me.getStore('ibAccounts'),
+            ibOrders = me.getStore('ibOrders'),
             accountsGrid = me.lookupReference('accountsGrid');
 
         if (ibAccounts) {
+            ibAccounts.getProxy().setUrl(IbLogger.common.Definitions.urlPrefix + '/ibaccounts');
             ibAccounts.load(function (records, operation, success) {
                 if (success) {
                     accountsGrid.setSelection(ibAccounts.first());
@@ -51,12 +53,13 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
         if (ordersPaging.getStore().isLoaded()) {
             ordersPaging.moveFirst();
+        } else {
+            ibOrders.load(function(records, operation, success) {
+                if (success) {
+                    console.log('reloaded ibOrders for ibAccountId=' + me.ibAccountId)
+                }
+            });
         }
-        ibOrders.load(function(records, operation, success) {
-            if (success) {
-                console.log('reloaded ibOrders for ibAccountId=' + me.ibAccountId)
-            }
-        });
     },
 
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {

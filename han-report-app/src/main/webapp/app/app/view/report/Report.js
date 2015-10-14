@@ -34,6 +34,7 @@ Ext.define('Report.view.report.Report', {
         reference: 'reportsGrid'
     }, {
         xtype: 'tabpanel',
+        title: 'Details',
         listeners: {
             beforerender: 'setGlyphs'
         },

@@ -22,10 +22,6 @@ Ext.define('IbLogger.model.iblogger.Base', {
                 read: 'GET',
                 update: 'PUT'
             },
-            api: {
-                read: '{prefix}/{entityName:lowercase}s',
-                update: '{prefix}/{entityName:lowercase}s'
-            },
             reader: {
                 type: 'json',
                 rootProperty: 'items',
@@ -38,7 +34,7 @@ Ext.define('IbLogger.model.iblogger.Base', {
             },
             listeners: {
                 exception: function(proxy, response, operation) {
-                    IbLogger.common.Util.showErrorMsg(response.responseText);
+                    //IbLogger.common.Util.showErrorMsg(response.responseText);
                 }
             }
         }

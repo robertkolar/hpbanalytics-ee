@@ -87,24 +87,25 @@ Ext.define('Report.view.report.ReportController', {
         me.lookupReference('chartsButton').toggle(false);
         if (executionsPaging.getStore().isLoaded()) {
             executionsPaging.moveFirst();
+        } else {
+            executions.load(function(records, operation, success) {
+                if (success) {
+                    console.log('reloaded executions for report, id=' + me.reportId)
+                }
+            });
         }
         if (tradesPaging.getStore().isLoaded()) {
             tradesPaging.moveFirst();
+        } else {
+            trades.load(function(records, operation, success) {
+                if (success) {
+                    console.log('reloaded trades for report, id=' + me.reportId)
+                }
+            });
         }
         if (statisticsPaging.getStore().isLoaded()) {
             statisticsPaging.moveFirst();
         }
-
-        executions.load(function(records, operation, success) {
-            if (success) {
-                console.log('reloaded executions for report, id=' + me.reportId)
-            }
-        });
-        trades.load(function(records, operation, success) {
-            if (success) {
-                console.log('reloaded trades for report, id=' + me.reportId)
-            }
-        });
         me.reloadStatisticsAndCharts();
     },
 

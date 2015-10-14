@@ -57,7 +57,7 @@ public class IbLoggerService {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("ibaccounts/{accountId}/connect/{connect}")
-    public IbAccount connecIbtAccount(@PathParam("accountId") String accountId, @PathParam("connect") Boolean connect) {
+    public IbAccount connecIbAccount(@PathParam("accountId") String accountId, @PathParam("connect") Boolean connect) {
         IbAccount ibAccount = ibloggerDao.findIbAccount(accountId);
         if (connect) {
             ibController.connect(ibAccount);

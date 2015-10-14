@@ -48,7 +48,7 @@ public class C2Service {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("c2systems/{systemId}/c2signals")
-    public Response getC2Signals(@QueryParam("systemId") Integer systemId, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    public Response getC2Signals(@PathParam("systemId") Integer systemId, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
         start = (start != null ? start : 0);
         limit = (limit != null ? limit : C2Definitions.JPA_MAX_RESULTS);
         C2System c2System = c2Dao.findC2System(systemId);
