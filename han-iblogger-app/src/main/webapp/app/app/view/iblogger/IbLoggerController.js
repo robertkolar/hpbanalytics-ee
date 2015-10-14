@@ -15,10 +15,15 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     init: function() {
         var me = this,
             ibAccounts = me.getStore('ibAccounts'),
-            ibOrders = me.getStore('ibOrders');
+            accountsGrid = me.lookupReference('accountsGrid');
 
-        ibAccounts.reload();
-        ibOrders.reload();
+        if (ibAccounts) {
+            ibAccounts.load(function (records, operation, success) {
+                if (success) {
+                    accountsGrid.setSelection(ibAccounts.first());
+                }
+            });
+        }
 
         var ws = new WebSocket(IbLogger.common.Definitions.wsUrl);
         ws.onopen = function(evt) {
@@ -34,6 +39,24 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
         ws.onerror = function(evt) {
             console.log('WS error');
         };
+    },
+
+    onAccountSelect: function(grid, record, index, eOpts) {
+        var me = this,
+            ibOrders = me.getStore('ibOrders'),
+            ordersPaging = me.lookupReference('ordersPaging');
+
+        me.ibAccountId = record.data.accountId;
+        ibOrders.getProxy().setUrl(IbLogger.common.Definitions.urlPrefix + '/ibaccounts/' + me.ibAccountId  + '/iborders');
+
+        if (ordersPaging.getStore().isLoaded()) {
+            ordersPaging.moveFirst();
+        }
+        ibOrders.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded ibOrders for ibAccountId=' + me.ibAccountId)
+            }
+        });
     },
 
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {

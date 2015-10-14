@@ -9,7 +9,6 @@ Ext.define('C2.view.c2.SignalsGrid', {
         'Ext.toolbar.Paging'
     ],
     xtype: 'signals-grid',
-    reference: 'signalsGrid',
     title: 'C2 Signals',
     bind: '{c2Signals}',
     listeners: {
@@ -131,6 +130,7 @@ Ext.define('C2.view.c2.SignalsGrid', {
     },
     dockedItems: [{
         xtype: 'pagingtoolbar',
+        reference: 'signalsPaging',
         bind: '{c2Signals}',
         dock: 'bottom',
         displayInfo: true

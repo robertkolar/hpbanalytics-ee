@@ -10,6 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,8 +22,7 @@ import java.util.logging.Logger;
 public class C2Service {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
 
-    @Inject
-    private C2Dao c2Dao;
+    @Inject private C2Dao c2Dao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,11 +47,15 @@ public class C2Service {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("c2signals")
-    public RestList<C2Signal> getC2Signals(@QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    @Path("c2systems/{systemId}/c2signals")
+    public Response getC2Signals(@QueryParam("systemId") Integer systemId, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
         start = (start != null ? start : 0);
         limit = (limit != null ? limit : C2Definitions.JPA_MAX_RESULTS);
-        return new RestList<>(c2Dao.getC2Signals(start, limit), c2Dao.getNumC2Signals());
+        C2System c2System = c2Dao.findC2System(systemId);
+        if (c2System == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(new RestList<>(c2Dao.getC2Signals(c2System, start, limit), c2Dao.getNumC2Signals(c2System))).build();
     }
 
     @GET

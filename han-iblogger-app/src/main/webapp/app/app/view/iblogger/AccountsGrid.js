@@ -13,6 +13,9 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
         'IbLogger.view.iblogger.IbLoggerController'
     ],
     xtype: 'accounts-grid',
+    listeners: {
+        select: 'onAccountSelect'
+    },
     bind: '{ibAccounts}',
     title: 'IB Accounts',
     viewConfig: {

@@ -18,16 +18,17 @@ Ext.define('C2.view.c2.C2Controller', {
         var me = this,
             c2Systems = me.getStore('c2Systems'),
             inputRequests = me.getStore('inputRequests'),
-            c2Signals = me.getStore('c2Signals');
+            systemsGrid = me.lookupReference('systemsGrid');
 
         if (c2Systems) {
-            c2Systems.reload();
+            c2Systems.load(function (records, operation, success) {
+                if (success) {
+                    systemsGrid.setSelection(c2Systems.first());
+                }
+            });
         }
         if (inputRequests) {
             inputRequests.reload();
-        }
-        if (c2Signals) {
-            c2Signals.reload();
         }
 
         var ws = new WebSocket(C2.common.Definitions.wsUrl);
@@ -45,6 +46,24 @@ Ext.define('C2.view.c2.C2Controller', {
         ws.onerror = function(evt) {
             console.log('WS error');
         };
+    },
+
+    onSystemSelect: function(grid, record, index, eOpts) {
+        var me = this,
+            c2Signals = me.getStore('c2Signals'),
+            signalsPaging = me.lookupReference('signalsPaging');
+
+        me.c2SystemId = record.data.systemId;
+        c2Signals.getProxy().setUrl(C2.common.Definitions.urlPrefix + '/c2systems/' + me.c2SystemId  + '/c2signals');
+
+        if (signalsPaging.getStore().isLoaded()) {
+            signalsPaging.moveFirst();
+        }
+        c2Signals.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded c2Signals for c2SystemId=' + me.c2SystemId)
+            }
+        });
     },
 
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {

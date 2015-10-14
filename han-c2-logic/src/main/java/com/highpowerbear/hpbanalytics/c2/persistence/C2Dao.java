@@ -20,8 +20,8 @@ public interface C2Dao {
     C2Signal findC2Signal(Long dbId);
     List<C2Signal> getC2SignalsToPoll(C2System c2System);
     List<C2Signal> getC2SignalsByOriginReference(String origin, String reference);
-    List<C2Signal> getC2Signals(Integer start, Integer limit);
-    Long getNumC2Signals();
+    List<C2Signal> getC2Signals(C2System c2System, Integer start, Integer limit);
+    Long getNumC2Signals(C2System c2System);
     void newPollEvent(PollEvent pollEvent);
     List<PollEvent> getPollEvents(Long csSignaldbId, Integer start, Integer limit);
     Long getNumPollEvents(Long c2SignaldbId);

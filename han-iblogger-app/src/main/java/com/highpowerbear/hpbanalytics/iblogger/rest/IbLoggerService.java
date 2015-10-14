@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,25 +54,10 @@ public class IbLoggerService {
         return ibloggerDao.updateIbAccount(ibAccount);
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("iborders")
-    public RestList<IbOrder> getIbOrders(@QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
-        start = (start != null ? start : 0);
-        limit = (limit != null ? limit : IbLoggerDefinitions.JPA_MAX_RESULTS);
-        List<IbOrder> ibOrders = new ArrayList<>();
-        for (IbOrder ibOrder : ibloggerDao.getIbOrders(start, limit)) {
-            Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
-            ibOrder.setHeartbeatCount(hm.get(ibOrder));
-            ibOrders.add(ibOrder);
-        }
-        return new RestList<>(ibOrders, ibloggerDao.getNumIbOrders());
-    }
-
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("ibaccounts/{accountId}/connect/{connect}")
-    public IbAccount connectAccount(@PathParam("accountId") String accountId, @PathParam("connect") Boolean connect) {
+    public IbAccount connecIbtAccount(@PathParam("accountId") String accountId, @PathParam("connect") Boolean connect) {
         IbAccount ibAccount = ibloggerDao.findIbAccount(accountId);
         if (connect) {
             ibController.connect(ibAccount);
@@ -82,5 +68,24 @@ public class IbLoggerService {
         ibAccount.setIbConnection(ibloggerData.getIbConnectionMap().get(ibAccount));
         ibAccount.getIbConnection().setIsConnected(ibController.isConnected(ibAccount));
         return ibAccount;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("ibaccounts/{accountId}/iborders")
+    public Response getIbOrders(@PathParam("accountId") String accountId, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+        start = (start != null ? start : 0);
+        limit = (limit != null ? limit : IbLoggerDefinitions.JPA_MAX_RESULTS);
+        List<IbOrder> ibOrders = new ArrayList<>();
+        IbAccount ibAccount = ibloggerDao.findIbAccount(accountId);
+        if (ibAccount == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        for (IbOrder ibOrder : ibloggerDao.getIbOrders(ibAccount, start, limit)) {
+            Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
+            ibOrder.setHeartbeatCount(hm.get(ibOrder));
+            ibOrders.add(ibOrder);
+        }
+        return Response.ok(new RestList<>(ibOrders, ibloggerDao.getNumIbOrders(ibAccount))).build();
     }
 }

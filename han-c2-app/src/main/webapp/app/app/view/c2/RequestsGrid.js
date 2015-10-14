@@ -10,7 +10,6 @@ Ext.define('C2.view.c2.RequestsGrid', {
         'Ext.toolbar.Paging'
     ],
 
-    reference: 'requestsGrid',
     title: 'Input Requests',
     bind: '{inputRequests}',
     disableSelection: true,

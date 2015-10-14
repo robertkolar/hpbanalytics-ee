@@ -43,16 +43,18 @@ public class IbLoggerDaoImpl implements IbLoggerDao {
     }
 
     @Override
-    public List<IbOrder> getIbOrders(Integer start, Integer limit) {
-        TypedQuery<IbOrder> q = em.createQuery("SELECT io FROM IbOrder io ORDER BY io.submitDate DESC", IbOrder.class);
+    public List<IbOrder> getIbOrders(IbAccount ibAccount, Integer start, Integer limit) {
+        TypedQuery<IbOrder> q = em.createQuery("SELECT io FROM IbOrder io WHERE io.ibAccount = :ibAccount ORDER BY io.submitDate DESC", IbOrder.class);
+        q.setParameter("ibAccount", ibAccount);
         q.setFirstResult(start);
         q.setMaxResults(limit);
         return q.getResultList();
     }
 
     @Override
-    public Long getNumIbOrders() {
-        Query q = em.createQuery("SELECT COUNT(io) FROM IbOrder io");
+    public Long getNumIbOrders(IbAccount ibAccount) {
+        Query q = em.createQuery("SELECT COUNT(io) FROM IbOrder io WHERE io.ibAccount = :ibAccount");
+        q.setParameter("ibAccount", ibAccount);
         return (Long) q.getSingleResult();
     }
 

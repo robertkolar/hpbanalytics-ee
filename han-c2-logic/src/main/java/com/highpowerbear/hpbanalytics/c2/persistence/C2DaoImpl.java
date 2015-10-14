@@ -96,16 +96,18 @@ public class C2DaoImpl implements C2Dao {
     }
 
     @Override
-    public List<C2Signal> getC2Signals(Integer start, Integer limit) {
-        TypedQuery<C2Signal> q = em.createQuery("SELECT cs FROM C2Signal cs ORDER BY cs.createdDate DESC", C2Signal.class);
+    public List<C2Signal> getC2Signals(C2System c2System, Integer start, Integer limit) {
+        TypedQuery<C2Signal> q = em.createQuery("SELECT cs FROM C2Signal cs WHERE cs.c2System = :c2System ORDER BY cs.createdDate DESC", C2Signal.class);
+        q.setParameter("c2System", c2System);
         q.setFirstResult(start);
         q.setMaxResults(limit);
         return q.getResultList();
     }
 
     @Override
-    public Long getNumC2Signals() {
-        Query q = em.createQuery("SELECT COUNT(cs) FROM C2Signal cs");
+    public Long getNumC2Signals(C2System c2System) {
+        Query q = em.createQuery("SELECT COUNT(cs) FROM C2Signal cs WHERE cs.c2System = :c2System");
+        q.setParameter("c2System", c2System);
         return (Long) q.getSingleResult();
     }
 
