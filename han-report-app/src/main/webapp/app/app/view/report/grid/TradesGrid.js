@@ -64,7 +64,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
         }, {
             text: 'Open Date',
             width: 180,
-            dataIndex: 'dateOpened',
+            dataIndex: 'openDate',
             xtype: 'datecolumn',
             format: 'm/d/Y H:i:s.u'
         }, {
@@ -78,7 +78,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
         }, {
             text: 'Close Date',
             width: 180,
-            dataIndex: 'dateClosed',
+            dataIndex: 'closeDate',
             xtype: 'datecolumn',
             format: 'm/d/Y H:i:s.u'
         }, {

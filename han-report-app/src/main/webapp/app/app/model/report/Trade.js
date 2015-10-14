@@ -14,9 +14,9 @@ Ext.define('Report.model.report.Trade', {
         'status',
         'openPosition',
         'avgOpenPrice',
-        {name: 'dateOpened', type: 'date', dateFormat: 'time'},
+        {name: 'openDate', type: 'date', dateFormat: 'time'},
         'avgClosePrice',
-        {name: 'dateClosed', type: 'date', dateFormat: 'time'},
+        {name: 'closeDate', type: 'date', dateFormat: 'time'},
         'duration',
         'profitLoss',
         'reportId'

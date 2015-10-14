@@ -145,7 +145,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @Override
     public List<Trade> getTrades(Report report, Integer start, Integer limit) {
-        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report ORDER BY t.dateOpened DESC", Trade.class);
+        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report ORDER BY t.openDate DESC", Trade.class);
         q.setParameter("report", report);
         q.setFirstResult(start);
         q.setMaxResults(limit);
@@ -159,7 +159,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
         if (ReportDefinitions.ALL_UNDERLYINGS.equals(underlying)) {
             underlying = null;
         }
-        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report" +  (underlying != null ? " AND t.underlying = :underlying" : "") + " ORDER BY t.dateOpened ASC", Trade.class);
+        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report" +  (underlying != null ? " AND t.underlying = :underlying" : "") + " ORDER BY t.openDate ASC", Trade.class);
         q.setParameter("report", report);
         if (underlying != null) {
             q.setParameter("underlying", underlying);
@@ -171,7 +171,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @Override
     public List<Trade> getTradesAffectedByExecution(Execution e) {
-        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report AND (t.dateClosed >= :eDate OR t.status = :tradeStatus) AND t.symbol = :eSymbol ORDER BY t.dateOpened ASC", Trade.class);
+        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report AND (t.closeDate >= :eDate OR t.status = :tradeStatus) AND t.symbol = :eSymbol ORDER BY t.openDate ASC", Trade.class);
         q.setParameter("tradeStatus", ReportDefinitions.TradeStatus.OPEN);
         q.setParameter("report", e.getReport());
         q.setParameter("eDate", e.getFillDate());

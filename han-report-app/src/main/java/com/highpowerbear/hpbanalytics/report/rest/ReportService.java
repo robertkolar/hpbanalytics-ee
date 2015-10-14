@@ -97,8 +97,6 @@ public class ReportService {
         execution.setId(null);
         execution.setReport(report);
         execution.setReceivedDate(Calendar.getInstance());
-        execution.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
-        execution.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
         Long executionId = reportProcessor.newExecution(execution);
         execution.setId(executionId);
         return (executionId != null ? Response.ok(execution).build() : Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
