@@ -12,7 +12,7 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
         'Ext.grid.plugin.RowEditing',
         'IbLogger.view.iblogger.IbLoggerController'
     ],
-    xtype: 'accounts-grid',
+    xtype: 'han-iblogger-accounts-grid',
     listeners: {
         select: 'onAccountSelect'
     },

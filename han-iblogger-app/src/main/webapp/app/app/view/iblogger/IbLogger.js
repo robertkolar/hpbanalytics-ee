@@ -3,7 +3,7 @@
  */
 Ext.define('IbLogger.view.iblogger.IbLogger', {
     extend: 'Ext.panel.Panel',
-    xtype: 'iblogger',
+    xtype: 'han-iblogger',
     reference: 'iblogger',
     header: false,
     border: false,
@@ -14,19 +14,19 @@ Ext.define('IbLogger.view.iblogger.IbLogger', {
         'IbLogger.view.iblogger.IbLoggerModel',
         'IbLogger.view.iblogger.OrdersGrid'
     ],
-    controller: 'iblogger',
+    controller: 'han-iblogger',
     viewModel: {
-        type: 'iblogger'
+        type: 'han-iblogger'
     },
     layout: {
         type: 'vbox',
         align: 'stretch'
     },
     items: [{
-        xtype: 'accounts-grid',
+        xtype: 'han-iblogger-accounts-grid',
         reference: 'accountsGrid'
     }, {
-        xtype: 'orders-grid',
+        xtype: 'han-iblogger-orders-grid',
         reference: 'ordersGrid'
     }]
 });

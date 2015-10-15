@@ -9,7 +9,7 @@ Ext.define('C2.view.c2.C2Model', {
         'C2.model.c2.InputRequest'
     ],
 
-    alias: 'viewmodel.c2',
+    alias: 'viewmodel.han-c2',
 
     stores: {
         c2Systems: {

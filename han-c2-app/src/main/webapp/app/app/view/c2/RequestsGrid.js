@@ -3,7 +3,7 @@
  */
 Ext.define('C2.view.c2.RequestsGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'requests-grid',
+    xtype: 'han-c2-requests-grid',
 
     requires: [
         'Ext.grid.column.Date',

@@ -3,7 +3,7 @@
  */
 Ext.define('C2.view.c2.C2', {
     extend: 'Ext.panel.Panel',
-    xtype: 'c2',
+    xtype: 'han-c2',
     reference: 'c2',
     requires: [
         'C2.view.c2.C2Controller',
@@ -13,9 +13,9 @@ Ext.define('C2.view.c2.C2', {
         'C2.view.c2.SystemsGrid',
         'Ext.layout.container.VBox'
     ],
-    controller: 'c2',
+    controller: 'han-c2',
     viewModel: {
-        type: 'c2'
+        type: 'han-c2'
     },
     header: false,
     border: false,
@@ -24,13 +24,13 @@ Ext.define('C2.view.c2.C2', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'systems-grid',
+        xtype: 'han-c2-systems-grid',
         reference: 'systemsGrid'
     }, {
-        xtype: 'requests-grid',
+        xtype: 'han-c2-requests-grid',
         reference: 'requestsGrid'
     }, {
-        xtype: 'signals-grid',
+        xtype: 'han-c2-signals-grid',
         reference: 'signalsGrid'
     }]
 });

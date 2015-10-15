@@ -3,7 +3,7 @@
  */
 Ext.define('IbLogger.view.iblogger.OrdersGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'orders-grid',
+    xtype: 'han-iblogger-orders-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',

@@ -58,7 +58,7 @@ Ext.define('Report.view.report.ReportController', {
             interval = me.lookupReference('intervalCombo').getValue(),
             underlyingCombo =  me.lookupReference('underlyingCombo'),
             executionsPaging = me.lookupReference('executionsPaging'),
-            tradesPaging = me.lookupReference('tradesPaging'),
+            tradesPaging = me.lookupReference('tradesPanel').lookupReference('tradesPaging'),
             statisticsPaging = me.lookupReference('statisticsPaging');
 
         me.reportId = record.data.id;

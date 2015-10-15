@@ -30,6 +30,6 @@ Ext.define('C2.view.main.Main', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'c2'
+        xtype: 'han-c2'
     }]
 });

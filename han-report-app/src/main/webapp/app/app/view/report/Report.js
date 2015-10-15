@@ -22,14 +22,14 @@ Ext.define('Report.view.report.Report', {
     border: false,
     controller: 'han-report',
     viewModel: {
-        type: 'report'
+        type: 'han-report'
     },
     layout: {
         type: 'vbox',
         align: 'stretch'
     },
     items: [{
-        xtype: 'han-reports-grid',
+        xtype: 'han-report-reports-grid',
         title: 'Reports',
         reference: 'reportsGrid'
     }, {
@@ -39,11 +39,11 @@ Ext.define('Report.view.report.Report', {
             beforerender: 'setGlyphs'
         },
         items: [{
-            xtype: 'han-executions-grid',
+            xtype: 'han-report-executions-grid',
             title: 'Executions',
             reference: 'executionsPanel'
         }, {
-            xtype: 'han-trades-grid',
+            xtype: 'han-report-trades-grid',
             title: 'Trades',
             reference: 'tradesPanel'
         }, {
@@ -51,7 +51,7 @@ Ext.define('Report.view.report.Report', {
             title: 'Statistics',
             reference: 'statisticsPanel',
             items: [{
-                xtype: 'han-statistics-grid'
+                xtype: 'han-report-statistics-grid'
             }, {
                 xtype: 'container',
                 reference: 'chartsContainer',

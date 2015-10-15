@@ -30,6 +30,6 @@ Ext.define('IbLogger.view.main.Main', {
         align: 'stretch'
     },
     items: [{
-        xtype: 'iblogger'
+        xtype: 'han-iblogger'
     }]
 });

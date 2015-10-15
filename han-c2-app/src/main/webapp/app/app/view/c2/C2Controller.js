@@ -12,7 +12,7 @@ Ext.define('C2.view.c2.C2Controller', {
         'Ext.toolbar.Paging'
     ],
 
-    alias: 'controller.c2',
+    alias: 'controller.han-c2',
 
     init: function() {
         var me = this,

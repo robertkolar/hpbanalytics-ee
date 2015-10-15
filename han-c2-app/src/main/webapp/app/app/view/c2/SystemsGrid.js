@@ -10,7 +10,7 @@ Ext.define('C2.view.c2.SystemsGrid', {
         'Ext.grid.column.Check',
         'Ext.grid.plugin.RowEditing'
     ],
-    xtype: 'systems-grid',
+    xtype: 'han-c2-systems-grid',
     listeners: {
         select: 'onSystemSelect'
     },

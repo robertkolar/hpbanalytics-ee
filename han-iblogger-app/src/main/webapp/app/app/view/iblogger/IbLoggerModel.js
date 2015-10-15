@@ -8,7 +8,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerModel', {
         'IbLogger.model.iblogger.IbAccount'
     ],
 
-    alias: 'viewmodel.iblogger',
+    alias: 'viewmodel.han-iblogger',
 
     stores: {
         ibOrders: {

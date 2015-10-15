@@ -3,7 +3,7 @@
  */
 Ext.define('C2.view.c2.EventsWindow', {
     extend: 'Ext.window.Window',
-    xtype: 'events-window',
+    xtype: 'han-c2-events-window',
 
     width: 1400,
     scrollable: true,

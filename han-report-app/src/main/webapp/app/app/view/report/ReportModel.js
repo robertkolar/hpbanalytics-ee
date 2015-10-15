@@ -11,7 +11,7 @@ Ext.define('Report.view.report.ReportModel', {
         'Report.model.report.Statistics'
     ],
 
-    alias: 'viewmodel.report',
+    alias: 'viewmodel.han-report',
 
     stores: {
         reports: {

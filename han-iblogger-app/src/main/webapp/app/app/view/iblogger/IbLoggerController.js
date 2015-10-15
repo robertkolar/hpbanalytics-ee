@@ -4,7 +4,7 @@
 Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.iblogger',
+    alias: 'controller.han-iblogger',
 
     requires: [
         'Ext.Ajax',

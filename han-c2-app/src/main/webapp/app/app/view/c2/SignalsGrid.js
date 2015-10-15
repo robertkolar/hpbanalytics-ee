@@ -8,7 +8,7 @@ Ext.define('C2.view.c2.SignalsGrid', {
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging'
     ],
-    xtype: 'signals-grid',
+    xtype: 'han-c2-signals-grid',
     title: 'C2 Signals',
     bind: '{c2Signals}',
     listeners: {

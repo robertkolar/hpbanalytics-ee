@@ -3,7 +3,7 @@
  */
 Ext.define('Report.view.report.grid.ExecutionsGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'han-executions-grid',
+    xtype: 'han-report-executions-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',

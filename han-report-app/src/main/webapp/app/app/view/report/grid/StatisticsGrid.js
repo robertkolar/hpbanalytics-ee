@@ -3,7 +3,7 @@
  */
 Ext.define('Report.view.report.grid.StatisticsGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'han-statistics-grid',
+    xtype: 'han-report-statistics-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',

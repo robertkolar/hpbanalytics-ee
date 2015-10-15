@@ -3,7 +3,7 @@
  */
 Ext.define('IbLogger.view.iblogger.EventsWindow', {
     extend: 'Ext.window.Window',
-    xtype: 'events-window',
+    xtype: 'han-iblogger-events-window',
     scrollable: true,
     maximizable: false,
     modal: false,

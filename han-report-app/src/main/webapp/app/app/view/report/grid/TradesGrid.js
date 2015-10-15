@@ -3,12 +3,13 @@
  */
 Ext.define('Report.view.report.grid.TradesGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'han-trades-grid',
+    xtype: 'han-report-trades-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
         'Report.view.report.ReportController'
     ],
+    controller: 'han-report-trades',
     bind: '{trades}',
     viewConfig: {
         stripeRows: true
@@ -101,6 +102,51 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             renderer: function(val, metadata, record) {
                 metadata.style = 'color: white; ' + (val == 'OPEN' ? 'background-color: green;' : 'background-color: brown;');
                 return val.toLowerCase();
+            }
+        }, {
+            xtype: 'widgetcolumn',
+            width : 50,
+            widget: {
+                xtype: 'button',
+                width: 30,
+                text: 'C',
+                tooltip: 'Close Trade',
+                handler: 'onCloseTrade'
+            },
+            onWidgetAttach: function(col, widget, rec) {
+                if ("OPEN" != rec.data.status) {
+                    widget.hide();
+                }
+            }
+        }, {
+            xtype: 'widgetcolumn',
+            width : 50,
+            widget: {
+                xtype: 'button',
+                width: 30,
+                text: 'E',
+                tooltip: 'Expire Trade (Option)',
+                handler: 'onExpireTrade'
+            },
+            onWidgetAttach: function(col, widget, rec) {
+                if ("OPEN" != rec.data.status || "OPT" != rec.data.secType) {
+                    widget.hide();
+                }
+            }
+        }, {
+            xtype: 'widgetcolumn',
+            width : 50,
+            widget: {
+                xtype: 'button',
+                width: 30,
+                text: 'A',
+                tooltip: 'Assign Trade (Option)',
+                handler: 'onAssignTrade'
+            },
+            onWidgetAttach: function(col, widget, rec) {
+                if ("OPEN" != rec.data.status || "OPT" != rec.data.secType) {
+                    widget.hide();
+                }
             }
         }, {
             flex: 1
