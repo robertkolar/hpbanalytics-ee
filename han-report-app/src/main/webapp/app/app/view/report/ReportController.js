@@ -197,7 +197,7 @@ Ext.define('Report.view.report.ReportController', {
     onAddExecution: function(button, e, options) {
         var me = this;
 
-        me.lookupReference('executionsPanel').add(Ext.create('Report.view.report.form.ExecutionAddWindow', {
+        me.lookupReference('executionsPanel').add(Ext.create('Report.view.report.window.ExecutionAddWindow', {
             reference: 'executionAddWindow',
             title: 'Add New Execution for Report id=' + me.reportId
         })).show();

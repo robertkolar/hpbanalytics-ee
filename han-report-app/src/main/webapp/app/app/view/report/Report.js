@@ -14,7 +14,7 @@ Ext.define('Report.view.report.Report', {
         'Report.view.report.grid.StatisticsGrid',
         'Report.common.Glyphs',
         'Ext.tab.Panel',
-        'Report.view.report.form.ExecutionAddWindow'
+        'Report.view.report.window.ExecutionAddWindow'
     ],
 
     xtype: 'han-report',

@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.form.ExecutionAddWindow', {
+Ext.define('Report.view.report.window.ExecutionAddWindow', {
     extend: 'Ext.window.Window',
 
     requires: [
@@ -101,7 +101,12 @@ Ext.define('Report.view.report.form.ExecutionAddWindow', {
             fieldLabel: 'Fill Date',
             name: 'fillDate',
             value: new Date(),
-            format: 'm/d/Y H:i:s.u'
+            format: 'm/d/Y H:i:s.u',
+            listeners: {
+                beforerender: function(datefield, eOpts) {
+                    datefield.setValue(new Date());
+                }
+            }
         }, {
             xtype: 'textfield',
             fieldLabel: 'Comment',
