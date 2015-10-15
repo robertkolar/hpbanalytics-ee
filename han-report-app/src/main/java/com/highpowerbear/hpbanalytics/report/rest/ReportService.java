@@ -8,6 +8,7 @@ import com.highpowerbear.hpbanalytics.report.model.Statistics;
 import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
 import com.highpowerbear.hpbanalytics.report.process.ReportProcessor;
 import com.highpowerbear.hpbanalytics.report.process.StatisticsCalculator;
+import com.highpowerbear.hpbanalytics.report.rest.model.CloseTradeDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -129,18 +130,19 @@ public class ReportService {
     }
 
     @PUT
-    @Path("reports/{id}/trades/{tradeid}/assign")
+    @Path("reports/{id}/trades/{tradeid}/close")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response assignTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response closeTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId, CloseTradeDto closeTradeDto) {
         Report report = reportDao.findReport(id);
         Trade trade = reportDao.findTrade(tradeId);
         if (report == null || trade == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if (!ReportDefinitions.SecType.OPT.equals(trade.getSecType()) || !ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
+        if (!ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(reportProcessor.assignTrade(trade)).build();
+        return Response.ok(reportProcessor.closeTrade(trade, closeTradeDto.getCloseDate(), closeTradeDto.getClosePrice())).build();
     }
 
     @PUT
@@ -159,18 +161,18 @@ public class ReportService {
     }
 
     @PUT
-    @Path("reports/{id}/trades/{tradeid}/close")
+    @Path("reports/{id}/trades/{tradeid}/assign")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response closeTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId, Calendar closeDate, BigDecimal closePrice) {
+    public Response assignTrade(@PathParam("id") Integer id, @PathParam("tradeid") Long tradeId) {
         Report report = reportDao.findReport(id);
         Trade trade = reportDao.findTrade(tradeId);
         if (report == null || trade == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if (!ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
+        if (!ReportDefinitions.SecType.OPT.equals(trade.getSecType()) || !ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(reportProcessor.closeTrade(trade, closeDate, closePrice)).build();
+        return Response.ok(reportProcessor.assignTrade(trade)).build();
     }
 
     @GET

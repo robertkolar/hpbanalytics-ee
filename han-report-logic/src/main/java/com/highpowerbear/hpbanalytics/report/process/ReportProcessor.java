@@ -107,8 +107,55 @@ public class ReportProcessor implements Serializable  {
         return execution.getId();
     }
 
+    public Execution closeTrade(Trade trade, Calendar closeDate, BigDecimal closePrice) {
+        Execution e = new Execution();
+        e.setReceivedDate(Calendar.getInstance());
+        e.setReport(trade.getReport());
+        e.setComment(ReportDefinitions.CLOSE_TRADE_COMMENT);
+        e.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
+        e.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
+        e.setAction(trade.getType() == ReportDefinitions.TradeType.LONG ? ReportDefinitions.Action.SELL : ReportDefinitions.Action.BUY);
+        e.setQuantity(Math.abs(trade.getOpenPosition()));
+        e.setSymbol(trade.getSymbol());
+        e.setUnderlying(trade.getUnderlying());
+        e.setCurrency(trade.getCurrency());
+        e.setSecType(trade.getSecType());
+        e.setFillDate(closeDate);
+        e.setFillPrice(closePrice);
+        this.newExecution(e);
+        return e;
+    }
+
+    public Execution expireTrade(Trade trade) {
+        OptionParseResult opr;
+        try {
+            opr = OptionUtil.parse(trade.getSymbol());
+        } catch (Exception e) {
+            l.log(Level.SEVERE, "Error", e);
+            return null;
+        }
+        Execution e = new Execution();
+        e.setReceivedDate(Calendar.getInstance());
+        e.setReport(trade.getReport());
+        e.setComment(ReportDefinitions.EXPIRE_TRADE_COMMENT);
+        e.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
+        e.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
+        e.setAction(trade.getType() == ReportDefinitions.TradeType.LONG ? ReportDefinitions.Action.SELL : ReportDefinitions.Action.BUY);
+        e.setQuantity(Math.abs(trade.getOpenPosition()));
+        e.setSymbol(trade.getSymbol());
+        e.setUnderlying(trade.getUnderlying());
+        e.setCurrency(trade.getCurrency());
+        e.setSecType(trade.getSecType());
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(opr.getExpDate().getTime());
+        e.setFillDate(cal);
+        e.setFillPrice(new BigDecimal(0.0));
+        this.newExecution(e);
+        return e;
+    }
+
     public List<Execution> assignTrade(Trade trade) {
-        OptionParseResult opr = null;
+        OptionParseResult opr;
         try {
             opr = OptionUtil.parse(trade.getSymbol());
         } catch (Exception exception) {
@@ -119,7 +166,7 @@ public class ReportProcessor implements Serializable  {
         Execution e = new Execution();
         e.setReceivedDate(Calendar.getInstance());
         e.setReport(trade.getReport());
-        e.setComment(ReportDefinitions.OPTION_ASSIGN_COMMENT);
+        e.setComment(ReportDefinitions.ASSIGN_TRADE_COMMENT);
         e.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
         e.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
         e.setAction(trade.getType() == ReportDefinitions.TradeType.LONG ? ReportDefinitions.Action.SELL : ReportDefinitions.Action.BUY);
@@ -137,7 +184,7 @@ public class ReportProcessor implements Serializable  {
         Execution ce = new Execution();
         ce.setReceivedDate(e.getReceivedDate());
         ce.setReport(trade.getReport());
-        ce.setComment(ReportDefinitions.OPTION_ASSIGN_COMMENT);
+        ce.setComment(ReportDefinitions.ASSIGN_TRADE_COMMENT);
         ce.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
         ce.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
         ce.setAction(ReportDefinitions.OptionType.PUT.equals(opr.getOptType()) ? ReportDefinitions.Action.BUY : ReportDefinitions.Action.SELL);
@@ -159,64 +206,7 @@ public class ReportProcessor implements Serializable  {
         list.add(e);
         list.add(ce);
 
-
         return list;
-    }
-
-    public Execution expireTrade(Trade trade) {
-        OptionParseResult opr = null;
-        try {
-            opr = OptionUtil.parse(trade.getSymbol());
-        } catch (Exception e) {
-            l.log(Level.SEVERE, "Error", e);
-            return null;
-        }
-        Execution e = new Execution();
-        e.setReceivedDate(Calendar.getInstance());
-        e.setReport(trade.getReport());
-        e.setComment(ReportDefinitions.OPTION_EXPIRE_COMMENT);
-        e.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
-        e.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
-        e.setAction(trade.getType() == ReportDefinitions.TradeType.LONG ? ReportDefinitions.Action.SELL : ReportDefinitions.Action.BUY);
-        e.setQuantity(Math.abs(trade.getOpenPosition()));
-        e.setSymbol(trade.getSymbol());
-        e.setUnderlying(trade.getUnderlying());
-        e.setCurrency(trade.getCurrency());
-        e.setSecType(trade.getSecType());
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(opr.getExpDate().getTime());
-        e.setFillDate(cal);
-        e.setFillPrice(new BigDecimal(0.0));
-        this.newExecution(e);
-        return e;
-    }
-
-    public Execution closeTrade(Trade trade, Calendar closeDate, BigDecimal closePrice) {
-        OptionParseResult opr = null;
-        try {
-            opr = OptionUtil.parse(trade.getSymbol());
-        } catch (Exception e) {
-            l.log(Level.SEVERE, "Error", e);
-            return null;
-        }
-        Execution e = new Execution();
-        e.setReceivedDate(Calendar.getInstance());
-        e.setReport(trade.getReport());
-        e.setComment(ReportDefinitions.OPTION_EXPIRE_COMMENT);
-        e.setOrigin(ReportDefinitions.ORIGIN_INTERNAL);
-        e.setReferenceId(ReportDefinitions.NOT_AVAILABLE);
-        e.setAction(trade.getType() == ReportDefinitions.TradeType.LONG ? ReportDefinitions.Action.SELL : ReportDefinitions.Action.BUY);
-        e.setQuantity(Math.abs(trade.getOpenPosition()));
-        e.setSymbol(trade.getSymbol());
-        e.setUnderlying(trade.getUnderlying());
-        e.setCurrency(trade.getCurrency());
-        e.setSecType(trade.getSecType());
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(opr.getExpDate().getTime());
-        e.setFillDate(closeDate);
-        e.setFillPrice(closePrice);
-        this.newExecution(e);
-        return e;
     }
 
     private List<Trade> analyze(List<Execution> executions) {

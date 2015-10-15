@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 15.10.2015.
  */
-Ext.define('Report.view.report.ReportController', {
+Ext.define('Report.view.report.TradesController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
@@ -15,51 +15,51 @@ Ext.define('Report.view.report.ReportController', {
             trade = button.getWidgetRecord().data;
 
         // TODO form for closeDate, closePrice
-        var closeDate,
-            closePrice;
+        var closeDate = new Date().getTime(),
+            closePrice = 101.0;
 
-        me.sendRequest('expire', trade, closeDate, closePrice);
+        me.sendRequest('CLOSE', trade, closeDate, closePrice);
     },
 
     onExpireTrade: function(button, evt) {
         var me = this,
             trade = button.getWidgetRecord().data;
 
-        me.sendRequest('expire', trade);
+        me.sendRequest('EXPIRE', trade);
     },
 
     onAssignTrade: function(button, evt) {
         var me = this,
             trade = button.getWidgetRecord().data;
 
-        me.sendRequest('assign', trade);
+        me.sendRequest('ASSIGN', trade);
     },
 
     sendRequest: function(requestType, trade, closeDate, closePrice) {
-        var me = this,
-            trades = me.getView().getStore();
+        var urlString = Report.common.Definitions.urlPrefix + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/' + requestType.toLowerCase();
 
         Ext.Msg.show({
-            title: requestType.toUpperCase() + ' Trade?',
-            message: 'Are you sure you want to assign the trade, id=' + trade.id + '?',
+            title: requestType + ' Trade?',
+            message: 'Are you sure you want to ' + requestType + ' the trade, id=' + trade.id + '?',
             buttons: Ext.Msg.YESNO,
             icon: Ext.Msg.QUESTION,
             fn: function(btn) {
                 if (btn === 'yes') {
-                    Ext.Ajax.request({
-                        method: 'PUT',
-                        url: Report.common.Definitions.urlPrefix + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/' + requestType,
-                        success: function(response, opts) {
-                            var appliedExecutions = response.data;
-                            var msg = '';
-                            appliedExecutions.forEach(function(el, index, arr) {
-                                console.log(el);
-                                msg = msg + index;
-                            });
-                            Ext.Msg.alert('Trade ' + requestType + 'ed!', msg);
-                            trades.reload();
-                        }
-                    });
+                    if ('CLOSE' == requestType) {
+                        Ext.Ajax.request({
+                            method: 'PUT',
+                            jsonData: {
+                                closeDate: closeDate,
+                                closePrice: closePrice
+                            },
+                            url: urlString
+                        });
+                    } else {
+                        Ext.Ajax.request({
+                            method: 'PUT',
+                            url: urlString
+                        });
+                    }
                 }
             }
         });

@@ -13,16 +13,13 @@ Ext.define('Report.view.report.ReportController', {
     init: function() {
         var me = this,
             reports = me.getStore('reports'),
-            executions = me.getStore('executions'),
-            trades = me.getStore('trades'),
-            statistics = me.getStore('statistics'),
-            charts = me.getStore('charts'),
             reportsGrid = me.lookupReference('reportsGrid');
 
         if (reports) {
             reports.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports');
             reports.load(function(records, operation, success) {
                 if (success) {
+                    console.log('reloaded reports');
                     reportsGrid.setSelection(reports.first());
                 }
             });
@@ -37,16 +34,28 @@ Ext.define('Report.view.report.ReportController', {
         };
         ws.onmessage = function(evt) {
             console.log('WS message, content=' + evt.data + ' --> reloading stores...');
-            me.lookupReference('chartsButton').toggle(false);
-            reports.reload();
-            executions.reload();
-            trades.reload();
-            statistics.reload();
-            charts.reload();
+            me.reloadAll();
         };
         ws.onerror = function(evt) {
             console.log('WS error');
         };
+    },
+
+    reloadAll: function() {
+        var me = this,
+            reports = me.getStore('reports'),
+            executions = me.getStore('executions'),
+            trades = me.getStore('trades');
+
+        me.lookupReference('chartsButton').toggle(false);
+        reports.load(function(records, operation, success) {
+            if (success) {
+                console.log('reloaded reports');
+            }
+        });
+        executions.reload();
+        trades.reload();
+        me.reloadStatisticsAndCharts();
     },
 
     onReportSelect: function(grid, record, index, eOpts) {
@@ -188,7 +197,7 @@ Ext.define('Report.view.report.ReportController', {
     onAddExecution: function(button, e, options) {
         var me = this;
 
-        me.getView().add(Ext.create('Report.view.report.form.ExecutionAddForm', {
+        me.lookupReference('executionsPanel').add(Ext.create('Report.view.report.form.ExecutionAddWindow', {
             reference: 'executionAddWindow',
             title: 'Add New Execution for Report id=' + me.reportId
         })).show();
@@ -263,7 +272,6 @@ Ext.define('Report.view.report.ReportController', {
         charts.load(function(records, operation, success) {
             if (success) {
                 console.log('reloaded charts for report, id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
-                me.createCharts();
             }
         });
     },

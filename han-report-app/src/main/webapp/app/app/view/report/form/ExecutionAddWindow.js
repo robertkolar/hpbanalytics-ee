@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.form.ExecutionAddForm', {
+Ext.define('Report.view.report.form.ExecutionAddWindow', {
     extend: 'Ext.window.Window',
 
     requires: [

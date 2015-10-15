@@ -13,8 +13,9 @@ public class ReportDefinitions {
     public static final String ORIGIN_INTERNAL = "INTERNAL";
     public static final String NOT_AVAILABLE = "N/A";
     public static final String ALL_UNDERLYINGS = "ALLUNDLS";
-    public static final String OPTION_ASSIGN_COMMENT = "ASSIGN";
-    public static final String OPTION_EXPIRE_COMMENT = "EXPIRE";
+    public static final String ASSIGN_TRADE_COMMENT = "ASSIGN";
+    public static final String EXPIRE_TRADE_COMMENT = "EXPIRE";
+    public static final String CLOSE_TRADE_COMMENT = "CLOSE";
 
     // enums
     public enum OptionType {

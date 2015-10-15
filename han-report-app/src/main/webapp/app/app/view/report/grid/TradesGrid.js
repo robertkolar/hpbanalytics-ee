@@ -7,7 +7,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.ReportController'
+        'Report.view.report.TradesController'
     ],
     controller: 'han-report-trades',
     bind: '{trades}',
@@ -114,6 +114,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
                 handler: 'onCloseTrade'
             },
             onWidgetAttach: function(col, widget, rec) {
+                widget.show();
                 if ("OPEN" != rec.data.status) {
                     widget.hide();
                 }
@@ -129,6 +130,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
                 handler: 'onExpireTrade'
             },
             onWidgetAttach: function(col, widget, rec) {
+                widget.show();
                 if ("OPEN" != rec.data.status || "OPT" != rec.data.secType) {
                     widget.hide();
                 }
@@ -144,6 +146,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
                 handler: 'onAssignTrade'
             },
             onWidgetAttach: function(col, widget, rec) {
+                widget.show();
                 if ("OPEN" != rec.data.status || "OPT" != rec.data.secType) {
                     widget.hide();
                 }
