@@ -7,6 +7,8 @@ import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbController;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.rest.model.IbOrderFilter;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -28,6 +30,7 @@ public class IbLoggerService {
     @Inject private IbLoggerDao ibloggerDao;
     @Inject private IbController ibController;
     @Inject private IbLoggerData ibloggerData;
+    @Inject private FilterParser filterParser;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,7 +76,12 @@ public class IbLoggerService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("ibaccounts/{accountId}/iborders")
-    public Response getIbOrders(@PathParam("accountId") String accountId, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    public Response getFilteredIbOrders(
+            @PathParam("accountId") String accountId,
+            @QueryParam("filter") String jsonFilter,
+            @QueryParam("start") Integer start,
+            @QueryParam("limit") Integer limit) {
+
         start = (start != null ? start : 0);
         limit = (limit != null ? limit : IbLoggerDefinitions.JPA_MAX_RESULTS);
         List<IbOrder> ibOrders = new ArrayList<>();
@@ -81,11 +89,12 @@ public class IbLoggerService {
         if (ibAccount == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        for (IbOrder ibOrder : ibloggerDao.getIbOrders(ibAccount, start, limit)) {
+        IbOrderFilter filter = filterParser.parseIbOrderFilter(jsonFilter);
+        for (IbOrder ibOrder : ibloggerDao.getFilteredIbOrders(ibAccount, filter, start, limit)) {
             Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
             ibOrder.setHeartbeatCount(hm.get(ibOrder));
             ibOrders.add(ibOrder);
         }
-        return Response.ok(new RestList<>(ibOrders, ibloggerDao.getNumIbOrders(ibAccount))).build();
+        return Response.ok(new RestList<>(ibOrders, ibloggerDao.getNumFilteredIbOrders(ibAccount, filter))).build();
     }
 }

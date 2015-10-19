@@ -31,12 +31,20 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
             width: 180,
             dataIndex: 'submitDate',
             xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u'
+            format: 'm/d/Y H:i:s.u',
+            filter: {
+                type: 'date',
+                dateFormat: 'time'
+            }
         }, {
             text: 'Status',
             width: 80,
             dataIndex: 'status',
-            renderer: 'statusRenderer'
+            renderer: 'statusRenderer',
+            filter: {
+                type: 'list',
+                options: ['submitted', 'updated', 'cancelled', 'filled', 'unknown']
+            }
         }, {
             text: 'IB Account',
             width: 100,
@@ -66,11 +74,16 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         }, {
             text: 'Symbol',
             width: 180,
-            dataIndex: 'symbol'
+            dataIndex: 'symbol',
+            filter: 'string'
         }, {
             text: 'Sec',
             width: 60,
-            dataIndex: 'secType'
+            dataIndex: 'secType',
+            filter: {
+                type: 'list',
+                options: ['STK', 'OPT', 'FUT', 'CASH']
+            }
         }, {
             text: 'Ord',
             width: 60,

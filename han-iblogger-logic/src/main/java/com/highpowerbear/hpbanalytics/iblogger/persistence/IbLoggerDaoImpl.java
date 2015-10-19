@@ -3,7 +3,10 @@ package com.highpowerbear.hpbanalytics.iblogger.persistence;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
+import com.highpowerbear.hpbanalytics.iblogger.rest.model.IbOrderFilter;
+
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -22,6 +25,7 @@ public class IbLoggerDaoImpl implements IbLoggerDao {
 
     @PersistenceContext(unitName = "hpbanalytics-PU")
     private EntityManager em;
+    @Inject private QueryBuilder queryBuilder;
 
     private final String B = "BEGIN " + this.getClass().getSimpleName() + ".";
     private final String E = "END " + this.getClass().getSimpleName() + ".";
@@ -43,18 +47,17 @@ public class IbLoggerDaoImpl implements IbLoggerDao {
     }
 
     @Override
-    public List<IbOrder> getIbOrders(IbAccount ibAccount, Integer start, Integer limit) {
-        TypedQuery<IbOrder> q = em.createQuery("SELECT io FROM IbOrder io WHERE io.ibAccount = :ibAccount ORDER BY io.submitDate DESC", IbOrder.class);
-        q.setParameter("ibAccount", ibAccount);
+    public List<IbOrder> getFilteredIbOrders(IbAccount ibAccount, IbOrderFilter filter, Integer start, Integer limit) {
+        Query q = queryBuilder.buildFilteredIbOrdersQuery(em, ibAccount, filter, false);
         q.setFirstResult(start);
         q.setMaxResults(limit);
         return q.getResultList();
     }
 
     @Override
-    public Long getNumIbOrders(IbAccount ibAccount) {
-        Query q = em.createQuery("SELECT COUNT(io) FROM IbOrder io WHERE io.ibAccount = :ibAccount");
-        q.setParameter("ibAccount", ibAccount);
+    public Long getNumFilteredIbOrders(IbAccount ibAccount, IbOrderFilter filter) {
+        Query q = queryBuilder.buildFilteredIbOrdersQuery(em, ibAccount, filter, true);
+        //Query q = em.createQuery("SELECT COUNT(io) FROM IbOrder io WHERE io.ibAccount = :ibAccount");
         return (Long) q.getSingleResult();
     }
 
