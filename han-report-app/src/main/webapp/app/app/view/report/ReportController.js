@@ -121,6 +121,7 @@ Ext.define('Report.view.report.ReportController', {
     onIntervalChange: function(comboBox, newValue, oldValue, eOpts) {
         var me = this;
 
+        me.lookupReference('chartsButton').toggle(false);
         me.getStore('statistics').getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + me.lookupReference('intervalCombo').getValue());
         me.getStore('charts').getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/charts/' + me.lookupReference('intervalCombo').getValue());
         me.reloadStatisticsAndCharts();
@@ -129,6 +130,7 @@ Ext.define('Report.view.report.ReportController', {
     onUnderlyingChange: function(comboBox, newValue, oldValue, eOpts) {
         var me = this;
 
+        me.lookupReference('chartsButton').toggle(false);
         me.getStore('statistics').getProxy().setExtraParam('underlying', me.lookupReference('underlyingCombo').getValue());
         me.getStore('charts').getProxy().setExtraParam('underlying', me.lookupReference('underlyingCombo').getValue());
         me.reloadStatisticsAndCharts();
