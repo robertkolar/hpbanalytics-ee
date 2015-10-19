@@ -39,21 +39,21 @@ public class OptionUtil implements Serializable {
         return isMini;
     }
     
-    public static OptionParseResult parse(String oSymbol) throws Exception {
+    public static OptionParseResult parse(String optionSymbol) throws Exception {
         OptionParseResult result = new OptionParseResult();
-        if (oSymbol.length() > 21 || oSymbol.length() < 16) {
-            throw new Exception(oSymbol + " has not correct length");
+        if (optionSymbol.length() > 21 || optionSymbol.length() < 16) {
+            throw new Exception(optionSymbol + " has not correct length");
         }
-        int l = oSymbol.length();
-        result.setUnderlying(oSymbol.substring(0, (isMini(oSymbol) ? l-16 : l-15)).trim().toUpperCase());
+        int l = optionSymbol.length();
+        result.setUnderlying(optionSymbol.substring(0, (isMini(optionSymbol) ? l-16 : l-15)).trim().toUpperCase());
 
-        String yy = oSymbol.substring(l-15, l-13);
-        String MM = oSymbol.substring(l-13, l-11);
-        String dd = oSymbol.substring(l-11, l-9);
-        result.setOptType(ReportDefinitions.OptionType.getFromShortName(oSymbol.substring(l - 9, l - 8)));
+        String yy = optionSymbol.substring(l-15, l-13);
+        String MM = optionSymbol.substring(l-13, l-11);
+        String dd = optionSymbol.substring(l-11, l-9);
+        result.setOptType(ReportDefinitions.OptionType.getFromShortName(optionSymbol.substring(l - 9, l - 8)));
 
-        String str = oSymbol.substring(l-8, l-3);
-        String strDec = oSymbol.substring(l-3, l);
+        String str = optionSymbol.substring(l-8, l-3);
+        String strDec = optionSymbol.substring(l-3, l);
         DateFormat df = new SimpleDateFormat("yyMMdd");
         df.setLenient(false);
         df.setTimeZone(TimeZone.getTimeZone("America/New_York"));
@@ -67,7 +67,7 @@ public class OptionUtil implements Serializable {
         NumberFormat nf = NumberFormat.getInstance(Locale.US);
         result.setStrikePrice(nf.parse(str + "." + strDec).doubleValue());
 
-        logger.info("Parsed: " + oSymbol + " --> " + result.getUnderlying() + " " + result.getOptType() + " " + ds + " " + result.getStrikePrice());
+        logger.info("Parsed: " + optionSymbol + " --> " + result.getUnderlying() + " " + result.getOptType() + " " + ds + " " + result.getStrikePrice());
 
         return result;
     }

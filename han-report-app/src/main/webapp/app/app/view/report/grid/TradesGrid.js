@@ -14,6 +14,9 @@ Ext.define('Report.view.report.grid.TradesGrid', {
     viewConfig: {
         stripeRows: true
     },
+    listeners: {
+        'cellclick': 'showSplitExecutions'
+    },
     columns: {
         defaults: {
             style: 'background-color: #157fcc; color: black;'
@@ -100,7 +103,7 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             width: 60,
             dataIndex: 'status',
             renderer: function(val, metadata, record) {
-                metadata.style = 'color: white; ' + (val == 'OPEN' ? 'background-color: green;' : 'background-color: brown;');
+                metadata.style = 'cursor: pointer; color: white; ' + (val == 'OPEN' ? 'background-color: green;' : 'background-color: brown;');
                 return val.toLowerCase();
             }
         }, {

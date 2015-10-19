@@ -14,28 +14,92 @@ Ext.define('Report.view.report.TradesController', {
         var me = this,
             trade = button.getWidgetRecord().data;
 
-        // TODO form for closeDate, closePrice
-        var closeDate = new Date().getTime(),
-            closePrice = 101.0;
+        var closeDate,
+            maxCloseDate,
+            closePrice,
+            ready = false;
 
-        me.sendRequest('CLOSE', trade, closeDate, closePrice);
+        if ('OPT' != trade.secType) {
+            closeDate = new Date();
+            maxCloseDate = closeDate;
+            closePrice = trade.avgOpenPrice;
+            ready = true;
+        } else {
+            Ext.Ajax.request({
+                url: Report.common.Definitions.urlPrefix + '/optionutil/parse',
+                params: {
+                    optionSymbol: trade.symbol
+                },
+                success: function (response, opts) {
+                    closeDate = response.data.expDate;
+                    maxCloseDate = closeDate;
+                    closePrice = response.data.strikePrice;
+                    ready = true;
+                }
+            });
+        }
+
+        var interval = setInterval(function() {
+            if (ready) {
+                clearInterval(interval);
+                var window = Ext.create('Report.view.report.window.TradeCloseWindow', {
+                    reference: 'tradeCloseWindow',
+                    title: 'Close Trade, id=' + trade.id
+                });
+                me.lookupReference('tradesPanel').add(window);
+                window.trade = trade;
+                me.lookupReference('closeDate').setMaxValue(closeDate);
+                me.lookupReference('closeDate').setValue(maxCloseDate);
+                me.lookupReference('closePrice').setValue(closePrice);
+                window.show();
+            } else {
+                console.log('Waiting for completion...');
+            }
+        }, 500);
+    },
+
+    onSubmitCloseTrade: function(button, evt) {
+        var me = this,
+            form = me.lookupReference('tradeCloseForm'),
+            window = me.lookupReference('tradeCloseWindow'),
+            trade = window.trade;
+
+        var urlString = Report.common.Definitions.urlPrefix + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/close';
+
+        if (form && form.isValid()) {
+            Ext.Ajax.request({
+                method: 'PUT',
+                url: urlString,
+                jsonData: {
+                    closeDate: form.getForm().findField('closeDate').lastValue,
+                    closePrice: form.getForm().findField('closePrice').lastValue
+                },
+                success: function (response, opts) {
+                    window.close();
+                }
+            });
+        }
+    },
+
+    onCancelCloseTrade: function(button, evt) {
+        this.lookupReference('tradeCloseWindow').close();
     },
 
     onExpireTrade: function(button, evt) {
         var me = this,
             trade = button.getWidgetRecord().data;
 
-        me.sendRequest('EXPIRE', trade);
+        me.assignOrExpire('EXPIRE', trade);
     },
 
     onAssignTrade: function(button, evt) {
         var me = this,
             trade = button.getWidgetRecord().data;
 
-        me.sendRequest('ASSIGN', trade);
+        me.assignOrExpire('ASSIGN', trade);
     },
 
-    sendRequest: function(requestType, trade, closeDate, closePrice) {
+    assignOrExpire: function(requestType, trade, closeDate, closePrice) {
         var urlString = Report.common.Definitions.urlPrefix + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/' + requestType.toLowerCase();
 
         Ext.Msg.show({
@@ -63,5 +127,21 @@ Ext.define('Report.view.report.TradesController', {
                 }
             }
         });
+    },
+
+    showSplitExecutions: function (view, cell, cellIndex, record, row, rowIndex, e) {
+        if (cellIndex != 13) {
+            return;
+        }
+        var me = this;
+
+        if (!me.splitExecutionsGrid) {
+            me.splitExecutionsGrid =  Ext.create('Report.view.report.grid.SplitExecutionsGrid');
+            me.splitExecutionsWindow = Ext.create('Report.view.report.window.SplitExecutionsWindow');
+            me.splitExecutionsWindow.add(me.splitExecutionsGrid);
+        }
+        me.splitExecutionsGrid.setStore(record.splitExecutions());
+        me.splitExecutionsWindow.setTitle("Split Executions for Trade id=" + record.data.id);
+        me.splitExecutionsWindow.show();
     }
 });

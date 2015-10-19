@@ -8,7 +8,7 @@ Ext.define('Report.model.report.SplitExecution', {
         'splitQuantity',
         'currentPosition',
         {name: 'fillDate', type: 'date', dateFormat: 'time'},
-        'executionId',
-        {name: 'tradeId', type: 'string', reference: {type: 'Trade', inverse: 'splitExecutions'}}
+        {name: 'tradeId', type: 'string', reference: {type: 'Trade', inverse: 'splitExecutions'}},
+        'executionDisplay'
     ]
 });

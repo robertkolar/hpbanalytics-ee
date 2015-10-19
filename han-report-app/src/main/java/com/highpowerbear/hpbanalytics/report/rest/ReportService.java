@@ -4,8 +4,10 @@ import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
+import com.highpowerbear.hpbanalytics.report.model.OptionParseResult;
 import com.highpowerbear.hpbanalytics.report.model.Statistics;
 import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
+import com.highpowerbear.hpbanalytics.report.process.OptionUtil;
 import com.highpowerbear.hpbanalytics.report.process.ReportProcessor;
 import com.highpowerbear.hpbanalytics.report.process.StatisticsCalculator;
 import com.highpowerbear.hpbanalytics.report.rest.model.CloseTradeDto;
@@ -15,7 +17,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -233,5 +234,18 @@ public class ReportService {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(reportDao.getUnderlyings(report)).build();
+    }
+
+    @GET
+    @Path("optionutil/parse")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response optionUtilParse(@QueryParam("optionsymbol") String optionSymbol) {
+        OptionParseResult optionParseResult;
+        try {
+            optionParseResult = OptionUtil.parse(optionSymbol);
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(optionParseResult).build();
     }
 }

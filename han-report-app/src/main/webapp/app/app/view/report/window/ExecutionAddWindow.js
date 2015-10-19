@@ -8,7 +8,6 @@ Ext.define('Report.view.report.window.ExecutionAddWindow', {
         'Report.common.Glyphs',
         'Report.view.report.ReportController'
     ],
-
     layout: 'fit',
     closable: false,
     closeAction: 'destroy',
@@ -100,7 +99,6 @@ Ext.define('Report.view.report.window.ExecutionAddWindow', {
             xtype: 'datefield',
             fieldLabel: 'Fill Date',
             name: 'fillDate',
-            value: new Date(),
             format: 'm/d/Y H:i:s.u',
             listeners: {
                 beforerender: function(datefield, eOpts) {

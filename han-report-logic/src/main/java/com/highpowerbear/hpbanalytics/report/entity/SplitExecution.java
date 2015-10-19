@@ -39,8 +39,8 @@ public class SplitExecution implements Serializable {
     private Trade trade;
 
     @JsonProperty
-    public Long getExecutionId() {
-        return this.execution.getId();
+    private String getExecutionDisplay() {
+        return execution.print();
     }
 
     @JsonProperty
