@@ -86,7 +86,7 @@ Ext.define('C2.view.c2.C2Controller', {
         var me = this;
         if (!me.publishEventsGrid) {
             me.publishEventsGrid =  Ext.create('C2.view.c2.PublishEventsGrid');
-            me.publishEventsWindow = Ext.create('widget.events-window');
+            me.publishEventsWindow = Ext.create('widget.han-c2-events-window');
             me.publishEventsWindow.add(me.publishEventsGrid);
         }
         var dbId = record.get(record.getFields()[0].getName());
@@ -108,7 +108,7 @@ Ext.define('C2.view.c2.C2Controller', {
                 store: me.pollEventsGrid.getStore()
             });
             me.pollEventsGrid.addDocked(paging, 'bottom');
-            me.pollEventsWindow = Ext.create('widget.events-window');
+            me.pollEventsWindow = Ext.create('widget.han-c2-events-window');
             me.pollEventsWindow.add(me.pollEventsGrid);
         }
         var proxy = me.pollEventsGrid.getStore().getProxy();

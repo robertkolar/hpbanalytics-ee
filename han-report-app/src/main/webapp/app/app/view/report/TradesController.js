@@ -5,7 +5,8 @@ Ext.define('Report.view.report.TradesController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
-        'Report.common.Definitions'
+        'Report.common.Definitions',
+        'Report.view.report.window.TradeCloseWindow'
     ],
 
     alias: 'controller.han-report-trades',
@@ -14,26 +15,25 @@ Ext.define('Report.view.report.TradesController', {
         var me = this,
             trade = button.getWidgetRecord().data;
 
-        var closeDate,
+        var closeDate = new Date(),
             maxCloseDate,
-            closePrice,
+            closePrice = trade.avgOpenPrice,
             ready = false;
 
+        me.getView().setLoading({border: false, msg: 'Loading...'});
         if ('OPT' != trade.secType) {
-            closeDate = new Date();
-            maxCloseDate = closeDate;
-            closePrice = trade.avgOpenPrice;
             ready = true;
         } else {
             Ext.Ajax.request({
+                method: 'GET',
                 url: Report.common.Definitions.urlPrefix + '/optionutil/parse',
                 params: {
-                    optionSymbol: trade.symbol
+                    optionsymbol: trade.symbol
                 },
                 success: function (response, opts) {
-                    closeDate = response.data.expDate;
-                    maxCloseDate = closeDate;
-                    closePrice = response.data.strikePrice;
+                    var expDate = JSON.parse(response.responseText).expDate;
+                    closeDate = new Date(expDate);
+                    maxCloseDate = new Date(expDate + 24 * 60 * 60 * 1000);
                     ready = true;
                 }
             });
@@ -46,16 +46,19 @@ Ext.define('Report.view.report.TradesController', {
                     reference: 'tradeCloseWindow',
                     title: 'Close Trade, id=' + trade.id
                 });
-                me.lookupReference('tradesPanel').add(window);
+                me.getView().add(window);
                 window.trade = trade;
-                me.lookupReference('closeDate').setMaxValue(closeDate);
-                me.lookupReference('closeDate').setValue(maxCloseDate);
+                me.lookupReference('closeDate').setValue(closeDate);
+                if (maxCloseDate) {
+                    me.lookupReference('closeDate').setMaxValue(maxCloseDate);
+                }
                 me.lookupReference('closePrice').setValue(closePrice);
+                me.getView().setLoading(false);
                 window.show();
             } else {
                 console.log('Waiting for completion...');
             }
-        }, 500);
+        }, 1000);
     },
 
     onSubmitCloseTrade: function(button, evt) {

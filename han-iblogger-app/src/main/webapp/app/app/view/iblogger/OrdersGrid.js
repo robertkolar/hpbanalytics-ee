@@ -7,8 +7,10 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'IbLogger.view.iblogger.IbLoggerController'
+        'IbLogger.view.iblogger.IbLoggerController',
+        'Ext.grid.filters.Filters'
     ],
+    plugins: 'gridfilters',
     bind: '{ibOrders}',
     title: 'IB Orders',
     listeners: {

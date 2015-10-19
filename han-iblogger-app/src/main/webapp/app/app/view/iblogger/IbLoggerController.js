@@ -70,7 +70,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
         if (!me.eventsGrid) {
             me.eventsGrid =  Ext.create('IbLogger.view.iblogger.EventsGrid');
-            me.eventsWindow = Ext.create('widget.events-window');
+            me.eventsWindow = Ext.create('widget.han-iblogger-events-window');
             me.eventsWindow.add(me.eventsGrid);
         }
         var permId = record.get(record.getFields()[1].getName());

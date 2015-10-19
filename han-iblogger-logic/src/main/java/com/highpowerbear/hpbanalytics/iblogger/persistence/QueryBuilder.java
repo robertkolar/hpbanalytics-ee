@@ -52,7 +52,7 @@ public class QueryBuilder {
             q.setParameter(op.name() + "_" + IbLoggerDefinitions.IbOrderFilterField.SYMBOL.getVarName(), (isLike ? "%" : "") + filter.getSymbolFilterMap().get(op) + (isLike ? "%" : ""));
         }
         for (IbLoggerDefinitions.FilterOperatorEnum op : filter.getSecTypeFilterMap().keySet()) {
-            q.setParameter(op.name() + "_" + IbLoggerDefinitions.IbOrderFilterField.SEC_TYPE.getVarName(), filter.getStatusFilterMap().get(op));
+            q.setParameter(op.name() + "_" + IbLoggerDefinitions.IbOrderFilterField.SEC_TYPE.getVarName(), filter.getSecTypeFilterMap().get(op));
         }
         for (IbLoggerDefinitions.FilterOperatorCalendar op : filter.getSubmitDateFilterMap().keySet()) {
             String varName = IbLoggerDefinitions.IbOrderFilterField.SUBMIT_DATE.getVarName();

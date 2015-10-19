@@ -17,7 +17,7 @@ Ext.define('Report.view.report.grid.SplitExecutionsGrid', {
         items: [{
             xtype: 'templatecolumn',
             text: 'ID',
-            width: 80,
+            width: 100,
             tpl: '{tradeId}/{id}',
             align: 'right'
         }, {

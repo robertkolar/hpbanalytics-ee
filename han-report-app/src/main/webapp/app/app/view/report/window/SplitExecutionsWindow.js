@@ -10,5 +10,5 @@ Ext.define('Report.view.report.window.SplitExecutionsWindow', {
     modal: false,
     scrollable: true,
     maximizable: false,
-    width: 540
+    width: 900
 });
