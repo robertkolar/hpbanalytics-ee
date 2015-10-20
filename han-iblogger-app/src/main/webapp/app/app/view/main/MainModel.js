@@ -9,6 +9,4 @@ Ext.define('IbLogger.view.main.MainModel', {
     data: {
         name: 'IbLogger'
     }
-
-    //TODO - add data, formulas and/or methods to support your view
 });

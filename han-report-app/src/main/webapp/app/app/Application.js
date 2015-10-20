@@ -13,7 +13,6 @@ Ext.define('Report.Application', {
     name: 'Report',
 
     stores: [
-        // TODO: add global / shared stores here
     ],
     
     launch: function () {

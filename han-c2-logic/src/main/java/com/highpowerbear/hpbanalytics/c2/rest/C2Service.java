@@ -1,11 +1,13 @@
 package com.highpowerbear.hpbanalytics.c2.rest;
 
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
-import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.entity.PollEvent;
 import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
+import com.highpowerbear.hpbanalytics.c2.rest.model.C2SignalFilter;
+import com.highpowerbear.hpbanalytics.c2.rest.model.InputRequestFilter;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -23,6 +25,7 @@ public class C2Service {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
 
     @Inject private C2Dao c2Dao;
+    @Inject private FilterParser filterParser;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,14 +51,20 @@ public class C2Service {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("c2systems/{systemId}/c2signals")
-    public Response getC2Signals(@PathParam("systemId") Integer systemId, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    public Response getC2Signals(
+            @PathParam("systemId") Integer systemId,
+            @QueryParam("filter") String jsonFilter,
+            @QueryParam("start") Integer start,
+            @QueryParam("limit") Integer limit) {
+
         start = (start != null ? start : 0);
         limit = (limit != null ? limit : C2Definitions.JPA_MAX_RESULTS);
         C2System c2System = c2Dao.findC2System(systemId);
         if (c2System == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(new RestList<>(c2Dao.getC2Signals(c2System, start, limit), c2Dao.getNumC2Signals(c2System))).build();
+        C2SignalFilter filter = filterParser.parseC2SignalFilter(jsonFilter);
+        return Response.ok(new RestList<>(c2Dao.getFilteredC2Signals(c2System, filter, start, limit), c2Dao.getNumFilteredC2Signals(c2System, filter))).build();
     }
 
     @GET
@@ -70,9 +79,14 @@ public class C2Service {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("inputrequests")
-    public RestList<InputRequest> getInputRequests(@QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    public RestList<InputRequest> getInputRequests(
+            @QueryParam("filter") String jsonFilter,
+            @QueryParam("start") Integer start,
+            @QueryParam("limit") Integer limit) {
+
         start = (start != null ? start : 0);
         limit = (limit != null ? limit : C2Definitions.JPA_MAX_RESULTS);
-        return new RestList<>(c2Dao.getInputRequests(start, limit), c2Dao.getNumInputRequests());
+        InputRequestFilter filter = filterParser.parseInputRequestFilter(jsonFilter);
+        return new RestList<>(c2Dao.getFilteredInputRequests(filter, start, limit), c2Dao.getNumFilteredInputRequests(filter));
     }
 }

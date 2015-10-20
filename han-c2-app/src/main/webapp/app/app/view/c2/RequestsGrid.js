@@ -4,12 +4,12 @@
 Ext.define('C2.view.c2.RequestsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-c2-requests-grid',
-
     requires: [
         'Ext.grid.column.Date',
-        'Ext.toolbar.Paging'
+        'Ext.toolbar.Paging',
+        'Ext.grid.filters.Filters'
     ],
-
+    plugins: 'gridfilters',
     title: 'Input Requests',
     bind: '{inputRequests}',
     disableSelection: true,
@@ -27,12 +27,20 @@ Ext.define('C2.view.c2.RequestsGrid', {
             width: 180,
             dataIndex: 'receivedDate',
             xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u'
+            format: 'm/d/Y H:i:s.u',
+            filter: {
+                type: 'date',
+                dateFormat: 'time'
+            }
         }, {
             text: 'Status',
             width: 80,
             dataIndex: 'status',
-            renderer: 'requestStatusRenderer'
+            renderer: 'requestStatusRenderer',
+            filter: {
+                type: 'list',
+                options: ['new', 'processed', 'ignored', 'error']
+            }
         }, {
             text: 'Origin',
             width: 100,
@@ -58,11 +66,16 @@ Ext.define('C2.view.c2.RequestsGrid', {
         }, {
             text: 'Symbol',
             width: 200,
-            dataIndex: 'symbol'
+            dataIndex: 'symbol',
+            filter: 'string'
         }, {
             text: 'Sec',
             width: 80,
-            dataIndex: 'secType'
+            dataIndex: 'secType',
+            filter: {
+                type: 'list',
+                options: ['STK', 'OPT', 'FUT', 'CASH']
+            }
         }, {
             text: 'Ord',
             width: 80,

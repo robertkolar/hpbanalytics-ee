@@ -15,7 +15,6 @@ Ext.define('IbLogger.Application', {
     name: 'IbLogger',
 
     stores: [
-        // TODO: add global / shared stores here
     ],
 
     launch: function () {

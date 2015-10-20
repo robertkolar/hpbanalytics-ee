@@ -5,7 +5,11 @@ import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.entity.PollEvent;
+import com.highpowerbear.hpbanalytics.c2.rest.model.C2SignalFilter;
+import com.highpowerbear.hpbanalytics.c2.rest.model.InputRequestFilter;
+
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +31,7 @@ public class C2DaoImpl implements C2Dao {
 
     @PersistenceContext(unitName = "hpbanalytics-PU")
     private EntityManager em;
+    @Inject private QueryBuilder queryBuilder;
 
     private final String B = "BEGIN " + this.getClass().getSimpleName() + ".";
     private final String E = "END " + this.getClass().getSimpleName() + ".";
@@ -96,18 +101,16 @@ public class C2DaoImpl implements C2Dao {
     }
 
     @Override
-    public List<C2Signal> getC2Signals(C2System c2System, Integer start, Integer limit) {
-        TypedQuery<C2Signal> q = em.createQuery("SELECT cs FROM C2Signal cs WHERE cs.c2System = :c2System ORDER BY cs.createdDate DESC", C2Signal.class);
-        q.setParameter("c2System", c2System);
+    public List<C2Signal> getFilteredC2Signals(C2System c2System, C2SignalFilter filter, Integer start, Integer limit) {
+        Query q = queryBuilder.buildFilteredC2SignalsQuery(em, c2System, filter, false);
         q.setFirstResult(start);
         q.setMaxResults(limit);
         return q.getResultList();
     }
 
     @Override
-    public Long getNumC2Signals(C2System c2System) {
-        Query q = em.createQuery("SELECT COUNT(cs) FROM C2Signal cs WHERE cs.c2System = :c2System");
-        q.setParameter("c2System", c2System);
+    public Long getNumFilteredC2Signals(C2System c2System, C2SignalFilter filter) {
+        Query q = queryBuilder.buildFilteredC2SignalsQuery(em, c2System, filter, true);
         return (Long) q.getSingleResult();
     }
 
@@ -162,16 +165,16 @@ public class C2DaoImpl implements C2Dao {
     }
 
     @Override
-    public List<InputRequest> getInputRequests(Integer start, Integer limit) {
-        TypedQuery<InputRequest> q = em.createQuery("SELECT ir FROM InputRequest ir ORDER BY ir.receivedDate DESC", InputRequest.class);
+    public List<InputRequest> getFilteredInputRequests(InputRequestFilter filter, Integer start, Integer limit) {
+        Query q = queryBuilder.buildFilteredInputRequestsQuery(em, filter, false);
         q.setFirstResult(start);
         q.setMaxResults(limit);
         return q.getResultList();
     }
 
     @Override
-    public Long getNumInputRequests() {
-        Query q = em.createQuery("SELECT COUNT(ir) FROM InputRequest ir");
+    public Long getNumFilteredInputRequests(InputRequestFilter filter) {
+        Query q = queryBuilder.buildFilteredInputRequestsQuery(em, filter, true);
         return (Long) q.getSingleResult();
     }
 }

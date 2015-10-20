@@ -15,7 +15,6 @@ Ext.define('C2.Application', {
     name: 'C2',
 
     stores: [
-        // TODO: add global / shared stores here
     ],
 
     launch: function () {

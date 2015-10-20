@@ -3,12 +3,14 @@
  */
 Ext.define('C2.view.c2.SignalsGrid', {
     extend: 'Ext.grid.Panel',
+    xtype: 'han-c2-signals-grid',
     requires: [
         'C2.view.c2.C2Controller',
         'Ext.grid.column.Date',
-        'Ext.toolbar.Paging'
+        'Ext.toolbar.Paging',
+        'Ext.grid.filters.Filters'
     ],
-    xtype: 'han-c2-signals-grid',
+    plugins: 'gridfilters',
     title: 'C2 Signals',
     bind: '{c2Signals}',
     listeners: {
@@ -29,12 +31,20 @@ Ext.define('C2.view.c2.SignalsGrid', {
             width: 180,
             dataIndex: 'createdDate',
             xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u'
+            format: 'm/d/Y H:i:s.u',
+            filter: {
+                type: 'date',
+                dateFormat: 'time'
+            }
         }, {
             text: 'Status',
             width: 80,
             dataIndex: 'publishStatus',
-            renderer: 'publishStatusRenderer'
+            renderer: 'publishStatusRenderer',
+            filter: {
+                type: 'list',
+                options: ['posok', 'poserr', 'sbmok', 'sbmerr', 'cncok', 'cncerr', 'updcncok', 'updcncerr', 'updsbmok', 'updsbmerr']
+            }
         }, {
             text: 'Origin',
             width: 100,
@@ -64,7 +74,8 @@ Ext.define('C2.view.c2.SignalsGrid', {
         }, {
             text: 'Symbol',
             flex: 1,
-            dataIndex: 'symbol'
+            dataIndex: 'symbol',
+            filter: 'string'
         }, {
             text: 'Instrm',
             width: 80,
@@ -117,7 +128,11 @@ Ext.define('C2.view.c2.SignalsGrid', {
             text: 'PollSts',
             width: 80,
             dataIndex: 'pollStatus',
-            renderer: 'pollStatusRenderer'
+            renderer: 'pollStatusRenderer',
+            filter: {
+                type: 'list',
+                options: ['notpolled', 'working', 'cancelled', 'filled', 'expired', 'pollerr', 'unknown']
+            }
         }, {
             text: 'Trd',
             width: 80,

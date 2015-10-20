@@ -9,6 +9,4 @@ Ext.define('C2.view.main.MainModel', {
     data: {
         name: 'C2'
     }
-
-    //TODO - add data, formulas and/or methods to support your view
 });

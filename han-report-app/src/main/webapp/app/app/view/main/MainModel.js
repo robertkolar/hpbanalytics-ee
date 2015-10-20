@@ -9,6 +9,4 @@ Ext.define('Report.view.main.MainModel', {
     data: {
         name: 'Report'
     }
-
-    //TODO - add data, formulas and/or methods to support your view
 });
