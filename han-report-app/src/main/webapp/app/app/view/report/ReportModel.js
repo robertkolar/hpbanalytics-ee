@@ -38,7 +38,9 @@ Ext.define('Report.view.report.ReportModel', {
                     totalProperty: 'total'
                 }
             },
-            pageSize: 25
+            pageSize: 25,
+            remoteFilter: true,
+            remoteSort: false
         },
         trades: {
             model: 'Report.model.report.Trade',
@@ -51,7 +53,9 @@ Ext.define('Report.view.report.ReportModel', {
                     totalProperty: 'total'
                 }
             },
-            pageSize: 25
+            pageSize: 25,
+            remoteFilter: true,
+            remoteSort: false
         },
         statistics: {
             model: 'Report.model.report.Statistics',

@@ -7,8 +7,10 @@ Ext.define('Report.view.report.grid.TradesGrid', {
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.TradesController'
+        'Report.view.report.TradesController',
+        'Ext.grid.filters.Filters'
     ],
+    plugins: 'gridfilters',
     controller: 'han-report-trades',
     bind: '{trades}',
     viewConfig: {
@@ -48,7 +50,11 @@ Ext.define('Report.view.report.grid.TradesGrid', {
         }, {
             text: 'Sec',
             width: 80,
-            dataIndex: 'secType'
+            dataIndex: 'secType',
+            filter: {
+                type: 'list',
+                options: ['STK', 'OPT', 'FUT', 'CASH']
+            }
         }, {
             text: 'Cur',
             width: 80,
@@ -56,7 +62,8 @@ Ext.define('Report.view.report.grid.TradesGrid', {
         }, {
             text: 'Symbol',
             width: 180,
-            dataIndex: 'symbol'
+            dataIndex: 'symbol',
+            filter: 'string'
         }, {
             text: 'Open',
             width: 100,
@@ -70,7 +77,11 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             width: 180,
             dataIndex: 'openDate',
             xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u'
+            format: 'm/d/Y H:i:s.u',
+            filter: {
+                type: 'date',
+                dateFormat: 'time'
+            }
         }, {
             text: 'Close',
             width: 100,

@@ -41,7 +41,7 @@ public class StatisticsCalculator implements Serializable {
 
     public List<Statistics> calculateStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
         l.info("START statistics calculation for " + report.getName() + ", undl=" + underlying + ", interval=" + interval);
-        List<Trade> trades = reportDao.getTrades(report, underlying);
+        List<Trade> trades = reportDao.getTradesByUnderlying(report, underlying);
         List<Statistics> stats = doCalculate(trades, interval);
         statisticsMap.put(report.getId() + "_" + interval.name() + "_" + underlying, stats);
         l.info("END statistics statistics calculation for " + report.getName() + ", interval=" + interval);

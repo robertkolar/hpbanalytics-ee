@@ -7,8 +7,10 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.ReportController'
+        'Report.view.report.ReportController',
+        'Ext.grid.filters.Filters'
     ],
+    plugins: 'gridfilters',
     bind: '{executions}',
     viewConfig: {
         stripeRows: true
@@ -28,7 +30,11 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
             width: 180,
             dataIndex: 'fillDate',
             xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u'
+            format: 'm/d/Y H:i:s.u',
+            filter: {
+                type: 'date',
+                dateFormat: 'time'
+            }
         }, {
             text: 'Origin',
             width: 100,
@@ -54,7 +60,11 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
         }, {
             text: 'Sec',
             width: 60,
-            dataIndex: 'secType'
+            dataIndex: 'secType',
+            filter: {
+                type: 'list',
+                options: ['STK', 'OPT', 'FUT', 'CASH']
+            }
         }, {
             text: 'Undl',
             width: 80,
@@ -66,7 +76,8 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
         }, {
             text: 'Symbol',
             width: 180,
-            dataIndex: 'symbol'
+            dataIndex: 'symbol',
+            filter: 'string'
         }, {
             text: 'Fill',
             width: 100,

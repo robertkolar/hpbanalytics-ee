@@ -11,6 +11,8 @@ import com.highpowerbear.hpbanalytics.report.process.OptionUtil;
 import com.highpowerbear.hpbanalytics.report.process.ReportProcessor;
 import com.highpowerbear.hpbanalytics.report.process.StatisticsCalculator;
 import com.highpowerbear.hpbanalytics.report.rest.model.CloseTradeDto;
+import com.highpowerbear.hpbanalytics.report.rest.model.ExecutionFilter;
+import com.highpowerbear.hpbanalytics.report.rest.model.TradeFilter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,6 +34,7 @@ public class ReportService {
     @Inject ReportDao reportDao;
     @Inject private StatisticsCalculator statisticsCalculator;
     @Inject private ReportProcessor reportProcessor;
+    @Inject private FilterParser filterParser;
 
     @GET
     @Path("reports")
@@ -75,15 +78,21 @@ public class ReportService {
     @GET
     @Path("reports/{id}/executions")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExecutions(@PathParam("id") Integer id, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    public Response getFilteredExecutions(
+            @PathParam("id") Integer id,
+            @QueryParam("filter") String jsonFilter,
+            @QueryParam("start") Integer start,
+            @QueryParam("limit") Integer limit) {
+
         start = (start == null ? 0 : start);
         limit = (limit == null ? ReportDefinitions.JPA_MAX_RESULTS : limit);
         Report report = reportDao.findReport(id);
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<Execution> executions = reportDao.getExecutions(report, start, limit);
-        Long numExecutions = reportDao.getNumExecutions(report);
+        ExecutionFilter filter = filterParser.parseExecutionFilter(jsonFilter);
+        List<Execution> executions = reportDao.getFilteredExecutions(report, filter, start, limit);
+        Long numExecutions = reportDao.getNumFilteredExecutions(report, filter);
         return Response.ok(new RestList<>(executions, numExecutions)).build();
     }
 
@@ -118,15 +127,21 @@ public class ReportService {
     @GET
     @Path("reports/{id}/trades")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTrades(@PathParam("id") Integer id, @QueryParam("start") Integer start, @QueryParam("limit") Integer limit) {
+    public Response getFilteredTrades(
+            @PathParam("id") Integer id,
+            @QueryParam("filter") String jsonFilter,
+            @QueryParam("start") Integer start,
+            @QueryParam("limit") Integer limit) {
+
         start = (start == null ? 0 : start);
         limit = (limit == null ? ReportDefinitions.JPA_MAX_RESULTS : limit);
         Report report = reportDao.findReport(id);
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<Trade> trades = reportDao.getTrades(report, start, limit);
-        Long numTrades = reportDao.getNumTrades(report);
+        TradeFilter filter = filterParser.parseTradeFilter(jsonFilter);
+        List<Trade> trades = reportDao.getFilteredTrades(report, filter, start, limit);
+        Long numTrades = reportDao.getNumFilteredTrades(report, filter);
         return Response.ok(new RestList<>(trades, numTrades)).build();
     }
 

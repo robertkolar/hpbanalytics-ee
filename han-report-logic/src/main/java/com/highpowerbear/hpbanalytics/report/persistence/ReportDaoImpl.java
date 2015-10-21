@@ -4,8 +4,11 @@ import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
+import com.highpowerbear.hpbanalytics.report.rest.model.ExecutionFilter;
+import com.highpowerbear.hpbanalytics.report.rest.model.TradeFilter;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,6 +26,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @PersistenceContext
     private EntityManager em;
+    @Inject private QueryBuilder queryBuilder;
 
     @Override
     public Report getReportByOrigin(String origin) {
@@ -73,15 +77,6 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     }
 
     @Override
-    public List<Execution> getExecutions(Report report, Integer start, Integer limit) {
-        TypedQuery<Execution> q = em.createQuery("SELECT e FROM Execution e WHERE e.report = :report ORDER BY e.fillDate DESC", Execution.class);
-        q.setParameter("report", report);
-        q.setFirstResult(start);
-        q.setMaxResults(limit);
-        return q.getResultList();
-    }
-
-    @Override
     public List<Execution> getExecutions(Report report) {
         TypedQuery<Execution> q = em.createQuery("SELECT e FROM Execution e WHERE e.report = :report ORDER BY e.fillDate ASC", Execution.class);
         q.setParameter("report", report);
@@ -129,6 +124,20 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     }
 
     @Override
+    public List<Execution> getFilteredExecutions(Report report, ExecutionFilter filter, Integer start, Integer limit) {
+        Query q = queryBuilder.buildFilteredExecutionsQuery(em , report, filter, false);
+        q.setFirstResult(start);
+        q.setMaxResults(limit);
+        return q.getResultList();
+    }
+
+    @Override
+    public Long getNumFilteredExecutions(Report report, ExecutionFilter filter) {
+        Query q = queryBuilder.buildFilteredExecutionsQuery(em , report, filter, true);
+        return (Long) q.getSingleResult();
+    }
+
+    @Override
     public Long getNumTrades(Report report) {
         Query query = em.createQuery("SELECT COUNT(t) FROM Trade t WHERE t.report = :report");
         query.setParameter("report", report);
@@ -144,18 +153,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     }
 
     @Override
-    public List<Trade> getTrades(Report report, Integer start, Integer limit) {
-        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report ORDER BY t.openDate DESC", Trade.class);
-        q.setParameter("report", report);
-        q.setFirstResult(start);
-        q.setMaxResults(limit);
-        List<Trade> list = q.getResultList();
-        q.getResultList().forEach(com.highpowerbear.hpbanalytics.report.entity.Trade::getSplitExecutions);
-        return list;
-    }
-
-    @Override
-    public List<Trade> getTrades(Report report, String underlying) {
+    public List<Trade> getTradesByUnderlying(Report report, String underlying) {
         if (ReportDefinitions.ALL_UNDERLYINGS.equals(underlying)) {
             underlying = null;
         }
@@ -188,7 +186,7 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @Override
     public void deleteAllTrades(Report report) {
-        for (Trade trade : this.getTrades(report, null)) {
+        for (Trade trade : this.getTradesByUnderlying(report, null)) {
             // it is managed, since trade is managed
             trade.getSplitExecutions().forEach(em::remove);
             em.remove(trade);
@@ -211,6 +209,22 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     @Override
     public Trade findTrade(Long id) {
         return em.find(Trade.class, id);
+    }
+
+    @Override
+    public List<Trade> getFilteredTrades(Report report, TradeFilter filter, Integer start, Integer limit) {
+        Query q = queryBuilder.buildFilteredTradesQuery(em, report, filter, false);
+        q.setFirstResult(start);
+        q.setMaxResults(limit);
+        List<Trade> list = q.getResultList();
+        list.forEach(Trade::getSplitExecutions);
+        return list;
+    }
+
+    @Override
+    public Long getNumFilteredTrades(Report report, TradeFilter filter) {
+        Query q = queryBuilder.buildFilteredTradesQuery(em, report, filter, true);
+        return (Long) q.getSingleResult();
     }
 
     @Override
