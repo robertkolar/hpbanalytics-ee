@@ -16,48 +16,46 @@ Ext.define('C2.view.c2.SystemsGrid', {
     },
     bind: '{c2Systems}',
     title: 'Systems',
-    columns: {
-        defaults: {
-            style: 'background-color: #157fcc; color: black;'
-        },
-        items: [{
-            text: 'System ID',
-            width: 100,
-            dataIndex: 'systemId'
-        }, {
-            text: 'System Name',
-            width: 150,
-            dataIndex: 'systemName',
-            editor: {
-                xtype: 'textfield',
-                allowBlank: false
-            }
-        }, {
-            text: 'Origin',
-            width: 120,
-            dataIndex: 'conversionOrigin',
-            editor: {
-                xtype: 'textfield',
-                allowBlank: false
-            }
-        }, {
-            text: 'Use Ssl',
-            width: 80,
-            dataIndex: 'useSsl',
-            xtype: 'checkcolumn',
-            editor: {
-                xtype: 'checkboxfield'
-            }
-        }, {
-            text: 'Email',
-            flex: 1,
-            dataIndex: 'email',
-            editor: {
-                xtype: 'textfield',
-                allowBlank: false
-            }
-        }]
+    viewConfig: {
+        stripeRows: true
     },
+    columns: [{
+        text: 'System ID',
+        width: 100,
+        dataIndex: 'systemId'
+    }, {
+        text: 'System Name',
+        width: 150,
+        dataIndex: 'systemName',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }, {
+        text: 'Origin',
+        width: 120,
+        dataIndex: 'conversionOrigin',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }, {
+        text: 'Use Ssl',
+        width: 80,
+        dataIndex: 'useSsl',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Email',
+        flex: 1,
+        dataIndex: 'email',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }],
     dockedItems: [{
         xtype: 'pagingtoolbar',
         bind: '{c2Systems}',

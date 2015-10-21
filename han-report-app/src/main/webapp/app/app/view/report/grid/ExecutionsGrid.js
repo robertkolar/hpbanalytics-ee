@@ -15,103 +15,100 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
     viewConfig: {
         stripeRows: true
     },
-    columns: {
-        defaults: {
-            style: 'background-color: #157fcc; color: black;'
-        },
-        items: [{
-            xtype: 'templatecolumn',
-            text: 'ID',
-            width: 80,
-            tpl: '{reportId}/{id}',
-            align: 'right'
-        }, {
-            text: 'Fill Date',
-            width: 180,
-            dataIndex: 'fillDate',
-            xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u',
-            filter: {
-                type: 'date',
-                dateFormat: 'time'
-            }
-        }, {
-            text: 'Origin',
-            width: 100,
-            dataIndex: 'origin'
-        }, {
-            text: 'RefID',
-            width: 100,
-            dataIndex: 'referenceId',
-            align: 'right'
-        }, {
-            text: 'Action',
-            width: 60,
-            dataIndex: 'action',
-            renderer: function(val, metadata, record) {
-                metadata.style = (val == 'BUY' ? 'color: blue;' : 'color: brown;');
-                return val;
-            }
-        }, {
-            text: 'Qnt',
-            width: 80,
-            dataIndex: 'quantity',
-            align: 'right'
-        }, {
-            text: 'Sec',
-            width: 60,
-            dataIndex: 'secType',
-            filter: {
-                type: 'list',
-                options: ['STK', 'OPT', 'FUT', 'CASH']
-            }
-        }, {
-            text: 'Undl',
-            width: 80,
-            dataIndex: 'underlying'
-        }, {
-            text: 'Cur',
-            width: 60,
-            dataIndex: 'currency'
-        }, {
-            text: 'Symbol',
-            width: 180,
-            dataIndex: 'symbol',
-            filter: 'string'
-        }, {
-            text: 'Fill',
-            width: 100,
-            dataIndex: 'fillPrice',
-            align: 'right',
-            renderer: function(val, metadata, record) {
-                return Ext.util.Format.number(val, '0.00###');
-            }
-        }, {
-            text: 'Received Date',
-            width: 180,
-            dataIndex: 'receivedDate',
-            xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u'
-        }, {
-            text: 'Comment',
-            flex: 1,
-            dataIndex: 'comment'
-        }, {
-            xtype: 'widgetcolumn',
-            width : 50,
-            widget: {
-                xtype: 'button',
-                width: 30,
-                tooltip: 'Delete Execution',
-                handler: 'onDeleteExecution',
-                listeners: {
-                    beforerender: function(c, eOpts) {
-                        c.setGlyph(Report.common.Glyphs.getGlyph('delete'));
-                    }
+    columns: [{
+        xtype: 'templatecolumn',
+        text: 'ID',
+        width: 80,
+        tpl: '{reportId}/{id}',
+        align: 'right'
+    }, {
+        text: 'Fill Date',
+        width: 180,
+        dataIndex: 'fillDate',
+        xtype: 'datecolumn',
+        format: 'm/d/Y H:i:s.u',
+        filter: {
+            type: 'date',
+            dateFormat: 'time'
+        }
+    }, {
+        text: 'Origin',
+        width: 100,
+        dataIndex: 'origin'
+    }, {
+        text: 'RefID',
+        width: 100,
+        dataIndex: 'referenceId',
+        align: 'right'
+    }, {
+        text: 'Action',
+        width: 60,
+        dataIndex: 'action',
+        renderer: function(val, metadata, record) {
+            metadata.style = (val == 'BUY' ? 'color: blue;' : 'color: brown;');
+            return val;
+        }
+    }, {
+        text: 'Qnt',
+        width: 80,
+        dataIndex: 'quantity',
+        align: 'right'
+    }, {
+        text: 'Sec',
+        width: 60,
+        dataIndex: 'secType',
+        filter: {
+            type: 'list',
+            options: ['STK', 'OPT', 'FUT', 'CASH']
+        }
+    }, {
+        text: 'Undl',
+        width: 80,
+        dataIndex: 'underlying'
+    }, {
+        text: 'Cur',
+        width: 60,
+        dataIndex: 'currency'
+    }, {
+        text: 'Symbol',
+        width: 180,
+        dataIndex: 'symbol',
+        filter: 'string'
+    }, {
+        text: 'Fill',
+        width: 100,
+        dataIndex: 'fillPrice',
+        align: 'right',
+        renderer: function(val, metadata, record) {
+            return Ext.util.Format.number(val, '0.00###');
+        }
+    }, {
+        text: 'Received Date',
+        width: 180,
+        dataIndex: 'receivedDate',
+        xtype: 'datecolumn',
+        format: 'm/d/Y H:i:s.u'
+    }, {
+        text: 'Comment',
+        width: 200,
+        dataIndex: 'comment'
+    }, {
+        xtype: 'widgetcolumn',
+        width : 50,
+        widget: {
+            xtype: 'button',
+            width: 30,
+            tooltip: 'Delete Execution',
+            handler: 'onDeleteExecution',
+            listeners: {
+                beforerender: function(c, eOpts) {
+                    c.setGlyph(Report.common.Glyphs.getGlyph('delete'));
                 }
             }
-        }]
-    },
+        }
+    }, {
+        flex: 1
+    }],
     dockedItems: [{
         xtype: 'pagingtoolbar',
         reference: 'executionsPaging',

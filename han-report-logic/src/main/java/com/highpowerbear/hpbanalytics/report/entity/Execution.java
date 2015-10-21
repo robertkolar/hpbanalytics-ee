@@ -190,6 +190,6 @@ public class Execution implements Serializable, Comparable<Execution> {
     
     public String print() {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-        return (id + ", " + action + ", " + quantity + ", " + symbol + ", " + df.format(fillDate.getTime()));
+        return (id + ", " + action + ", " + quantity + ", " + symbol + ", " + df.format(fillDate.getTime()) + ", " + fillPrice);
     }
 }

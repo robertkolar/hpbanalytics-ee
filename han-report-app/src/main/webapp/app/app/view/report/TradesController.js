@@ -133,7 +133,7 @@ Ext.define('Report.view.report.TradesController', {
     },
 
     showSplitExecutions: function (view, cell, cellIndex, record, row, rowIndex, e) {
-        if (cellIndex != 13) {
+        if (cellIndex != 14) {
             return;
         }
         var me = this;
