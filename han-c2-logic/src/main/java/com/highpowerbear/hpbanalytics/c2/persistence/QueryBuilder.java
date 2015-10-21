@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.c2.persistence;
 
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
+import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.rest.model.C2SignalFilter;
@@ -97,7 +98,7 @@ public class QueryBuilder {
         }
 
         sb.append(isCount ? "" : " ORDER BY cs.createdDate DESC");
-        Query q = (isCount ? em.createQuery(sb.toString()) : em.createQuery(sb.toString(), InputRequest.class));
+        Query q = (isCount ? em.createQuery(sb.toString()) : em.createQuery(sb.toString(), C2Signal.class));
 
         q.setParameter("c2System", c2System);
 

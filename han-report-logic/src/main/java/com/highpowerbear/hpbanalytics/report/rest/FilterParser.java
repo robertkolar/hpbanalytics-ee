@@ -37,7 +37,7 @@ public class FilterParser {
                     ReportDefinitions.FilterOperatorEnum operator = parseOperatorEnum(array, i);
                     filter.getSecTypeFilterMap().put(operator, new HashSet<>());
                     for (String v : parseValues(array, i)) {
-                        filter.getSecTypeFilterMap().get(operator).add(v.toUpperCase());
+                        filter.getSecTypeFilterMap().get(operator).add(ReportDefinitions.SecType.valueOf(v.toUpperCase()));
                     }
 
                 } else if (ReportDefinitions.ExecutionFilterField.FILL_DATE.getVarName().equals(property)) {
@@ -66,7 +66,7 @@ public class FilterParser {
                     ReportDefinitions.FilterOperatorEnum operator = parseOperatorEnum(array, i);
                     filter.getSecTypeFilterMap().put(operator, new HashSet<>());
                     for (String v : parseValues(array, i)) {
-                        filter.getSecTypeFilterMap().get(operator).add(v.toUpperCase());
+                        filter.getSecTypeFilterMap().get(operator).add(ReportDefinitions.SecType.valueOf(v.toUpperCase()));
                     }
 
                 } else if (ReportDefinitions.TradeFilterField.OPEN_DATE.getVarName().equals(property)) {

@@ -193,7 +193,7 @@ public class ReportDefinitions {
     public enum ExecutionFilterField {
         SYMBOL("symbol"),
         SEC_TYPE("secType"),
-        FILL_DATE("submitDate");
+        FILL_DATE("fillDate");
 
         private String varName;
 

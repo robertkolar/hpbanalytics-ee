@@ -30,6 +30,16 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             tpl: '{reportId}/{id}',
             align: 'right'
         }, {
+            text: 'Open Date',
+            width: 180,
+            dataIndex: 'openDate',
+            xtype: 'datecolumn',
+            format: 'm/d/Y H:i:s.u',
+            filter: {
+                type: 'date',
+                dateFormat: 'time'
+            }
+        }, {
             text: 'Type',
             width: 80,
             dataIndex: 'type',
@@ -56,6 +66,10 @@ Ext.define('Report.view.report.grid.TradesGrid', {
                 options: ['STK', 'OPT', 'FUT', 'CASH']
             }
         }, {
+            text: 'Undl',
+            width: 80,
+            dataIndex: 'underlying'
+        }, {
             text: 'Cur',
             width: 80,
             dataIndex: 'currency'
@@ -71,16 +85,6 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             align: 'right',
             renderer: function(val, metadata, record) {
                 return Ext.util.Format.number(val, '0.00###');
-            }
-        }, {
-            text: 'Open Date',
-            width: 180,
-            dataIndex: 'openDate',
-            xtype: 'datecolumn',
-            format: 'm/d/Y H:i:s.u',
-            filter: {
-                type: 'date',
-                dateFormat: 'time'
             }
         }, {
             text: 'Close',

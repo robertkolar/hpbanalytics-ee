@@ -12,14 +12,14 @@ import java.util.Set;
  */
 public class TradeFilter {
     private Map<ReportDefinitions.FilterOperatorString, String> symbolFilterMap = new HashMap<>();
-    private Map<ReportDefinitions.FilterOperatorEnum, Set<String>> secTypeFilterMap = new HashMap<>();
+    private Map<ReportDefinitions.FilterOperatorEnum, Set<ReportDefinitions.SecType>> secTypeFilterMap = new HashMap<>();
     private Map<ReportDefinitions.FilterOperatorCalendar, Calendar> openDateFilterMap = new HashMap<>();
 
     public Map<ReportDefinitions.FilterOperatorString, String> getSymbolFilterMap() {
         return symbolFilterMap;
     }
 
-    public Map<ReportDefinitions.FilterOperatorEnum, Set<String>> getSecTypeFilterMap() {
+    public Map<ReportDefinitions.FilterOperatorEnum, Set<ReportDefinitions.SecType>> getSecTypeFilterMap() {
         return secTypeFilterMap;
     }
 
