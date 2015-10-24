@@ -67,8 +67,7 @@ Ext.define('Report.view.report.ReportController', {
             interval = me.lookupReference('intervalCombo').getValue(),
             underlyingCombo =  me.lookupReference('underlyingCombo'),
             executionsPaging = me.lookupReference('executionsPaging'),
-            tradesPaging = me.lookupReference('tradesPanel').lookupReference('tradesPaging'),
-            statisticsPaging = me.lookupReference('statisticsPaging');
+            tradesPaging = me.lookupReference('tradesPanel').lookupReference('tradesPaging');
 
         me.reportId = record.data.id;
 
@@ -111,9 +110,6 @@ Ext.define('Report.view.report.ReportController', {
                     console.log('reloaded trades for report, id=' + me.reportId)
                 }
             });
-        }
-        if (statisticsPaging.getStore().isLoaded()) {
-            statisticsPaging.moveFirst();
         }
         me.reloadStatisticsAndCharts();
     },
@@ -264,8 +260,12 @@ Ext.define('Report.view.report.ReportController', {
             statistics = me.getStore('statistics'),
             charts = me.getStore('charts'),
             interval = me.lookupReference('intervalCombo').getValue(),
-            underlying =  me.lookupReference('underlyingCombo').getValue();
+            underlying =  me.lookupReference('underlyingCombo').getValue(),
+            statisticsPaging = me.lookupReference('statisticsPaging');
 
+        if (statisticsPaging.getStore().isLoaded()) {
+            statisticsPaging.moveFirst();
+        }
         statistics.load(function(records, operation, success) {
             if (success) {
                 console.log('reloaded statistics for report, id=' + me.reportId + ', interval=' + interval + ', underlying=' + underlying);
