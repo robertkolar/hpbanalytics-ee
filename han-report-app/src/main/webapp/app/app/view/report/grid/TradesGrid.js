@@ -116,6 +116,10 @@ Ext.define('Report.view.report.grid.TradesGrid', {
         renderer: function(val, metadata, record) {
             metadata.style = 'cursor: pointer; color: white; ' + (val == 'OPEN' ? 'background-color: green;' : 'background-color: brown;');
             return val.toLowerCase();
+        },
+        filter: {
+            type: 'list',
+            options: ['open', 'closed']
         }
     }, {
         xtype: 'widgetcolumn',

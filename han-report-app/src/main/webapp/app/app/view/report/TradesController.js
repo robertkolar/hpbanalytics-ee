@@ -32,7 +32,6 @@ Ext.define('Report.view.report.TradesController', {
                 },
                 success: function (response, opts) {
                     var expDate = JSON.parse(response.responseText).expDate;
-                    closeDate = new Date(expDate);
                     maxCloseDate = new Date(expDate + 24 * 60 * 60 * 1000);
                     ready = true;
                 }

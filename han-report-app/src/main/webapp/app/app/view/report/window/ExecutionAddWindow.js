@@ -31,13 +31,15 @@ Ext.define('Report.view.report.window.ExecutionAddWindow', {
             fieldLabel: 'Origin',
             name: 'origin',
             minLength: 1,
-            maxLength: 20
+            maxLength: 20,
+            value: 'INTERNAL'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Ref ID',
             name: 'referenceId',
             minLength: 1,
-            maxLength: 20
+            maxLength: 20,
+            value: 'N/A'
         }, {
             xtype: 'combobox',
             name: 'action',
@@ -110,7 +112,8 @@ Ext.define('Report.view.report.window.ExecutionAddWindow', {
             fieldLabel: 'Comment',
             name: 'comment',
             maxLength: 255,
-            allowBlank: true
+            allowBlank: true,
+            value: 'MANUAL'
         }],
         dockedItems: [{
             xtype: 'toolbar',

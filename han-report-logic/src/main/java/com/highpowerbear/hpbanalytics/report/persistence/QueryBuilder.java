@@ -89,6 +89,9 @@ public class QueryBuilder {
                 sb.append(" AND t.openDate ").append(op.getSql()).append(" :").append(op.name()).append("_").append(varName);
             }
         }
+        for (ReportDefinitions.FilterOperatorEnum op : filter.getStatusFilterMap().keySet()) {
+            sb.append(" AND t.status ").append(op.getSql()).append(" :").append(op.name()).append("_").append(ReportDefinitions.TradeFilterField.STATUS.getVarName());
+        }
 
         sb.append(isCount ? "" : " ORDER BY t.openDate DESC");
         Query q = (isCount ? em.createQuery(sb.toString()) : em.createQuery(sb.toString(), Trade.class));
@@ -114,6 +117,9 @@ public class QueryBuilder {
             } else {
                 q.setParameter(op.name() + "_" + varName, filter.getOpenDateFilterMap().get(op));
             }
+        }
+        for (ReportDefinitions.FilterOperatorEnum op : filter.getStatusFilterMap().keySet()) {
+            q.setParameter(op.name() + "_" + ReportDefinitions.TradeFilterField.STATUS.getVarName(), filter.getStatusFilterMap().get(op));
         }
 
         l.info("Generated query=" + sb.toString());

@@ -73,6 +73,13 @@ public class FilterParser {
                     Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(Long.valueOf(parseString(array, i)));
                     filter.getOpenDateFilterMap().put(parseOperatorCalendar(array, i), cal);
+
+                }  else if (ReportDefinitions.TradeFilterField.STATUS.getVarName().equals(property)) {
+                    ReportDefinitions.FilterOperatorEnum operator = parseOperatorEnum(array, i);
+                    filter.getStatusFilterMap().put(operator, new HashSet<>());
+                    for (String v : parseValues(array, i)) {
+                        filter.getStatusFilterMap().get(operator).add(ReportDefinitions.TradeStatus.valueOf(v.toUpperCase()));
+                    }
                 }
             }
             jsonReader.close();

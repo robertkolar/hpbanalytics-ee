@@ -209,7 +209,8 @@ public class ReportDefinitions {
     public enum TradeFilterField {
         SYMBOL("symbol"),
         SEC_TYPE("secType"),
-        OPEN_DATE("openDate");
+        OPEN_DATE("openDate"),
+        STATUS("status");
 
         private String varName;
 
