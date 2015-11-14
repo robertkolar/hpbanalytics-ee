@@ -36,7 +36,7 @@ public class StatisticsCalculator implements Serializable {
         if(statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying) == null) {
             calculateStatistics(report, interval, underlying);
         }
-        return statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying);
+        return new ArrayList<>(statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying)); // copy because reverse will be performed on it
     }
 
     public List<Statistics> calculateStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {

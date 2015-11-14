@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -205,6 +206,7 @@ public class ReportService {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying);
+        Collections.reverse(statistics);
         List<Statistics> statisticsPage = new ArrayList<>();
         for (int i = 0; i < statistics.size(); i++) {
             if (i >= start && i < (start + limit)) {
