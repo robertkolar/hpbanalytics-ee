@@ -55,6 +55,18 @@ public class ReportService {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("reports")
+    public Response updateReport(Report report) {
+        Report reportDb = reportDao.findReport(report.getId());
+        if (reportDb == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(reportDao.updateReport(report)).build();
+    }
+
+    @PUT
     @Path("reports/{id}")
     public Response analyzeReport(@PathParam("id") Integer id) {
         Report report = reportDao.findReport(id);

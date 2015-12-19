@@ -7,6 +7,7 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
+        'Ext.grid.plugin.RowEditing',
         'Report.view.report.ReportController'
     ],
     listeners: {
@@ -18,17 +19,57 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
     },
     columns: [{
         text: 'ID',
-        width: 80,
+        width: 60,
         dataIndex: 'id',
         align: 'right'
     }, {
-        text: 'Origin',
-        width: 100,
-        dataIndex: 'origin'
-    }, {
         text: 'Name',
         width: 120,
-        dataIndex: 'name'
+        dataIndex: 'reportName',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }, {
+        text: 'Origin',
+        width: 100,
+        dataIndex: 'origin',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }, {
+        text: 'Stk',
+        width: 60,
+        dataIndex: 'stk',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Opt',
+        width: 60,
+        dataIndex: 'opt',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Fut',
+        width: 60,
+        dataIndex: 'fut',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Fx',
+        width: 60,
+        dataIndex: 'fx',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
     }, {
         text: 'Exec',
         width: 120,
@@ -94,5 +135,12 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
         bind: '{reports}',
         dock: 'bottom',
         displayInfo: true
-    }]
+    }],
+    plugins: {
+        ptype: 'rowediting',
+        clicksToEdit: 2,
+        listeners: {
+            edit: function (editor, ctx, eOpts) {ctx.grid.getStore().sync()}
+        }
+    }
 });

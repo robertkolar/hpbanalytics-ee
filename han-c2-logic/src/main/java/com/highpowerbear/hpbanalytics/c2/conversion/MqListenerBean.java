@@ -47,7 +47,7 @@ public class MqListenerBean implements MessageListener {
                 inputRequest.setStatus(C2Definitions.InputStatus.NEW);
                 inputRequest.setStatusDate(now);
                 c2Dao.newInputRequest(inputRequest);
-                C2System c2System = c2Dao.getC2SystemByConversionOrigin(inputRequest.getOrigin());
+                C2System c2System = c2Dao.getC2SystemByOriginAndSecType(inputRequest.getOrigin(), inputRequest.getSecType());
                 inputProcessor.process(c2System, inputRequest);
                 websocketController.broadcastC2Message("input processed");
             } else {

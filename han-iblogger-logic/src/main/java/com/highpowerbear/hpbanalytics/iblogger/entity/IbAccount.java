@@ -21,14 +21,14 @@ public class IbAccount {
     private String accountId;
     private String host;
     private Integer port;
-    private Boolean listen;
-    private Boolean allowUpd;
-    private Boolean ibtoc2;
-    private Boolean analytics;
-    private Boolean stk;
-    private Boolean fut;
-    private Boolean opt;
-    private Boolean fx;
+    private boolean listen;
+    private boolean allowUpd;
+    private boolean ibtoc2;
+    private boolean analytics;
+    private boolean stk;
+    private boolean fut;
+    private boolean opt;
+    private boolean fx;
     private String permittedClients; // csv, null means all
     private String permittedAccounts; // csv, null means all - applicable to FA subaccounts
     @Transient
@@ -64,6 +64,27 @@ public class IbAccount {
         return mayProcess;
     }
 
+    public String print() {
+        return accountId + ", " + host + ":" + port;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IbAccount ibAccount = (IbAccount) o;
+
+        return !(accountId != null ? !accountId.equals(ibAccount.accountId) : ibAccount.accountId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return accountId != null ? accountId.hashCode() : 0;
+    }
+
     public String getAccountId() {
         return accountId;
     }
@@ -88,67 +109,67 @@ public class IbAccount {
         this.port = port;
     }
 
-    public Boolean isListen() {
+    public boolean isListen() {
         return listen;
     }
 
-    public void setListen(Boolean listen) {
+    public void setListen(boolean listen) {
         this.listen = listen;
     }
 
-    public Boolean isUpdate() {
+    public boolean isAllowUpd() {
         return allowUpd;
     }
 
-    public void setAllowUpd(Boolean update) {
-        this.allowUpd = update;
+    public void setAllowUpd(boolean allowUpd) {
+        this.allowUpd = allowUpd;
     }
 
-    public Boolean isIbtoc2() {
+    public boolean isIbtoc2() {
         return ibtoc2;
     }
 
-    public void setIbtoc2(Boolean ibtoc2) {
+    public void setIbtoc2(boolean ibtoc2) {
         this.ibtoc2 = ibtoc2;
     }
 
-    public Boolean isAnalytics() {
+    public boolean isAnalytics() {
         return analytics;
     }
 
-    public void setAnalytics(Boolean analytics) {
+    public void setAnalytics(boolean analytics) {
         this.analytics = analytics;
     }
 
-    public Boolean isStk() {
+    public boolean isStk() {
         return stk;
     }
 
-    public void setStk(Boolean stk) {
+    public void setStk(boolean stk) {
         this.stk = stk;
     }
 
-    public Boolean isFut() {
+    public boolean isFut() {
         return fut;
     }
 
-    public void setFut(Boolean fut) {
+    public void setFut(boolean fut) {
         this.fut = fut;
     }
 
-    public Boolean isOpt() {
+    public boolean isOpt() {
         return opt;
     }
 
-    public void setOpt(Boolean opt) {
+    public void setOpt(boolean opt) {
         this.opt = opt;
     }
 
-    public Boolean isFx() {
+    public boolean isFx() {
         return fx;
     }
 
-    public void setFx(Boolean fx) {
+    public void setFx(boolean fx) {
         this.fx = fx;
     }
 
@@ -174,26 +195,5 @@ public class IbAccount {
 
     public void setIbConnection(IbConnection ibConnection) {
         this.ibConnection = ibConnection;
-    }
-
-    public String print() {
-        return accountId + ", " + host + ":" + port;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        IbAccount ibAccount = (IbAccount) o;
-
-        return !(accountId != null ? !accountId.equals(ibAccount.accountId) : ibAccount.accountId != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return accountId != null ? accountId.hashCode() : 0;
     }
 }

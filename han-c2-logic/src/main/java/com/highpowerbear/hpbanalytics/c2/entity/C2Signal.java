@@ -74,6 +74,22 @@ public class C2Signal implements Serializable {
         publishEvents.add(publishEvent);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        C2Signal c2Signal = (C2Signal) o;
+
+        return !(id != null ? !id.equals(c2Signal.id) : c2Signal.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Long getId() {
         return id;
     }
@@ -248,21 +264,5 @@ public class C2Signal implements Serializable {
 
     public void setPublishEvents(List<PublishEvent> publishEvents) {
         this.publishEvents = publishEvents;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        C2Signal c2Signal = (C2Signal) o;
-
-        return !(id != null ? !id.equals(c2Signal.id) : c2Signal.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

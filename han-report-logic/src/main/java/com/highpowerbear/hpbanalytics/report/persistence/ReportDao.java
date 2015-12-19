@@ -1,5 +1,6 @@
 package com.highpowerbear.hpbanalytics.report.persistence;
 
+import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
@@ -14,8 +15,9 @@ import java.util.List;
  * Created by robertk on 4/11/15.
  */
 public interface ReportDao {
-    Report getReportByOrigin(String origin);
+    Report getReportByOriginAndSecType(String origin, ReportDefinitions.SecType secType);
     Report findReport(Integer id);
+    Report updateReport(Report report);
     void deleteReport(Report report);
     List<Report> getReports();
 

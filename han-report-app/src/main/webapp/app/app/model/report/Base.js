@@ -10,6 +10,28 @@ Ext.define('Report.model.report.Base', {
     ],
     schema: {
         id: 'reportSchema',
-        namespace: 'Report.model.report'  // generate auto entityName
+        namespace: 'Report.model.report',  // generate auto entityName,
+        proxy: {
+            type: 'ajax',
+            actionMethods: {
+                read: 'GET',
+                update: 'PUT'
+            },
+            reader: {
+                type: 'json',
+                rootProperty: 'items',
+                totalProperty: 'total'
+            },
+            writer: {
+                type: 'json',
+                writeAllFields: true,
+                writeRecordId: true
+            },
+            listeners: {
+                exception: function(proxy, response, operation) {
+                    //C2.common.Util.showErrorMsg(response.responseText);
+                }
+            }
+        }
     }
 });

@@ -29,9 +29,13 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     @Inject private QueryBuilder queryBuilder;
 
     @Override
-    public Report getReportByOrigin(String origin) {
-        TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r WHERE r.origin = :origin", Report.class);
+    public Report getReportByOriginAndSecType(String origin, ReportDefinitions.SecType secType) {
+        TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r WHERE r.origin = :origin AND r.stk = :stk AND r.opt = :opt AND r.fut = :fut AND r.fx = :fx", Report.class);
         q.setParameter("origin", origin);
+        q.setParameter("stk", ReportDefinitions.SecType.STK.equals(secType));
+        q.setParameter("opt", ReportDefinitions.SecType.OPT.equals(secType));
+        q.setParameter("fut", ReportDefinitions.SecType.FUT.equals(secType));
+        q.setParameter("fx", ReportDefinitions.SecType.CASH.equals(secType));
         List<Report> list = q.getResultList();
         return (!list.isEmpty() ? list.get(0) : null);
     }
@@ -39,6 +43,11 @@ public class ReportDaoImpl implements Serializable, ReportDao {
     @Override
     public Report findReport(Integer id) {
         return em.find(Report.class, id);
+    }
+
+    @Override
+    public Report updateReport(Report report) {
+        return em.merge(report);
     }
 
     @Override

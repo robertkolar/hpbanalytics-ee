@@ -37,6 +37,22 @@ public class IbOrderEvent implements Serializable {
         return ibOrder.getId();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IbOrderEvent that = (IbOrderEvent) o;
+
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Long getId() {
         return id;
     }
@@ -83,21 +99,5 @@ public class IbOrderEvent implements Serializable {
 
     public void setIbOrder(IbOrder ibOrder) {
         this.ibOrder = ibOrder;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        IbOrderEvent that = (IbOrderEvent) o;
-
-        return !(id != null ? !id.equals(that.id) : that.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

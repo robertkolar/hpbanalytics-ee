@@ -34,10 +34,42 @@ Ext.define('C2.view.c2.SystemsGrid', {
     }, {
         text: 'Origin',
         width: 120,
-        dataIndex: 'conversionOrigin',
+        dataIndex: 'origin',
         editor: {
             xtype: 'textfield',
             allowBlank: false
+        }
+    }, {
+        text: 'Stk',
+        width: 60,
+        dataIndex: 'stk',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Opt',
+        width: 60,
+        dataIndex: 'opt',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Fut',
+        width: 60,
+        dataIndex: 'fut',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
+        text: 'Fx',
+        width: 60,
+        dataIndex: 'fx',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
         }
     }, {
         text: 'Use Ssl',

@@ -8,8 +8,12 @@ Ext.define('C2.model.c2.C2System', {
     fields: [
         'systemId',
         'systemName',
-        'conversionOrigin',
-        'email',
-        'useSsl'
+        'origin',
+        'stk',
+        'opt',
+        'fut',
+        'fx',
+        'useSsl',
+        'email'
     ]
 });

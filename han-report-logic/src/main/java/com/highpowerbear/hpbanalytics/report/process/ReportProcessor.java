@@ -32,18 +32,18 @@ public class ReportProcessor implements Serializable  {
     @Inject private StatisticsCalculator statisticsCalculator;
     
     public void analyzeAll(Report report) {
-        l.info("START report processing for " + report.getName());
+        l.info("START report processing for " + report.getReportName());
         reportDao.deleteAllTrades(report);
         List<Execution> executions = reportDao.getExecutions(report);
         if (executions.isEmpty()) {
-            l.info("END report processing for " + report.getName() + ", no executions, skipping");
+            l.info("END report processing for " + report.getReportName() + ", no executions, skipping");
             return;
         }
         List<Trade> trades = analyze(executions);
         reportDao.createTrades(trades);
         statisticsCalculator.clearCache(report);
         websocketController.broadcastReportMessage("report analyzed");
-        l.info("END report processing for " + report.getName());
+        l.info("END report processing for " + report.getReportName());
     }
 
     public void deleteReport(Report report) {

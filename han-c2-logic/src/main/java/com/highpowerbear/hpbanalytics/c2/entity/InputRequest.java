@@ -55,6 +55,22 @@ public class InputRequest implements Serializable {
         this.statusDate = Calendar.getInstance();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        InputRequest that = (InputRequest) o;
+
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Long getId() {
         return id;
     }
@@ -177,21 +193,5 @@ public class InputRequest implements Serializable {
 
     public String print() {
         return "dbId=" + id + ", origin=" + origin + ", referenceId=" + referenceId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        InputRequest that = (InputRequest) o;
-
-        return !(id != null ? !id.equals(that.id) : that.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

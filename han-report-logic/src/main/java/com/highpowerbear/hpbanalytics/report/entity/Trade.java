@@ -106,7 +106,28 @@ public class Trade implements Serializable {
             }
         }
     }
-    
+
+    public String print() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
+        return (id + ", " + type + ", " + status + ", " + symbol + ", " + secType + ", " + (openDate != null ? df.format(openDate.getTime()) : "-") + ", " + (closeDate != null ? df.format(closeDate.getTime()) : "-") + ", " + profitLoss);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Trade trade = (Trade) o;
+
+        return !(id != null ? !id.equals(trade.id) : trade.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public String getSymbol() {
         return symbol;
     }
@@ -244,31 +265,5 @@ public class Trade implements Serializable {
     
     public Boolean getOpen() {
         return (status == ReportDefinitions.TradeStatus.OPEN);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Trade trade = (Trade) o;
-
-        return !(id != null ? !id.equals(trade.id) : trade.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    public String print() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-        return (id + ", " + type + ", " + status + ", " + symbol + ", " + secType + ", " + (openDate != null ? df.format(openDate.getTime()) : "-") + ", " + (closeDate != null ? df.format(closeDate.getTime()) : "-") + ", " + profitLoss);
-    }
-
-    @Override
-    public String toString() {
-        return "com.highpowerbear.analytics.db.entity.Trade[ id=" + id + " ]";
     }
 }

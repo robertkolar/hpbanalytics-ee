@@ -109,17 +109,17 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
             xtype: 'checkboxfield'
         }
     }, {
-        text: 'Fut',
+        text: 'Opt',
         width: 60,
-        dataIndex: 'fut',
+        dataIndex: 'opt',
         xtype: 'checkcolumn',
         editor: {
             xtype: 'checkboxfield'
         }
     }, {
-        text: 'Opt',
+        text: 'Fut',
         width: 60,
-        dataIndex: 'opt',
+        dataIndex: 'fut',
         xtype: 'checkcolumn',
         editor: {
             xtype: 'checkboxfield'

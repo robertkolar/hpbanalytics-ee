@@ -6,7 +6,11 @@ Ext.define('Report.model.report.Report', {
 
     fields: [
         'origin',
-        'name',
+        'reportName',
+        'stk',
+        'opt',
+        'fut',
+        'fx',
         'numExecutions',
         'numTrades',
         'numOpenTrades',

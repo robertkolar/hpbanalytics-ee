@@ -22,11 +22,31 @@ public class C2System implements Serializable {
     @Id
     private Integer systemId;
     private String systemName;
-    private String conversionOrigin; // in case of IB origin --> IB:ibAccountId
+    private String origin; // in case of IB origin --> IB:ibAccountId
+    private boolean stk;
+    private boolean fut;
+    private boolean opt;
+    private boolean fx;
     private String email;
     @XmlTransient
     private String password;
     private boolean useSsl;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        C2System c2System = (C2System) o;
+
+        return !(systemId != null ? !systemId.equals(c2System.systemId) : c2System.systemId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return systemId != null ? systemId.hashCode() : 0;
+    }
 
     public Integer getSystemId() {
         return systemId;
@@ -44,12 +64,44 @@ public class C2System implements Serializable {
         this.systemName = systemName;
     }
 
-    public String getConversionOrigin() {
-        return conversionOrigin;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setConversionOrigin(String conversionOrigin) {
-        this.conversionOrigin = conversionOrigin;
+    public void setOrigin(String conversionOrigin) {
+        this.origin = conversionOrigin;
+    }
+
+    public boolean isStk() {
+        return stk;
+    }
+
+    public void setStk(boolean stk) {
+        this.stk = stk;
+    }
+
+    public boolean isFut() {
+        return fut;
+    }
+
+    public void setFut(boolean fut) {
+        this.fut = fut;
+    }
+
+    public boolean isOpt() {
+        return opt;
+    }
+
+    public void setOpt(boolean opt) {
+        this.opt = opt;
+    }
+
+    public boolean isFx() {
+        return fx;
+    }
+
+    public void setFx(boolean fx) {
+        this.fx = fx;
     }
 
     public String getEmail() {
@@ -74,21 +126,5 @@ public class C2System implements Serializable {
 
     public void setUseSsl(boolean useSsl) {
         this.useSsl = useSsl;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        C2System c2System = (C2System) o;
-
-        return !(systemId != null ? !systemId.equals(c2System.systemId) : c2System.systemId != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return systemId != null ? systemId.hashCode() : 0;
     }
 }

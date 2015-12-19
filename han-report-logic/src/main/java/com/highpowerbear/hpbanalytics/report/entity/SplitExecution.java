@@ -48,6 +48,11 @@ public class SplitExecution implements Serializable {
         return this.trade.getId();
     }
 
+    public String print() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
+        return (id + ", " + execution.getAction() + ", " + execution.getSymbol() + ", " + splitQuantity + " (" + execution.getQuantity() + ")"+ ", "+ currentPosition + ", " + df.format(execution.getFillDate().getTime()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -116,15 +121,5 @@ public class SplitExecution implements Serializable {
 
     public void setFillDate(Calendar fillDate) {
         this.fillDate = fillDate;
-    }
-
-    public String print() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-        return (id + ", " + execution.getAction() + ", " + execution.getSymbol() + ", " + splitQuantity + " (" + execution.getQuantity() + ")"+ ", "+ currentPosition + ", " + df.format(execution.getFillDate().getTime()));
-    }
-    
-    @Override
-    public String toString() {
-        return "com.highpowerbear.analytics.db.entity.SplitExecution[ id=" + id + " ]";
     }
 }

@@ -37,9 +37,13 @@ public class C2DaoImpl implements C2Dao {
     private final String E = "END " + this.getClass().getSimpleName() + ".";
 
     @Override
-    public C2System getC2SystemByConversionOrigin(String conversionOrigin) {
-        TypedQuery<C2System> q = em.createQuery("SELECT s FROM C2System s WHERE s.conversionOrigin = :conversionOrigin", C2System.class);
-        q.setParameter("conversionOrigin", conversionOrigin);
+    public C2System getC2SystemByOriginAndSecType(String origin, C2Definitions.SecType secType) {
+        TypedQuery<C2System> q = em.createQuery("SELECT s FROM C2System s WHERE s.origin = :origin AND s.stk = :stk AND s.opt = :opt AND s.fut = :fut AND s.fx = :fx", C2System.class);
+        q.setParameter("origin", origin);
+        q.setParameter("stk", C2Definitions.SecType.STK.equals(secType));
+        q.setParameter("opt", C2Definitions.SecType.OPT.equals(secType));
+        q.setParameter("fut", C2Definitions.SecType.FUT.equals(secType));
+        q.setParameter("fx", C2Definitions.SecType.CASH.equals(secType));
         List<C2System> list = q.getResultList();
         return (!list.isEmpty() ? list.get(0) : null);
     }

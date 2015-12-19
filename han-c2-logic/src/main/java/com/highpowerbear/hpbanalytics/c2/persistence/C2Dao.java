@@ -1,5 +1,6 @@
 package com.highpowerbear.hpbanalytics.c2.persistence;
 
+import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
 import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Robert
  */
 public interface C2Dao {
-    C2System getC2SystemByConversionOrigin(String conversionOrigin);
+    C2System getC2SystemByOriginAndSecType(String origin, C2Definitions.SecType secType);
     C2System findC2System(Integer systemId);
     List<C2System> getC2Systems();
     C2System updateC2System(C2System c2System);

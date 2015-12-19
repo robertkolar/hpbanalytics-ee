@@ -36,6 +36,22 @@ public class PublishEvent implements Serializable {
         return c2Signal.getId();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PublishEvent that = (PublishEvent) o;
+
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Long getId() {
         return id;
     }
@@ -82,21 +98,5 @@ public class PublishEvent implements Serializable {
 
     public void setC2Response(String c2RestResponse) {
         this.c2Response = c2RestResponse;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PublishEvent that = (PublishEvent) o;
-
-        return !(id != null ? !id.equals(that.id) : that.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

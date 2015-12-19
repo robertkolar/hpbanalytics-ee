@@ -43,6 +43,22 @@ public class PollEvent implements Serializable {
         return c2Signal.getId();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PollEvent that = (PollEvent) o;
+
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Long getId() {
         return id;
     }
@@ -137,21 +153,5 @@ public class PollEvent implements Serializable {
 
     public void setTradePrice(Double tradePrice) {
         this.tradePrice = tradePrice;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PollEvent that = (PollEvent) o;
-
-        return !(id != null ? !id.equals(that.id) : that.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

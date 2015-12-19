@@ -24,7 +24,11 @@ public class Report implements Serializable {
     @Id
     private Integer id;
     private String origin; // in case of IB origin --> IB:ibAccountId
-    private String name;
+    private String reportName;
+    private boolean stk;
+    private boolean fut;
+    private boolean opt;
+    private boolean fx;
     @Transient
     private Long numExecutions;
     @Transient
@@ -56,12 +60,44 @@ public class Report implements Serializable {
         this.origin = origin;
     }
 
-    public String getName() {
-        return name;
+    public String getReportName() {
+        return reportName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean isStk() {
+        return stk;
+    }
+
+    public void setStk(boolean stk) {
+        this.stk = stk;
+    }
+
+    public boolean isFut() {
+        return fut;
+    }
+
+    public void setFut(boolean fut) {
+        this.fut = fut;
+    }
+
+    public boolean isOpt() {
+        return opt;
+    }
+
+    public void setOpt(boolean opt) {
+        this.opt = opt;
+    }
+
+    public boolean isFx() {
+        return fx;
+    }
+
+    public void setFx(boolean fx) {
+        this.fx = fx;
+    }
+
+    public void setReportName(String name) {
+        this.reportName = name;
     }
 
     public Long getNumExecutions() {

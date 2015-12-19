@@ -55,6 +55,32 @@ public class Execution implements Serializable, Comparable<Execution> {
         return (report != null ? report.getId() : null);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Execution execution = (Execution) o;
+
+        return !(id != null ? !id.equals(execution.id) : execution.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public int compareTo(Execution other) {
+        return (this.fillDate.before(other.fillDate) ? -1 : (this.fillDate.after(other.fillDate) ? 1 : 0));
+    }
+
+    public String print() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
+        return (id + ", " + action + ", " + quantity + ", " + symbol + ", " + df.format(fillDate.getTime()) + ", " + fillPrice);
+    }
+
     public Long getId() {
         return id;
     }
@@ -165,31 +191,5 @@ public class Execution implements Serializable, Comparable<Execution> {
 
     public void setFillPrice(BigDecimal fillPrice) {
         this.fillPrice = fillPrice;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Execution execution = (Execution) o;
-
-        return !(id != null ? !id.equals(execution.id) : execution.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public int compareTo(Execution other) {
-        return (this.fillDate.before(other.fillDate) ? -1 : (this.fillDate.after(other.fillDate) ? 1 : 0));
-    }
-    
-    public String print() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-        return (id + ", " + action + ", " + quantity + ", " + symbol + ", " + df.format(fillDate.getTime()) + ", " + fillPrice);
     }
 }
