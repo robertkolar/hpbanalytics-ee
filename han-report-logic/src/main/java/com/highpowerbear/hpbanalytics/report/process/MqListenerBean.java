@@ -44,7 +44,7 @@ public class MqListenerBean implements MessageListener {
                 execution.setReceivedDate(now);
                 Report report = reportDao.getReportByOriginAndSecType(execution.getOrigin(), execution.getSecType());
                 if (report == null) {
-                    l.warning("No analytics for origin=" + execution.getOrigin() + ", skipping");
+                    l.warning("No report for origin=" + execution.getOrigin() + " and secType=" + execution.getSecType() + ", skipping");
                     return;
                 }
                 execution.setReport(report);

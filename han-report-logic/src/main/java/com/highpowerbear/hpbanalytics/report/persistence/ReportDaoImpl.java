@@ -30,12 +30,18 @@ public class ReportDaoImpl implements Serializable, ReportDao {
 
     @Override
     public Report getReportByOriginAndSecType(String origin, ReportDefinitions.SecType secType) {
-        TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r WHERE r.origin = :origin AND r.stk = :stk AND r.opt = :opt AND r.fut = :fut AND r.fx = :fx", Report.class);
+        boolean stk = ReportDefinitions.SecType.STK.equals(secType);
+        boolean opt = ReportDefinitions.SecType.OPT.equals(secType);
+        boolean fut = ReportDefinitions.SecType.FUT.equals(secType);
+        boolean fx =  ReportDefinitions.SecType.CASH.equals(secType);
+
+        TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r WHERE r.origin = :origin" +
+                (stk ? " AND r.stk IS TRUE" : "") +
+                (opt ? " AND r.opt IS TRUE" : "") +
+                (fut ? " AND r.fut IS TRUE" : "") +
+                (fx  ? " AND r.fx  IS TRUE" : ""), Report.class);
+
         q.setParameter("origin", origin);
-        q.setParameter("stk", ReportDefinitions.SecType.STK.equals(secType));
-        q.setParameter("opt", ReportDefinitions.SecType.OPT.equals(secType));
-        q.setParameter("fut", ReportDefinitions.SecType.FUT.equals(secType));
-        q.setParameter("fx", ReportDefinitions.SecType.CASH.equals(secType));
         List<Report> list = q.getResultList();
         return (!list.isEmpty() ? list.get(0) : null);
     }

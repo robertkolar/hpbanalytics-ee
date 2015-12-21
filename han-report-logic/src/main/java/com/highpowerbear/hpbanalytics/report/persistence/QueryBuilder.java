@@ -67,7 +67,7 @@ public class QueryBuilder {
             }
         }
 
-        l.info("Generated query=" + sb.toString());
+        //l.info("Generated query=" + sb.toString());
         return q;
     }
 
@@ -122,7 +122,7 @@ public class QueryBuilder {
             q.setParameter(op.name() + "_" + ReportDefinitions.TradeFilterField.STATUS.getVarName(), filter.getStatusFilterMap().get(op));
         }
 
-        l.info("Generated query=" + sb.toString());
+        //l.info("Generated query=" + sb.toString());
         return q;
     }
 }

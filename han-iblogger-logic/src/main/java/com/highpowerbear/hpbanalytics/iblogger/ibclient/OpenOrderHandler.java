@@ -94,6 +94,10 @@ public class OpenOrderHandler {
     }
 
     private void updateExistingOrder(IbOrder ibOrderDb, Order order) {
+        if (ibOrderDb.getOrderId() == 0) {
+            ibOrderDb.setOrderId(order.m_orderId);
+            ibLoggerDao.updateIbOrder(ibOrderDb);
+        }
         if (!IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrderDb.getStatus()) && !IbLoggerDefinitions.IbOrderStatus.UPDATED.equals(ibOrderDb.getStatus())) {
             return;
         }

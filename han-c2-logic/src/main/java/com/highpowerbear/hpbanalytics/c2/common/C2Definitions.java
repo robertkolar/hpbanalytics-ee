@@ -53,7 +53,8 @@ public class C2Definitions {
 
     public enum IgnoreReason {
         NOWRKSIG,
-        REVUPD
+        REVUPD,
+        NOC2SYSTEM
     }
 
     public enum ReversalSignalType {

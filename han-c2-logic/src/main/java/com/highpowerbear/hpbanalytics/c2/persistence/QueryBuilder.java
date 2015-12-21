@@ -71,7 +71,7 @@ public class QueryBuilder {
             q.setParameter(op.name() + "_" + C2Definitions.InputRequestFilterField.SEC_TYPE.getVarName(), filter.getSecTypeFilterMap().get(op));
         }
 
-        l.info("Generated query=" + sb.toString());
+        //l.info("Generated query=" + sb.toString());
         return q;
     }
 
@@ -126,7 +126,7 @@ public class QueryBuilder {
             q.setParameter(op.name() + "_" + C2Definitions.C2SignalFilterField.SYMBOL.getVarName(), (isLike ? "%" : "") + filter.getSymbolFilterMap().get(op) + (isLike ? "%" : ""));
         }
 
-        l.info("Generated query=" + sb.toString());
+        //l.info("Generated query=" + sb.toString());
         return q;
     }
 }

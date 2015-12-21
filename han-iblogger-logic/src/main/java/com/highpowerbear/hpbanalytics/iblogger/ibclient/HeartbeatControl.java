@@ -12,6 +12,7 @@ import javax.inject.Named;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Created by robertk on 4/6/15.
@@ -19,6 +20,8 @@ import java.util.Set;
 @Named
 @ApplicationScoped
 public class HeartbeatControl {
+    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
+
     @Inject private IbLoggerData ibLoggerData;
     @Inject private IbLoggerDao ibLoggerDao;
 
@@ -44,6 +47,7 @@ public class HeartbeatControl {
     }
 
     public void heartbeatReceived(IbOrder ibOrder) {
+        l.info("Heartbeat received for order, id=" + ibOrder.getId() + ", permId=" + ibOrder.getPermId() + ", orderId=" + ibOrder.getOrderId());
         Map<IbOrder, Integer> hm = ibLoggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
         Integer failedHeartbeatsLeft = hm.get(ibOrder);
         if (failedHeartbeatsLeft != null) {

@@ -41,6 +41,7 @@ public class IbListenerImpl extends GenericIbListener {
     public void orderStatus(int orderId, String status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
         super.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld);
         if (!(  IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) ||
+                IbApiEnums.OrderStatus.PRESUBMITTED.getName().equalsIgnoreCase(status) ||
                 IbApiEnums.OrderStatus.CANCELLED.getName().equalsIgnoreCase(status) ||
                 IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status))) {
             return;
@@ -49,7 +50,7 @@ public class IbListenerImpl extends GenericIbListener {
         if (ibOrder == null) {
             return;
         }
-        if (IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
+        if ((IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) || IbApiEnums.OrderStatus.PRESUBMITTED.getName().equalsIgnoreCase(status)) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
             heartbeatControl.heartbeatReceived(ibOrder);
         } else if (IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status) && remaining == 0 && !IbLoggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
             ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.FILLED, null, avgFillPrice);

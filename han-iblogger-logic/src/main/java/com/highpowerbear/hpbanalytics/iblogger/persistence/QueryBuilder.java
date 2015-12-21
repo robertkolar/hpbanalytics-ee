@@ -71,7 +71,7 @@ public class QueryBuilder {
             q.setParameter(op.name() + "_" + IbLoggerDefinitions.IbOrderFilterField.STATUS.getVarName(), filter.getStatusFilterMap().get(op));
         }
 
-        l.info("Generated query=" + sb.toString());
+        //l.info("Generated query=" + sb.toString());
         return q;
     }
 }
