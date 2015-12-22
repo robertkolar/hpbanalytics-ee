@@ -102,6 +102,11 @@ Ext.define('C2.view.c2.SignalsGrid', {
         width: 60,
         dataIndex: 'duration'
     }, {
+        text: 'OCA',
+        width: 80,
+        align: 'right',
+        dataIndex: 'ocaGroup'
+    }, {
         text: 'RQ',
         width: 50,
         dataIndex: 'reversalQuant'

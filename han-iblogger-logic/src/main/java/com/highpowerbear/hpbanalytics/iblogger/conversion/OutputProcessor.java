@@ -30,13 +30,14 @@ public class OutputProcessor {
             cr.setOrigin(IbLoggerDefinitions.CONVERSION_ORIGIN_PREFIX_IB + ibOrder.getIbAccount().getAccountId());
             cr.setReferenceId(String.valueOf(ibOrder.getPermId()));
             cr.setRequestType(requestType);
-            cr.setAction(IbApiEnums.Action.getEnumFromName(ibOrder.getAction()));
+            cr.setAction(IbApiEnums.Action.valueOf(ibOrder.getAction()));
             cr.setQuantity(ibOrder.getQuantity());
             cr.setSymbol(ibOrder.getSymbol());
-            cr.setSecType(IbApiEnums.SecType.getEnumFromName(ibOrder.getSecType()));
-            cr.setOrderType(IbApiEnums.OrderType.getEnumFromName(ibOrder.getOrderType()));
+            cr.setSecType(IbApiEnums.SecType.valueOf(ibOrder.getSecType()));
+            cr.setOrderType(IbApiEnums.OrderType.valueOf(ibOrder.getOrderType()));
             cr.setOrderPrice(ibOrder.getOrderPrice());
-            cr.setTif(IbApiEnums.Tif.getEnumFromName(ibOrder.getTif()));
+            cr.setTif(IbApiEnums.Tif.valueOf(ibOrder.getTif()));
+            cr.setOcaGroup(ibOrder.getOcaGroup());
             try {
                 mqSender.sendToC2(IbLoggerUtil.toXml(cr));
             } catch (Exception e) {
@@ -52,12 +53,12 @@ public class OutputProcessor {
             IbExecution ie = new IbExecution();
             ie.setOrigin(IbLoggerDefinitions.CONVERSION_ORIGIN_PREFIX_IB + ibOrder.getIbAccountId());
             ie.setReferenceId(String.valueOf(ibOrder.getPermId()));
-            ie.setAction(IbApiEnums.Action.getEnumFromName(ibOrder.getAction()));
+            ie.setAction(IbApiEnums.Action.valueOf(ibOrder.getAction()));
             ie.setQuantity(ibOrder.getQuantity());
             ie.setUnderlying(ibOrder.getUnderlying());
-            ie.setCurrency(IbApiEnums.Currency.getEnumFromName(ibOrder.getCurrency()));
+            ie.setCurrency(IbApiEnums.Currency.valueOf(ibOrder.getCurrency()));
             ie.setSymbol(ibOrder.getSymbol());
-            ie.setSecType(IbApiEnums.SecType.getEnumFromName(ibOrder.getSecType()));
+            ie.setSecType(IbApiEnums.SecType.valueOf(ibOrder.getSecType()));
             ie.setFillDate(ibOrder.getStatusDate());
             ie.setFillPrice(ibOrder.getFillPrice());
             try {

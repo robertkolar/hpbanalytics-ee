@@ -8,19 +8,7 @@ public class IbApiEnums {
     public enum Action {
         BUY,
         SELL,
-        SSHORT;
-
-        public static Action getEnumFromName(String name) {
-            if (BUY.name().equalsIgnoreCase(name)) {
-                return BUY;
-            } else if (SELL.name().equalsIgnoreCase(name)) {
-                return SELL;
-            } else if (SSHORT.name().equalsIgnoreCase(name)) {
-                return SSHORT;
-            } else {
-                return null;
-            }
-        }
+        SSHORT
     }
 
     public enum OrderStatus {
@@ -32,14 +20,14 @@ public class IbApiEnums {
         FILLED ("Filled"),
         INACTIVE ("Inactive");
 
-        private String name;
+        private String value;
 
-        OrderStatus(String name) {
-            this.name = name;
+        OrderStatus(String value) {
+            this.value = value;
         }
 
-        public String getName() {
-            return name;
+        public String getValue() {
+            return value;
         }
     }
 
@@ -55,19 +43,7 @@ public class IbApiEnums {
         TRAIL,
         REL,
         VWAP,
-        TRAILLIMIT;
-
-        public static OrderType getEnumFromName(String name) {
-            if (MKT.name().equalsIgnoreCase(name)) {
-                return MKT;
-            } else if (LMT.name().equalsIgnoreCase(name)) {
-                return LMT;
-            } else if (STP.name().equalsIgnoreCase(name)) {
-                return STP;
-            } else {
-                return null;
-            }
-        }
+        TRAILLIMIT
     }
 
     public enum SecType {
@@ -77,38 +53,14 @@ public class IbApiEnums {
         IND,
         FOP,
         CASH,
-        BAG;
-
-        public static SecType getEnumFromName(String name) {
-            if (STK.name().equalsIgnoreCase(name)) {
-                return STK;
-            } else if (OPT.name().equalsIgnoreCase(name)) {
-                return OPT;
-            } else if (FUT.name().equalsIgnoreCase(name)) {
-                return FUT;
-            } else if (CASH.name().equalsIgnoreCase(name)) {
-                return CASH;
-            } else {
-                return null;
-            }
-        }
+        BAG
     }
 
     public enum Tif {
         DAY,
         GTC,
         IOC,
-        GTD;
-
-        public static Tif getEnumFromName(String name) {
-            if (DAY.name().equalsIgnoreCase(name)) {
-                return DAY;
-            } else if (GTC.name().equalsIgnoreCase(name)) {
-                return GTC;
-            } else {
-                return null;
-            }
-        }
+        GTD
     }
 
     public enum Currency {
@@ -118,26 +70,6 @@ public class IbApiEnums {
         GBP,
         CHF,
         CAD,
-        JPY;
-
-        public static Currency getEnumFromName(String name) {
-            if (USD.name().equalsIgnoreCase(name)) {
-                return USD;
-            } else if (EUR.name().equalsIgnoreCase(name)) {
-                return EUR;
-            } else if (AUD.name().equalsIgnoreCase(name)) {
-                return AUD;
-            } else if (GBP.name().equalsIgnoreCase(name)) {
-                return GBP;
-            } else if (CHF.name().equalsIgnoreCase(name)) {
-                return CHF;
-            } else if (CAD.name().equalsIgnoreCase(name)) {
-                return CAD;
-            } else if (JPY.name().equalsIgnoreCase(name)) {
-                return JPY;
-            } else {
-                return null;
-            }
-        }
+        JPY
     }
 }

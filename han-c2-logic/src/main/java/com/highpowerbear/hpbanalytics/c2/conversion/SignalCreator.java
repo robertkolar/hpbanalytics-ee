@@ -41,6 +41,7 @@ public class SignalCreator {
         determineQuant(c2Signal, position, inputRequest);
         determineAction(c2Signal, position, inputRequest);
         determineDuration(c2Signal, inputRequest);
+        c2Signal.setOcaGroup(inputRequest.getOcaGroup() != null ? inputRequest.getOcaGroup().hashCode() : null);
         c2Signal = c2Dao.updateC2Signal(c2Signal);
         return c2Signal;
     }
@@ -62,6 +63,7 @@ public class SignalCreator {
         s2.setStopPrice(0d);
         s2.setLimitPrice(0d);
         s2.setDuration(s1.getDuration());
+        s2.setOcaGroup(null);
         s2.setReversalParent(s1.getC2SignalId());
         c2Dao.newC2Signal(s2);
         return s2;
@@ -83,6 +85,7 @@ public class SignalCreator {
         s2.setSymbol(s1.getSymbol());
         s2.setInstrument(s1.getInstrument());
         s2.setDuration(s1.getDuration());
+        s2.setOcaGroup(s1.getOcaGroup());
         c2Dao.newC2Signal(s2);
         return s2;
     }

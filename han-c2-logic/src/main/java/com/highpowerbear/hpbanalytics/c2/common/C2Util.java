@@ -11,11 +11,16 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by rkolar on 1/30/14.
  */
 public class C2Util {
+    private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
+
     public static String getXmlString(Document dom) throws Exception {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -30,5 +35,13 @@ public class C2Util {
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         StringReader stringReader = new StringReader(xml);
         return (InputRequest) jaxbUnmarshaller.unmarshal(stringReader);
+    }
+
+    public static void sleepMillis(Long millis) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(millis);
+        } catch (InterruptedException e) {
+            l.log(Level.SEVERE, "Error, e");
+        }
     }
 }

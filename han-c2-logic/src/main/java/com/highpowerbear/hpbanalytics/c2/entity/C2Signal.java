@@ -45,6 +45,7 @@ public class C2Signal implements Serializable {
     private Double stopPrice;
     @Enumerated(EnumType.STRING)
     private C2ApiEnums.Duration duration;
+    private Integer ocaGroup;
     @Enumerated(EnumType.STRING)
     private C2Definitions.PollStatus pollStatus;
     @Enumerated(EnumType.STRING)
@@ -208,6 +209,14 @@ public class C2Signal implements Serializable {
 
     public void setDuration(C2ApiEnums.Duration duration) {
         this.duration = duration;
+    }
+
+    public Integer getOcaGroup() {
+        return ocaGroup;
+    }
+
+    public void setOcaGroup(Integer ocaGroup) {
+        this.ocaGroup = ocaGroup;
     }
 
     public C2Definitions.PollStatus getPollStatus() {

@@ -23,6 +23,7 @@ public class C2Request {
     private IbApiEnums.OrderType orderType;
     private Double orderPrice;
     private IbApiEnums.Tif tif;
+    private String ocaGroup;
 
     public String getOrigin() {
         return origin;
@@ -102,5 +103,13 @@ public class C2Request {
 
     public void setTif(IbApiEnums.Tif tif) {
         this.tif = tif;
+    }
+
+    public String getOcaGroup() {
+        return ocaGroup;
+    }
+
+    public void setOcaGroup(String ocaGroup) {
+        this.ocaGroup = ocaGroup;
     }
 }

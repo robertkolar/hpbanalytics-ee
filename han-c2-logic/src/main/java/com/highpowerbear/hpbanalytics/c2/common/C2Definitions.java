@@ -6,13 +6,13 @@ package com.highpowerbear.hpbanalytics.c2.common;
 public class C2Definitions {
     // Constants
     public static final Integer ONE_MINILOT_FOREX_QUANT = 10000;
-    public static final String CONVERSION_ORIGIN_PREFIX_IB = "IB:";
 
     // Settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
-    public static final Integer C2_STATUS_POLLING_MAX_FAILED = 10;
+    public static int C2_STATUS_POLLING_MAX_FAILED = 10;
     public static final String C2_BASE_URL = "www.collective2.com/cgi-perl/signal.mpl";
-    public static final Integer JPA_MAX_RESULTS = 1000;
+    public static final int JPA_MAX_RESULTS = 1000;
+    public static final long REQUESTS_WITH_OCAGROUP_DELAY = 2000; // millis
 
     // Enums
     public enum RequestType {

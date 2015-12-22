@@ -19,6 +19,7 @@ Ext.define('C2.model.c2.C2Signal', {
         'limitPrice',
         'stopPrice',
         'duration',
+        'ocaGroup',
         'pollStatus',
         'publishStatus',
         {name: 'createdDate', type: 'date', dateFormat: 'time'},

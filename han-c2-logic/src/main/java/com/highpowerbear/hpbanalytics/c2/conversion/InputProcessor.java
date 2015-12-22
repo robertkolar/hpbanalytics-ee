@@ -2,6 +2,7 @@ package com.highpowerbear.hpbanalytics.c2.conversion;
 
 import com.highpowerbear.hpbanalytics.c2.c2client.RequestHandler;
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
+import com.highpowerbear.hpbanalytics.c2.common.C2Util;
 import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
@@ -11,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -26,11 +28,18 @@ public class InputProcessor {
     public void process(C2System c2System, InputRequest inputRequest) {
         C2Definitions.RequestType requestType = inputRequest.getRequestType();
         if (C2Definitions.RequestType.SUBMIT.equals(requestType)) {
+            // delay processing input requests with ocaGroup set (target/stop bracket orders) to allow for opening order to be filled on c2 side
+            if (inputRequest.getOcaGroup() != null) {
+                C2Util.sleepMillis(C2Definitions.REQUESTS_WITH_OCAGROUP_DELAY);
+            }
             processSubmit(c2System, inputRequest);
         } else if (C2Definitions.RequestType.UPDATE.equals(requestType)) {
             processUpdate(inputRequest);
         } else if (C2Definitions.RequestType.CANCEL.equals(requestType)) {
-             processCancel(inputRequest);
+            // prevent cancelling signals with ocaGroup to keep bracket orders (target/stop) in place on c2 side, let c2 drive execution/cancellation
+            if (inputRequest.getOcaGroup() == null) {
+                processCancel(inputRequest);
+            }
         }
     }
 

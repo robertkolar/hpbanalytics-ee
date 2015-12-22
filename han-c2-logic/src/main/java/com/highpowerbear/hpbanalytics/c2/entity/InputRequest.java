@@ -48,11 +48,16 @@ public class InputRequest implements Serializable {
     private Double orderPrice;
     @Enumerated(EnumType.STRING)
     private C2Definitions.Tif tif;
+    private String ocaGroup;
     // end jaxb parsed fields
 
     public void changeStatus(C2Definitions.InputStatus newStatus) {
         this.status = newStatus;
         this.statusDate = Calendar.getInstance();
+    }
+
+    public String print() {
+        return "dbId=" + id + ", origin=" + origin + ", referenceId=" + referenceId;
     }
 
     @Override
@@ -191,7 +196,11 @@ public class InputRequest implements Serializable {
         this.tif = tif;
     }
 
-    public String print() {
-        return "dbId=" + id + ", origin=" + origin + ", referenceId=" + referenceId;
+    public String getOcaGroup() {
+        return ocaGroup;
+    }
+
+    public void setOcaGroup(String ocaGroup) {
+        this.ocaGroup = ocaGroup;
     }
 }

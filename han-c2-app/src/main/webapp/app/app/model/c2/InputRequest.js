@@ -19,6 +19,7 @@ Ext.define('C2.model.c2.InputRequest', {
         'secType',
         'orderType',
         'orderPrice',
-        'tif'
+        'tif',
+        'ocaGroup'
     ]
 });

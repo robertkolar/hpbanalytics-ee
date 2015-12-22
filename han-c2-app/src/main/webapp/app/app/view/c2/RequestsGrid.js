@@ -91,6 +91,11 @@ Ext.define('C2.view.c2.RequestsGrid', {
         width: 60,
         dataIndex: 'tif'
     }, {
+        text: 'OCA',
+        width: 80,
+        align: 'right',
+        dataIndex: 'ocaGroup'
+    }, {
         text: 'Status Date',
         width: 180,
         dataIndex: 'statusDate',

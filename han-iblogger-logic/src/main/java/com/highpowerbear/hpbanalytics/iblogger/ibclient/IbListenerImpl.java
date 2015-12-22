@@ -40,24 +40,24 @@ public class IbListenerImpl extends GenericIbListener {
     @Override
     public void orderStatus(int orderId, String status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
         super.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld);
-        if (!(  IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) ||
-                IbApiEnums.OrderStatus.PRESUBMITTED.getName().equalsIgnoreCase(status) ||
-                IbApiEnums.OrderStatus.CANCELLED.getName().equalsIgnoreCase(status) ||
-                IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status))) {
+        if (!(  IbApiEnums.OrderStatus.SUBMITTED.getValue().equalsIgnoreCase(status) ||
+                IbApiEnums.OrderStatus.PRESUBMITTED.getValue().equalsIgnoreCase(status) ||
+                IbApiEnums.OrderStatus.CANCELLED.getValue().equalsIgnoreCase(status) ||
+                IbApiEnums.OrderStatus.FILLED.getValue().equalsIgnoreCase(status))) {
             return;
         }
         IbOrder ibOrder = ibLoggerDao.getIbOrderByPermId(ibAccount, permId);
         if (ibOrder == null) {
             return;
         }
-        if ((IbApiEnums.OrderStatus.SUBMITTED.getName().equalsIgnoreCase(status) || IbApiEnums.OrderStatus.PRESUBMITTED.getName().equalsIgnoreCase(status)) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
+        if ((IbApiEnums.OrderStatus.SUBMITTED.getValue().equalsIgnoreCase(status) || IbApiEnums.OrderStatus.PRESUBMITTED.getValue().equalsIgnoreCase(status)) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
             heartbeatControl.heartbeatReceived(ibOrder);
-        } else if (IbApiEnums.OrderStatus.FILLED.getName().equalsIgnoreCase(status) && remaining == 0 && !IbLoggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
+        } else if (IbApiEnums.OrderStatus.FILLED.getValue().equalsIgnoreCase(status) && remaining == 0 && !IbLoggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
             ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.FILLED, null, avgFillPrice);
             ibLoggerDao.updateIbOrder(ibOrder);
             heartbeatControl.removeHeartbeat(ibOrder);
             outputProcessor.processExecution(ibOrder);
-        } else if (IbApiEnums.OrderStatus.CANCELLED.getName().equalsIgnoreCase(status) && !IbLoggerDefinitions.IbOrderStatus.CANCELLED.equals(ibOrder.getStatus())) {
+        } else if (IbApiEnums.OrderStatus.CANCELLED.getValue().equalsIgnoreCase(status) && !IbLoggerDefinitions.IbOrderStatus.CANCELLED.equals(ibOrder.getStatus())) {
             ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.CANCELLED, null, null);
             ibLoggerDao.updateIbOrder(ibOrder);
             heartbeatControl.removeHeartbeat(ibOrder);

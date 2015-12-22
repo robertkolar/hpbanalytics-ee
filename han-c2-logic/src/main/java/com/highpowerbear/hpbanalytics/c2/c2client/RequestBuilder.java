@@ -44,6 +44,7 @@ public class RequestBuilder {
                 (c2Signal.getLimitPrice() != 0.0 ? "&" + C2ApiEnums.UrlParam.LIMIT.getName() + "=" + c2Signal.getLimitPrice() : "") +
                 (c2Signal.getStopPrice() != 0.0 ? "&" + C2ApiEnums.UrlParam.STOP.getName() + "=" + c2Signal.getStopPrice() : "") +
                 "&" + C2ApiEnums.UrlParam.DURATION.getName() + "=" + c2Signal.getDuration().getName() +
+                (c2Signal.getOcaGroup() != null ? "&" + C2ApiEnums.UrlParam.OCAGROUPID.getName() + "=" + c2Signal.getOcaGroup() : "") +
                 (c2Signal.getReversalParent() != null ? "&" + C2ApiEnums.UrlParam.CONDITIONALUPON.getName() + "=" + c2Signal.getReversalParent() : "");
     }
 
