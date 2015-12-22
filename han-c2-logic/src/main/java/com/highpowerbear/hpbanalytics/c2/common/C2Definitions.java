@@ -52,9 +52,10 @@ public class C2Definitions {
     }
 
     public enum IgnoreReason {
-        NOWRKSIG,
-        REVUPD,
-        NOC2SYSTEM
+        NOWORKINGSIGNAL,
+        REVERSALUPDATE,
+        NOC2SYSTEM,
+        OCAGROUPSET
     }
 
     public enum ReversalSignalType {

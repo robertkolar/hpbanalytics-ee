@@ -35,7 +35,7 @@ Ext.define('Report.view.report.ReportModel', {
             pageSize: 10
         },
         charts: {
-            model: 'Report.model.report.Statistics'
+            model: 'Report.model.report.Chart'
         }
     }
 });

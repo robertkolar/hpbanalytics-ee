@@ -104,7 +104,10 @@ Ext.define('C2.view.c2.RequestsGrid', {
     }, {
         text: 'Ign Reason',
         flex: 1,
-        dataIndex: 'ignoreReason'
+        dataIndex: 'ignoreReason',
+        renderer: function(val, metadata, record) {
+            return (val ? val.toLowerCase() : val);
+        }
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',

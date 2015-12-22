@@ -12,7 +12,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -28,22 +27,19 @@ public class InputProcessor {
     public void process(C2System c2System, InputRequest inputRequest) {
         C2Definitions.RequestType requestType = inputRequest.getRequestType();
         if (C2Definitions.RequestType.SUBMIT.equals(requestType)) {
-            // delay processing input requests with ocaGroup set (target/stop bracket orders) to allow for opening order to be filled on c2 side
-            if (inputRequest.getOcaGroup() != null) {
-                C2Util.sleepMillis(C2Definitions.REQUESTS_WITH_OCAGROUP_DELAY);
-            }
             processSubmit(c2System, inputRequest);
         } else if (C2Definitions.RequestType.UPDATE.equals(requestType)) {
             processUpdate(inputRequest);
         } else if (C2Definitions.RequestType.CANCEL.equals(requestType)) {
-            // prevent cancelling signals with ocaGroup to keep bracket orders (target/stop) in place on c2 side, let c2 drive execution/cancellation
-            if (inputRequest.getOcaGroup() == null) {
-                processCancel(inputRequest);
-            }
+            processCancel(inputRequest);
         }
     }
 
     private void processSubmit(C2System c2System, InputRequest inputRequest) {
+        // delay processing input requests with ocaGroup set (target/stop bracket orders) to allow for opening order to be filled on c2 side
+        if (inputRequest.getOcaGroup() != null) {
+            C2Util.sleepMillis(C2Definitions.REQUESTS_WITH_OCAGROUP_DELAY);
+        }
         C2Signal c2Signal = signalCreator.create(c2System, inputRequest);
         inputRequest.changeStatus(requestHandler.submit(c2Signal) ? C2Definitions.InputStatus.PROCESSED : C2Definitions.InputStatus.ERROR);
         c2Signal = c2Dao.findC2Signal(c2Signal.getId()); // refresh from DB
@@ -55,11 +51,18 @@ public class InputProcessor {
     }
 
     private void processCancel(InputRequest inputRequest) {
+        // prevent cancelling signals with ocaGroup to keep bracket orders (target/stop) in place on c2 side, let c2 drive execution/cancellation
+        if (inputRequest.getOcaGroup() != null) {
+            inputRequest.changeStatus(C2Definitions.InputStatus.IGNORED);
+            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.OCAGROUPSET);
+            c2Dao.updateInputRequest(inputRequest);
+            return;
+        }
         List<C2Signal> signals = c2Dao.getC2SignalsByOriginReference(inputRequest.getOrigin(), inputRequest.getReferenceId());
         // multiple signals can be returned only in case of reversal orders, where PARENT and CHILD are referring to the same referenceId
         if (signals.isEmpty()) {
             inputRequest.changeStatus(C2Definitions.InputStatus.IGNORED);
-            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.NOWRKSIG);
+            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.NOWORKINGSIGNAL);
             c2Dao.updateInputRequest(inputRequest);
             return;
         }
@@ -78,14 +81,14 @@ public class InputProcessor {
         List<C2Signal> signals = c2Dao.getC2SignalsByOriginReference(inputRequest.getOrigin(), inputRequest.getReferenceId());
         if (signals.isEmpty()) {
             inputRequest.changeStatus(C2Definitions.InputStatus.IGNORED);
-            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.NOWRKSIG);
+            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.NOWORKINGSIGNAL);
             c2Dao.updateInputRequest(inputRequest);
             return;
         }
         C2Signal oldSignal = signals.get(0);
         if (!C2Definitions.ReversalSignalType.NONE.equals(oldSignal.getReversalSignalType())) {
             inputRequest.changeStatus(C2Definitions.InputStatus.IGNORED);
-            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.REVUPD);
+            inputRequest.setIgnoreReason(C2Definitions.IgnoreReason.REVERSALUPDATE);
             c2Dao.updateInputRequest(inputRequest);
             return;
         }

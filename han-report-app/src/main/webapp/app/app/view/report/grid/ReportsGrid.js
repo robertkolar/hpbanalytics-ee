@@ -39,6 +39,35 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             allowBlank: false
         }
     }, {
+        text: 'Exec',
+        width: 120,
+        dataIndex: 'numExecutions',
+        align: 'right'
+    }, {
+        xtype: 'templatecolumn',
+        text: 'Trds-Open',
+        width: 120,
+        tpl: '{numTrades}-{numOpenTrades}',
+        align: 'right'
+    }, {
+        xtype: 'templatecolumn',
+        text: 'Undl-Open',
+        width: 120,
+        tpl: '{numUnderlyings}-{numOpenUnderlyings}',
+        align: 'right'
+    }, {
+        text: 'Started',
+        width: 180,
+        dataIndex: 'firstExecutionDate',
+        xtype: 'datecolumn',
+        format: 'm/d/Y H:i:s.u'
+    }, {
+        text: 'Last',
+        flex: 1,
+        dataIndex: 'lastExecutionDate',
+        xtype: 'datecolumn',
+        format: 'm/d/Y H:i:s.u'
+    }, {
         text: 'Stk',
         width: 60,
         dataIndex: 'stk',
@@ -71,35 +100,6 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             xtype: 'checkboxfield'
         }
     }, {
-        text: 'Exec',
-        width: 120,
-        dataIndex: 'numExecutions',
-        align: 'right'
-    }, {
-        xtype: 'templatecolumn',
-        text: 'Trds-Open',
-        width: 120,
-        tpl: '{numTrades}-{numOpenTrades}',
-        align: 'right'
-    }, {
-        xtype: 'templatecolumn',
-        text: 'Undl-Open',
-        width: 120,
-        tpl: '{numUnderlyings}-{numOpenUnderlyings}',
-        align: 'right'
-    }, {
-        text: 'Started',
-        width: 180,
-        dataIndex: 'firstExecutionDate',
-        xtype: 'datecolumn',
-        format: 'm/d/Y H:i:s.u'
-    }, {
-        text: 'Last',
-        width: 180,
-        dataIndex: 'lastExecutionDate',
-        xtype: 'datecolumn',
-        format: 'm/d/Y H:i:s.u'
-    }, {
         xtype: 'widgetcolumn',
         width : 50,
         widget: {
@@ -127,8 +127,6 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
                 }
             }
         }
-    }, {
-        flex: 1
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',

@@ -69,6 +69,22 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
             allowDecimals: false
         }
     }, {
+        text: 'Permit Clients',
+        width: 140,
+        dataIndex: 'permittedClients',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: true
+        }
+    }, {
+        text: 'Permit Accounts',
+        flex: 1,
+        dataIndex: 'permittedAccounts',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: true
+        }
+    }, {
         text: 'Lst',
         width: 60,
         dataIndex: 'listen',
@@ -131,22 +147,6 @@ Ext.define('IbLogger.view.iblogger.AccountsGrid', {
         xtype: 'checkcolumn',
         editor: {
             xtype: 'checkboxfield'
-        }
-    }, {
-        text: 'Permit Clients',
-        width: 140,
-        dataIndex: 'permittedClients',
-        editor: {
-            xtype: 'textfield',
-            allowBlank: true
-        }
-    }, {
-        text: 'Permit Accounts',
-        flex: 1,
-        dataIndex: 'permittedAccounts',
-        editor: {
-            xtype: 'textfield',
-            allowBlank: true
         }
     }],
     dockedItems: [{

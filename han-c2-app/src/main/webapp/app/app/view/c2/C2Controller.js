@@ -77,7 +77,7 @@ Ext.define('C2.view.c2.C2Controller', {
     showEvents: function (view, cell, cellIndex, record, row, rowIndex, e) {
         if (cellIndex == 2) {
             this.showPublishEvents(record);
-        } else if (cellIndex == 18) {
+        } else if (cellIndex == 19) {
             this.showPollEvents(record);
         }
     },

@@ -40,6 +40,14 @@ Ext.define('C2.view.c2.SystemsGrid', {
             allowBlank: false
         }
     }, {
+        text: 'Email',
+        flex: 1,
+        dataIndex: 'email',
+        editor: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }, {
         text: 'Stk',
         width: 60,
         dataIndex: 'stk',
@@ -78,14 +86,6 @@ Ext.define('C2.view.c2.SystemsGrid', {
         xtype: 'checkcolumn',
         editor: {
             xtype: 'checkboxfield'
-        }
-    }, {
-        text: 'Email',
-        flex: 1,
-        dataIndex: 'email',
-        editor: {
-            xtype: 'textfield',
-            allowBlank: false
         }
     }],
     dockedItems: [{

@@ -41,7 +41,7 @@ public class SignalCreator {
         determineQuant(c2Signal, position, inputRequest);
         determineAction(c2Signal, position, inputRequest);
         determineDuration(c2Signal, inputRequest);
-        c2Signal.setOcaGroup(inputRequest.getOcaGroup() != null ? inputRequest.getOcaGroup().hashCode() : null);
+        determineOcaGroup(c2Signal, inputRequest);
         c2Signal = c2Dao.updateC2Signal(c2Signal);
         return c2Signal;
     }
@@ -150,5 +150,17 @@ public class SignalCreator {
             duration = C2ApiEnums.Duration.DAY;
         }
         c2Signal.setDuration(duration);
+    }
+
+    private void determineOcaGroup(C2Signal c2Signal, InputRequest inputRequest) {
+        if (inputRequest.getOcaGroup() != null) {
+            Integer ocaGroup;
+            try {
+                ocaGroup = Integer.parseInt(inputRequest.getOcaGroup());
+            } catch (NumberFormatException e) {
+                ocaGroup = inputRequest.getOcaGroup().hashCode();
+            }
+            c2Signal.setOcaGroup(ocaGroup);
+        }
     }
 }
