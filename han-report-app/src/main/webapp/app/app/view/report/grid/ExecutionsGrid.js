@@ -90,8 +90,11 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
         format: 'm/d/Y H:i:s.u'
     }, {
         text: 'Comment',
-        width: 200,
-        dataIndex: 'comment'
+        flex: 1,
+        dataIndex: 'comment',
+        renderer: function(val, metadata, record) {
+            return (val ? val.toLowerCase() : val);
+        }
     }, {
         xtype: 'widgetcolumn',
         width : 50,
@@ -106,8 +109,6 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
                 }
             }
         }
-    }, {
-        flex: 1
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',

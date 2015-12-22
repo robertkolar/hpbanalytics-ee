@@ -110,6 +110,8 @@ Ext.define('Report.view.report.grid.TradesGrid', {
             return Ext.util.Format.number(val, '0.00');
         }
     }, {
+        flex: 1
+    }, {
         text: 'Status',
         width: 60,
         dataIndex: 'status',
@@ -169,8 +171,6 @@ Ext.define('Report.view.report.grid.TradesGrid', {
                 widget.hide();
             }
         }
-    }, {
-        flex: 1
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',
