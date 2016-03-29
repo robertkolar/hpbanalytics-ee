@@ -19,13 +19,13 @@ import java.util.Calendar;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "rep_splitexecution")
+@Table(name = "splitexecution", schema = "report", catalog = "hpbanalytics")
 public class SplitExecution implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @TableGenerator(name="rep_splitexecution", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="splitexecution", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="rep_splitexecution")
+    @GeneratedValue(generator="splitexecution")
     private Long id;
     private Integer splitQuantity;
     private Integer currentPosition;

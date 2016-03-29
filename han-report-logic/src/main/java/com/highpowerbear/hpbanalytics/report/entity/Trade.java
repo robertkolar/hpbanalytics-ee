@@ -25,13 +25,13 @@ import java.util.List;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "rep_trade")
+@Table(name = "trade", schema = "report", catalog = "hpbanalytics")
 public class Trade implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @TableGenerator(name="rep_trade", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="trade", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="rep_trade")
+    @GeneratedValue(generator="trade")
     private Long id;
     @Enumerated(EnumType.STRING)
     private ReportDefinitions.TradeType type;

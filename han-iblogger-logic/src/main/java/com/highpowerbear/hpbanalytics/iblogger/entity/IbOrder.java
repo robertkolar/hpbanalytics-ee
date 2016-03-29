@@ -15,13 +15,13 @@ import java.util.List;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="ibl_iborder")
+@Table(name = "iborder", schema = "iblogger", catalog = "hpbanalytics")
 public class IbOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="ibl_iborder", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="iborder", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="ibl_iborder")
+    @GeneratedValue(generator="iborder")
     private Long id;
     private Integer permId;
     private Integer orderId;

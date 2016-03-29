@@ -14,13 +14,13 @@ import java.util.Calendar;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="ibl_iborderevent")
+@Table(name = "iborderevent", schema = "iblogger", catalog = "hpbanalytics")
 public class IbOrderEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="ibl_iborderevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="iborderevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="ibl_iborderevent")
+    @GeneratedValue(generator="iborderevent")
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar eventDate;

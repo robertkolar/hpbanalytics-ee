@@ -15,7 +15,7 @@ import java.io.Serializable;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="c2_c2system")
+@Table(name = "c2system", schema = "c2", catalog = "hpbanalytics")
 public class C2System implements Serializable {
     private static final long serialVersionUID = 1L;
 

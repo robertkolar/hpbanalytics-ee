@@ -15,13 +15,13 @@ import java.util.Calendar;
 @XmlRootElement(name = "c2Request")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="c2_inputrequest")
+@Table(name = "inputrequest", schema = "c2", catalog = "hpbanalytics")
 public class InputRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="c2_inputrequest", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="inputrequest", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="c2_inputrequest")
+    @GeneratedValue(generator="inputrequest")
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar receivedDate;

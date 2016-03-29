@@ -17,7 +17,7 @@ import java.util.Calendar;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "rep_report")
+@Table(name = "report", schema = "report", catalog = "hpbanalytics")
 public class Report implements Serializable {
     private static final long serialVersionUID = 1L;
     

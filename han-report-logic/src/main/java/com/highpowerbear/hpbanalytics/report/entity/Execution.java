@@ -21,13 +21,13 @@ import java.util.Calendar;
 @XmlRootElement(name = "ibExecution")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "rep_execution")
+@Table(name = "execution", schema = "report", catalog = "hpbanalytics")
 public class Execution implements Serializable, Comparable<Execution> {
     private static final long serialVersionUID = 1L;
     
-    @TableGenerator(name="rep_execution", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="execution", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="rep_execution")
+    @GeneratedValue(generator="execution")
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar receivedDate;

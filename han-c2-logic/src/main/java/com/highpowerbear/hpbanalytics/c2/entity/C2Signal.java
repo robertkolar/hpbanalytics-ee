@@ -17,13 +17,13 @@ import java.util.List;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="c2_c2signal")
+@Table(name = "c2signal", schema = "c2", catalog = "hpbanalytics")
 public class C2Signal implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="c2_c2signal", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="c2signal", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="c2_c2signal")
+    @GeneratedValue(generator="c2signal")
     private Long id;
     private String origin; // in case of IB origin --> IB:ibAccountId
     private String referenceId; // in case of IB origin --> permId

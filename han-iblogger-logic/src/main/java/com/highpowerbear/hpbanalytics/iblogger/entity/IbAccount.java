@@ -8,6 +8,7 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 /**
  * Created by robertk on 3/7/15.
@@ -15,8 +16,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="ibl_ibaccount")
-public class IbAccount {
+@Table(name = "ibaccount", schema = "iblogger", catalog = "hpbanalytics")
+public class IbAccount implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     private String accountId;
     private String host;

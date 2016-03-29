@@ -13,13 +13,13 @@ import java.util.Calendar;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name="c2_pollevent")
+@Table(name = "pollevent", schema = "c2", catalog = "hpbanalytics")
 public class PollEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="c2_pollevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="pollevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
-    @GeneratedValue(generator="c2_pollevent")
+    @GeneratedValue(generator="pollevent")
     private Long id;
     @XmlTransient
     @ManyToOne
