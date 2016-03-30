@@ -8,6 +8,7 @@ public class ReportDefinitions {
     // settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
     public static final int JPA_MAX_RESULTS = 1000;
+    public static final String TIMEZONE = "America/New_York";
 
     // constants
     public static final String ORIGIN_INTERNAL = "INTERNAL";

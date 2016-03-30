@@ -19,10 +19,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -120,6 +117,8 @@ public class ReportService {
         }
         execution.setId(null);
         execution.setReport(report);
+        // fix fill date timezone, JAXB JSON converter sets it to UTC
+        execution.getFillDate().setTimeZone(TimeZone.getTimeZone(ReportDefinitions.TIMEZONE));
         execution.setReceivedDate(Calendar.getInstance());
         Long executionId = reportProcessor.newExecution(execution);
         execution.setId(executionId);
