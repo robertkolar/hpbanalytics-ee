@@ -17,7 +17,7 @@ import java.util.Calendar;
 public class PublishEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="publishevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="publishevent", table="sequence", schema = "c2", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="publishevent")
     private Long id;

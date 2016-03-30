@@ -19,7 +19,7 @@ import java.util.Calendar;
 public class InputRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="inputrequest", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="inputrequest", table="sequence", schema = "c2", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="inputrequest")
     private Long id;

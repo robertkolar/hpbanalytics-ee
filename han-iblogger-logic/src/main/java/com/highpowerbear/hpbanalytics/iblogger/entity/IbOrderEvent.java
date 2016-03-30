@@ -18,7 +18,7 @@ import java.util.Calendar;
 public class IbOrderEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="iborderevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="iborderevent", table="sequence", schema = "iblogger", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="iborderevent")
     private Long id;

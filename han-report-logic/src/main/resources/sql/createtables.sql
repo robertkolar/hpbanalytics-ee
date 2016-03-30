@@ -81,7 +81,7 @@ CREATE TABLE report.trade
   report_id integer,
   CONSTRAINT pk_trade PRIMARY KEY (id),
   CONSTRAINT fk_trade_report FOREIGN KEY (report_id)
-  REFERENCES report.trade (id) MATCH SIMPLE
+  REFERENCES report.report (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (

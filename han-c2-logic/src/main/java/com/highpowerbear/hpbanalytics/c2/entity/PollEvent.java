@@ -17,7 +17,7 @@ import java.util.Calendar;
 public class PollEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="pollevent", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="pollevent", table="sequence", schema = "c2", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="pollevent")
     private Long id;

@@ -29,7 +29,7 @@ import java.util.List;
 public class Trade implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @TableGenerator(name="trade", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="trade", table="sequence", schema = "report", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="trade")
     private Long id;

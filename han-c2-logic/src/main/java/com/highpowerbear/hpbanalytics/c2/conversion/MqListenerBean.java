@@ -36,7 +36,7 @@ public class MqListenerBean implements MessageListener {
     @Inject private WebsocketController websocketController;
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NEVER)
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public void onMessage(Message message) {
         try {
             if (message instanceof TextMessage) {

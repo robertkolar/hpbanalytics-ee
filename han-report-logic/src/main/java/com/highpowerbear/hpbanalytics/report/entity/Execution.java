@@ -25,7 +25,7 @@ import java.util.Calendar;
 public class Execution implements Serializable, Comparable<Execution> {
     private static final long serialVersionUID = 1L;
     
-    @TableGenerator(name="execution", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="execution", table="sequence", schema = "report", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="execution")
     private Long id;

@@ -19,7 +19,7 @@ import java.util.List;
 public class IbOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableGenerator(name="iborder", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="iborder", table="sequence", schema = "iblogger", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="iborder")
     private Long id;

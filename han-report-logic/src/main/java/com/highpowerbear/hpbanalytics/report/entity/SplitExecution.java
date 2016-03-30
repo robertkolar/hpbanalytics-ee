@@ -23,7 +23,7 @@ import java.util.Calendar;
 public class SplitExecution implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @TableGenerator(name="splitexecution", table="sequence", pkColumnName="seq_name", valueColumnName="seq_count")
+    @TableGenerator(name="splitexecution", table="sequence", schema = "report", catalog = "hpbanalytics", pkColumnName="seq_name", valueColumnName="seq_count")
     @Id
     @GeneratedValue(generator="splitexecution")
     private Long id;
