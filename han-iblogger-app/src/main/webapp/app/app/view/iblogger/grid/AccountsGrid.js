@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/18/15.
  */
-Ext.define('IbLogger.view.iblogger.AccountsGrid', {
+Ext.define('IbLogger.view.iblogger.grid.AccountsGrid', {
     extend: 'Ext.grid.Panel',
     requires: [
         'Ext.form.field.Checkbox',

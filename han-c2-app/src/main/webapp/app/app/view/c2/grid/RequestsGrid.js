@@ -1,33 +1,29 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('IbLogger.view.iblogger.OrdersGrid', {
+Ext.define('C2.view.c2.grid.RequestsGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'han-iblogger-orders-grid',
+    xtype: 'han-c2-requests-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'IbLogger.view.iblogger.IbLoggerController',
         'Ext.grid.filters.Filters'
     ],
     plugins: 'gridfilters',
-    bind: '{ibOrders}',
-    title: 'IB Orders',
-    listeners: {
-        'cellclick': 'showEvents'
-    },
+    title: 'Input Requests',
+    bind: '{inputRequests}',
     viewConfig: {
         stripeRows: true
     },
     columns: [{
         text: 'ID',
-        width: 80,
+        width: 60,
         dataIndex: 'id',
         align: 'right'
     }, {
-        text: 'Submit Date',
+        text: 'Received Date',
         width: 180,
-        dataIndex: 'submitDate',
+        dataIndex: 'receivedDate',
         xtype: 'datecolumn',
         format: 'm/d/Y H:i:s.u',
         filter: {
@@ -38,31 +34,27 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         text: 'Status',
         width: 80,
         dataIndex: 'status',
-        renderer: 'statusRenderer',
+        renderer: 'requestStatusRenderer',
         filter: {
             type: 'list',
-            options: ['submitted', 'updated', 'cancelled', 'filled', 'unknown']
+            options: ['new', 'processed', 'ignored', 'error']
         }
     }, {
-        text: 'IB Account',
+        text: 'Origin',
         width: 100,
-        dataIndex: 'ibAccountId'
+        dataIndex: 'origin'
     }, {
-        text: 'PermId',
+        text: 'RefID',
         width: 100,
-        dataIndex: 'permId',
+        dataIndex: 'referenceId',
         align: 'right'
     }, {
-        text: 'Undl',
+        text: 'ReqType',
         width: 80,
-        dataIndex: 'underlying'
-    }, {
-        text: 'Cur',
-        width: 60,
-        dataIndex: 'currency'
+        dataIndex: 'requestType'
     }, {
         text: 'Action',
-        width: 60,
+        width: 80,
         dataIndex: 'action'
     }, {
         text: 'Qnt',
@@ -71,12 +63,12 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         align: 'right'
     }, {
         text: 'Symbol',
-        width: 180,
+        width: 200,
         dataIndex: 'symbol',
         filter: 'string'
     }, {
         text: 'Sec',
-        width: 60,
+        width: 80,
         dataIndex: 'secType',
         filter: {
             type: 'list',
@@ -84,7 +76,7 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         }
     }, {
         text: 'Ord',
-        width: 60,
+        width: 80,
         dataIndex: 'orderType'
     }, {
         text: 'Price',
@@ -92,12 +84,17 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         dataIndex: 'orderPrice',
         align: 'right',
         renderer: function(val, metadata, record) {
-            return (val ? Ext.util.Format.number(val, '0.00###') : '-');
+            return Ext.util.Format.number(val, '0.00###');
         }
     }, {
         text: 'TIF',
         width: 60,
         dataIndex: 'tif'
+    }, {
+        text: 'OCA',
+        width: 80,
+        align: 'right',
+        dataIndex: 'ocaGroup'
     }, {
         text: 'Status Date',
         width: 180,
@@ -105,42 +102,16 @@ Ext.define('IbLogger.view.iblogger.OrdersGrid', {
         xtype: 'datecolumn',
         format: 'm/d/Y H:i:s.u'
     }, {
-        text: 'Fill',
-        width: 80,
-        dataIndex: 'fillPrice',
-        align: 'right',
-        renderer: function(val, metadata, record) {
-            return (val ? Ext.util.Format.number(val, '0.00###') : '-');
-        }
-    }, {
-        text: 'Ord',
-        width: 60,
-        dataIndex: 'orderId',
-        align: 'right'
-    }, {
-        text: 'Prnt',
-        width: 60,
-        dataIndex: 'parentId',
-        align: 'right'
-    }, {
-        text: 'Cli',
-        width: 60,
-        dataIndex: 'clientId',
-        align: 'right'
-    }, {
-        text: 'HB',
-        width: 60,
-        dataIndex: 'heartbeatCount',
-        align: 'right'
-    }, {
-        text: 'OCA',
+        text: 'Ign Reason',
         flex: 1,
-        dataIndex: 'ocaGroup'
+        dataIndex: 'ignoreReason',
+        renderer: function(val, metadata, record) {
+            return (val ? val.toLowerCase() : val);
+        }
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',
-        reference: 'ordersPaging',
-        bind: '{ibOrders}',
+        bind: '{inputRequests}',
         dock: 'bottom',
         displayInfo: true
     }]

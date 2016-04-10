@@ -9,10 +9,10 @@ Ext.define('IbLogger.view.iblogger.IbLogger', {
     border: false,
     requires: [
         'Ext.layout.container.VBox',
-        'IbLogger.view.iblogger.AccountsGrid',
+        'IbLogger.view.iblogger.grid.AccountsGrid',
         'IbLogger.view.iblogger.IbLoggerController',
         'IbLogger.view.iblogger.IbLoggerModel',
-        'IbLogger.view.iblogger.OrdersGrid'
+        'IbLogger.view.iblogger.grid.OrdersGrid'
     ],
     controller: 'han-iblogger',
     viewModel: {

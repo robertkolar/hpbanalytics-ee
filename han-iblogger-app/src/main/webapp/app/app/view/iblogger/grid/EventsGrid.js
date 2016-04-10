@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.view.iblogger.EventsGrid', {
+Ext.define('IbLogger.view.iblogger.grid.EventsGrid', {
     extend: 'Ext.grid.Panel',
 
     requires: [

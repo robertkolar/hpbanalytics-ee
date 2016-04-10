@@ -1,29 +1,33 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.view.c2.RequestsGrid', {
+Ext.define('IbLogger.view.iblogger.grid.OrdersGrid', {
     extend: 'Ext.grid.Panel',
-    xtype: 'han-c2-requests-grid',
+    xtype: 'han-iblogger-orders-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
+        'IbLogger.view.iblogger.IbLoggerController',
         'Ext.grid.filters.Filters'
     ],
     plugins: 'gridfilters',
-    title: 'Input Requests',
-    bind: '{inputRequests}',
+    bind: '{ibOrders}',
+    title: 'IB Orders',
+    listeners: {
+        'cellclick': 'showEvents'
+    },
     viewConfig: {
         stripeRows: true
     },
     columns: [{
         text: 'ID',
-        width: 60,
+        width: 80,
         dataIndex: 'id',
         align: 'right'
     }, {
-        text: 'Received Date',
+        text: 'Submit Date',
         width: 180,
-        dataIndex: 'receivedDate',
+        dataIndex: 'submitDate',
         xtype: 'datecolumn',
         format: 'm/d/Y H:i:s.u',
         filter: {
@@ -34,27 +38,31 @@ Ext.define('C2.view.c2.RequestsGrid', {
         text: 'Status',
         width: 80,
         dataIndex: 'status',
-        renderer: 'requestStatusRenderer',
+        renderer: 'statusRenderer',
         filter: {
             type: 'list',
-            options: ['new', 'processed', 'ignored', 'error']
+            options: ['submitted', 'updated', 'cancelled', 'filled', 'unknown']
         }
     }, {
-        text: 'Origin',
+        text: 'IB Account',
         width: 100,
-        dataIndex: 'origin'
+        dataIndex: 'ibAccountId'
     }, {
-        text: 'RefID',
+        text: 'PermId',
         width: 100,
-        dataIndex: 'referenceId',
+        dataIndex: 'permId',
         align: 'right'
     }, {
-        text: 'ReqType',
+        text: 'Undl',
         width: 80,
-        dataIndex: 'requestType'
+        dataIndex: 'underlying'
+    }, {
+        text: 'Cur',
+        width: 60,
+        dataIndex: 'currency'
     }, {
         text: 'Action',
-        width: 80,
+        width: 60,
         dataIndex: 'action'
     }, {
         text: 'Qnt',
@@ -63,12 +71,12 @@ Ext.define('C2.view.c2.RequestsGrid', {
         align: 'right'
     }, {
         text: 'Symbol',
-        width: 200,
+        width: 180,
         dataIndex: 'symbol',
         filter: 'string'
     }, {
         text: 'Sec',
-        width: 80,
+        width: 60,
         dataIndex: 'secType',
         filter: {
             type: 'list',
@@ -76,7 +84,7 @@ Ext.define('C2.view.c2.RequestsGrid', {
         }
     }, {
         text: 'Ord',
-        width: 80,
+        width: 60,
         dataIndex: 'orderType'
     }, {
         text: 'Price',
@@ -84,17 +92,12 @@ Ext.define('C2.view.c2.RequestsGrid', {
         dataIndex: 'orderPrice',
         align: 'right',
         renderer: function(val, metadata, record) {
-            return Ext.util.Format.number(val, '0.00###');
+            return (val ? Ext.util.Format.number(val, '0.00###') : '-');
         }
     }, {
         text: 'TIF',
         width: 60,
         dataIndex: 'tif'
-    }, {
-        text: 'OCA',
-        width: 80,
-        align: 'right',
-        dataIndex: 'ocaGroup'
     }, {
         text: 'Status Date',
         width: 180,
@@ -102,16 +105,42 @@ Ext.define('C2.view.c2.RequestsGrid', {
         xtype: 'datecolumn',
         format: 'm/d/Y H:i:s.u'
     }, {
-        text: 'Ign Reason',
-        flex: 1,
-        dataIndex: 'ignoreReason',
+        text: 'Fill',
+        width: 80,
+        dataIndex: 'fillPrice',
+        align: 'right',
         renderer: function(val, metadata, record) {
-            return (val ? val.toLowerCase() : val);
+            return (val ? Ext.util.Format.number(val, '0.00###') : '-');
         }
+    }, {
+        text: 'Ord',
+        width: 60,
+        dataIndex: 'orderId',
+        align: 'right'
+    }, {
+        text: 'Prnt',
+        width: 60,
+        dataIndex: 'parentId',
+        align: 'right'
+    }, {
+        text: 'Cli',
+        width: 60,
+        dataIndex: 'clientId',
+        align: 'right'
+    }, {
+        text: 'HB',
+        width: 60,
+        dataIndex: 'heartbeatCount',
+        align: 'right'
+    }, {
+        text: 'OCA',
+        flex: 1,
+        dataIndex: 'ocaGroup'
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',
-        bind: '{inputRequests}',
+        reference: 'ordersPaging',
+        bind: '{ibOrders}',
         dock: 'bottom',
         displayInfo: true
     }]

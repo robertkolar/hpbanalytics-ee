@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.view.c2.SignalsGrid', {
+Ext.define('C2.view.c2.grid.SignalsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-c2-signals-grid',
     requires: [

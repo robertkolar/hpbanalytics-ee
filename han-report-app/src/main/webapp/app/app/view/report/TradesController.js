@@ -6,7 +6,8 @@ Ext.define('Report.view.report.TradesController', {
 
     requires: [
         'Report.common.Definitions',
-        'Report.view.report.window.TradeCloseWindow'
+        'Report.view.report.window.TradeCloseWindow',
+        'Report.view.report.window.SplitExecutionsWindow'
     ],
 
     alias: 'controller.han-report-trades',

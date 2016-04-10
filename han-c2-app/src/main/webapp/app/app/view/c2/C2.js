@@ -8,9 +8,9 @@ Ext.define('C2.view.c2.C2', {
     requires: [
         'C2.view.c2.C2Controller',
         'C2.view.c2.C2Model',
-        'C2.view.c2.RequestsGrid',
-        'C2.view.c2.SignalsGrid',
-        'C2.view.c2.SystemsGrid',
+        'C2.view.c2.grid.RequestsGrid',
+        'C2.view.c2.grid.SignalsGrid',
+        'C2.view.c2.grid.SystemsGrid',
         'Ext.layout.container.VBox'
     ],
     controller: 'han-c2',

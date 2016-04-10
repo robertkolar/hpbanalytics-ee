@@ -9,7 +9,8 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     requires: [
         'Ext.Ajax',
         'IbLogger.common.Definitions',
-        'IbLogger.view.iblogger.EventsGrid'
+        'IbLogger.view.iblogger.grid.EventsGrid',
+        'IbLogger.view.iblogger.window.EventsWindow'
     ],
 
     init: function() {
@@ -69,7 +70,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
         var me = this;
 
         if (!me.eventsGrid) {
-            me.eventsGrid =  Ext.create('IbLogger.view.iblogger.EventsGrid');
+            me.eventsGrid =  Ext.create('IbLogger.view.iblogger.grid.EventsGrid');
             me.eventsWindow = Ext.create('widget.han-iblogger-events-window');
             me.eventsWindow.add(me.eventsGrid);
         }

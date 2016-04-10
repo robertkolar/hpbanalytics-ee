@@ -6,8 +6,9 @@ Ext.define('C2.view.c2.C2Controller', {
     requires: [
         'C2.common.Definitions',
         'C2.store.PollEventStore',
-        'C2.view.c2.PollEventsGrid',
-        'C2.view.c2.PublishEventsGrid',
+        'C2.view.c2.grid.PollEventsGrid',
+        'C2.view.c2.grid.PublishEventsGrid',
+        'C2.view.c2.window.EventsWindow',
         'Ext.String',
         'Ext.toolbar.Paging'
     ],

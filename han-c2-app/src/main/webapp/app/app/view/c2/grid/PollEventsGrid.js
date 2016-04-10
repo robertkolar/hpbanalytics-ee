@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.view.c2.PollEventsGrid', {
+Ext.define('C2.view.c2.grid.PollEventsGrid', {
     extend: 'Ext.grid.Panel',
 
     requires: [
