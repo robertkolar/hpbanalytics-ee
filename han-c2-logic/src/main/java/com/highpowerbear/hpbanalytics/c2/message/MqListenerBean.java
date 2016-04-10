@@ -1,7 +1,8 @@
-package com.highpowerbear.hpbanalytics.c2.conversion;
+package com.highpowerbear.hpbanalytics.c2.message;
 
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
 import com.highpowerbear.hpbanalytics.c2.common.C2Util;
+import com.highpowerbear.hpbanalytics.c2.process.InputProcessor;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
@@ -16,7 +17,6 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -1,6 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.common;
 
-import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
+import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.HeartbeatControl;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.OpenOrderHandler;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;

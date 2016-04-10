@@ -1,4 +1,4 @@
-package com.highpowerbear.hpbanalytics.c2.conversion;
+package com.highpowerbear.hpbanalytics.c2.process;
 
 import com.highpowerbear.hpbanalytics.c2.c2client.C2ApiEnums;
 import com.highpowerbear.hpbanalytics.c2.c2client.RequestHandler;

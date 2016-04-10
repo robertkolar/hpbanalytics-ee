@@ -1,10 +1,11 @@
-package com.highpowerbear.hpbanalytics.report.process;
+package com.highpowerbear.hpbanalytics.report.message;
 
 import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 import com.highpowerbear.hpbanalytics.report.common.ReportUtil;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
+import com.highpowerbear.hpbanalytics.report.process.ReportProcessor;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
  * Created by robertk on 4/26/15.
  */
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/iblogger_reports"),
+        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/iblogger_report"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
 })
@@ -38,7 +39,7 @@ public class MqListenerBean implements MessageListener {
         try {
             if (message instanceof TextMessage) {
                 String inputXml = ((TextMessage) message).getText();
-                l.info("Text message received from MQ=iblogger_reports, xml=" + inputXml);
+                l.info("Text message received from MQ=iblogger_report, xml=" + inputXml);
                 Execution execution = ReportUtil.toExecution(inputXml);
                 Calendar now = Calendar.getInstance();
                 execution.setReceivedDate(now);
@@ -50,7 +51,7 @@ public class MqListenerBean implements MessageListener {
                 execution.setReport(report);
                 reportProcessor.newExecution(execution);
             } else {
-                l.warning("Non-text message received from MQ=iblogger_reports, ignoring");
+                l.warning("Non-text message received from MQ=iblogger_report, ignoring");
             }
         } catch (Exception e) {
             l.log(Level.SEVERE, "Error", e);

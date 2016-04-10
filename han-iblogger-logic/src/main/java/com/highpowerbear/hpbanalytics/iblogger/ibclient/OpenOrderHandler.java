@@ -3,7 +3,7 @@ package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
-import com.highpowerbear.hpbanalytics.iblogger.conversion.OutputProcessor;
+import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;

@@ -1,4 +1,4 @@
-package com.highpowerbear.hpbanalytics.c2.conversion;
+package com.highpowerbear.hpbanalytics.c2.process;
 
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
 
