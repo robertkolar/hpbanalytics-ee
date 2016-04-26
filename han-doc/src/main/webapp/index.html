@@ -1,0 +1,75 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>HPB Signals 2.0 Documentation</title>
+        <link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="resources/css/redmond/jquery-ui-1.9.0.custom.css" />
+        <link rel="stylesheet" href="resources/css/layout-default.css" />
+        <link rel="stylesheet" href="resources/css/webdoc.css" />
+        <script src="resources/js/jquery-1.8.2.min.js"></script>
+        <script src="resources/js/jquery-ui-1.9.0.custom.min.js"></script>
+        <script src="resources/js/jquery.dataTables.min.js"></script>
+        <script src="resources/js/jquery.layout-latest.min.js"></script>
+        <script src="resources/js/index.js"></script>
+    </head>
+    <body>
+        <div class="ui-layout-north ui-widget">
+            HPB Signals 2.0 Documentation
+        </div>
+        <div class="ui-layout-west">
+            <div id="accordion">
+                <h3>Overview</h3>
+                <ul id="overview">
+                    <li onclick="$('#content').load('welcome.xhtml')"><a>Welcome</a></li>
+                    <li onclick="$('#content').load('features.xhtml')"><a>Features</a></li>
+                    <li onclick="$('#content').load('requirements.xhtml')"><a>Requirements</a></li>
+                    <li onclick="$('#content').load('ibConfig.xhtml')"><a>IB Configuration</a></li>
+                </ul>
+                <h3>Installation</h3>
+                <ul id="installation">
+                    <li onclick="$('#content').load('installProcedure.xhtml')"><a>Install Procedure</a></li>
+                    <li onclick="$('#content').load('files.xhtml')"><a>Files</a></li>
+                    <li onclick="$('#content').load('starting.xhtml')"><a>Starting</a></li>
+                </ul>
+                <h3>Login</h3>
+                <ul id="login">
+                    <li onclick="$('#content').load('loginWindow.xhtml')"><a>Login Window</a></li>
+                </ul>
+                <h3>Application</h3>
+                <ul id="application">
+                    <li onclick="$('#content').load('appWindow.xhtml')"><a>Application Window</a></li>
+                    <li onclick="$('#content').load('ordersTab.xhtml')"><a>IB Orders Tab</a></li>
+                    <li onclick="$('#content').load('signalsTab.xhtml')"><a>C2 Signals Tab</a></li>
+                    <li onclick="$('#content').load('newOrderSignal.xhtml')"><a>New Order/Signal</a></li>
+                    <li onclick="$('#content').load('procDetails.xhtml')"><a>Processing Details</a></li>
+                    <li onclick="$('#content').load('appMenus.xhtml')"><a>Application Menus</a></li>
+                    <li onclick="$('#content').load('toolbars.xhtml')"><a>Toolbars</a></li>
+                    <li onclick="$('#content').load('statusBar.xhtml')"><a>Status Bar</a></li>
+                </ul>
+                <h3>Database</h3>
+                <ul id="database">
+                    <li onclick="$('#content').load('dbBackup.xhtml')"><a>Database Backup</a></li>
+                    <li onclick="$('#content').load('dbExport.xhtml')"><a>Data Export</a></li>
+                    <li onclick="$('#content').load('dbReset.xhtml')"><a>Database Reset</a></li>
+                </ul>
+                <h3>Instruments</h3>
+                <ul id="instruments">
+                    <li onclick="$('#content').load('stocks.xhtml')"><a>Stocks</a></li>
+                    <li onclick="$('#content').load('options.xhtml')"><a>Options</a></li>
+                    <li onclick="$('#content').load('futures.xhtml');"><a>Futures</a></li>
+                    <li onclick="$('#content').load('forex.xhtml')"><a>Forex</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ui-layout-center ui-widget">
+            <div id="content">
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <link rel="stylesheet" type="text/css" href="resources/css/webdoc.css"/>
+        <title></title>
+    </head>
+    <body>
+        <h1>IB Orders Tab</h1>
+        <p><img src="resources/images/order_tab.png" alt=""/></p>
+        <p style="margin-top: 40px;">Fields in the IB Orders tab:</p>
+        <ul>
+            <li><span style="color: green;">#:</span> table row number</li>
+            <li><span style="color: green;">Perm ID:</span> unique IB order ID - unique across IB sessions</li>
+            <li><span style="color: green;">Order:</span> IB order ID - not unique across IB sessions</li>
+            <li><span style="color: green;">Parent:</span> parent IB order ID if one exists</li>
+            <li><span style="color: green;">Account:</span> IB account for which orders are being processed</li>
+            <li><span style="color: green;">Cl:</span> 3rd party IB client ID that order was originated by (0 for IB originated order)</li>
+            <li><span style="color: green;">C2 Signal:</span> a matching C2 signal ID after IB to C2 conversion is finished and a signal is published to Collective2</li>
+            <li><span style="color: green;">Conv:</span> IB order to C2 signal conversion status:
+                <ul>
+                    <li><span style="background-color: blue; color: white;">SBM</span> - SubmitNew, <span style="background-color: darkgreen; color: white;">SBM</span> - SubmitProcessed, <span style="background-color: darkred; color: white;">SBM</span> - SubmitIgnored</li>
+                    <li><span style="background-color: blue; color: white;">UPD</span> - UpdateNew, <span style="background-color: darkgreen; color: white;">UPD</span> - UpdateProcessed, <span style="background-color: darkred; color: white;">UPD</span> - UpdateIgnored</li>
+                    <li><span style="background-color: blue; color: white;">CNC</span> - CancelNew, <span style="background-color: darkgreen; color: white;">CNC</span> - CancelProcessed, <span style="background-color: darkred; color: white;">CNC</span> - CancelIgnored</li>
+                </ul>
+                Click on the status to open up IB order and IB to C2 conversion details window.
+            </li>
+            <li><span style="color: green;">Retries:</span> number of retransmissions of a signal/update/cancel request and a wait timer in case of a failure condition</li>
+            <li><span style="color: green;">Action:</span> BUY or SELL</li>
+            <li><span style="color: green;">Quant:</span> quantity of the contract to buy or sell</li>
+            <li><span style="color: green;">Undl:</span> underlying of the contract traded</li>
+            <li><span style="color: green;">Symbol:</span> symbol of the contract traded</li>
+            <li><span style="color: green;">Instrm:</span> instrument - stock, option, future, forex</li>
+            <li><span style="color: green;">Type:</span> order type - limit (LMT) or stop (STP)</li>
+            <li><span style="color: green;">Sbm Prc:</span> submit price - a limit price in case of a limit order or a stop price in case of a stop order</li>
+            <li><span style="color: green;">TIF:</span> Time In Force; GTC - Good Till Cancelled, DAY - day</li>
+            <li><span style="color: green;">OCA Group:</span> One Cancels All order group, if one order in the group is executed, all others are getting cancelled</li>
+            <li><span style="color: green;">Submitted On:</span> IB order submission date and time</li>
+            <li><span style="color: green;">Fill Prc:</span> IB order fill price</li>
+            <li><span style="color: green;">Status as reported by IB:</span>
+                <span style="background-color: blue; color: white;">submitted</span>,
+                <span style="background-color: blue; color: white;">updated</span>,
+                <span style="background-color: darkgreen; color: white;">filled</span>,
+                <span style="background-color: darkred; color: white">cancelled</span>,
+                <span style="background-color: saddlebrown; color: white;">unknown</span>
+                , click the status column to open up IB order and IB to C2 conversion details window
+            </li>
+        </ul>
+    </body>
+</html>

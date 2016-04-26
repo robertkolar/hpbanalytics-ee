@@ -12,6 +12,7 @@
         <module>han-iblogger-app</module>
         <module>han-report-logic</module>
         <module>han-report-app</module>
+        <module>han-doc</module>
     </modules>
     <packaging>pom</packaging>
 

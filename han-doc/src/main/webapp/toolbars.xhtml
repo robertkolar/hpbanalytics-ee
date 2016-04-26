@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <link rel="stylesheet" type="text/css" href="resources/css/webdoc.css"/>
+        <title></title>
+    </head>
+    <body>
+        <h1>Toolbars</h1>
+
+        <span style="color: green;">Main Toolbar</span><br/>
+        <img src="resources/images/main_toolbar.png" alt=""/>
+        <ul>
+            <li>IB account - display and/or select an IB account (FA subaccount) for which IB orders are getting processed. The selection is available for Financial Advisor accounts.</li>
+            <li>Listen IB - detect and process IB orders (checked) or disable listening and processing (unchecked)</li>
+            <li>Publish C2 - convert IB orders to C2 signals and publish them to Collective2 (checked) or disable conversion (unchecked)</li>
+            <li>Delay C2 - instruct C2 to delay signals on C2 side for 30 seconds in order to group several signals into one C2 email</li>
+            <li>Price Updt - detect IB order price update and enable C2 signal replacement by submitting a new signal (and cancel existing) with the updated price</li>
+            <li>STK, FUT, OPT, FX - detect and process stock orders, futures orders, option orders, forex orders</li>
+            <li>Allow Rvrs - allow simple reversal orders with no dependent child orders. A reversal order gets converted into two C2 signals.
+                The first one is a closing signal and the second one is an opening signal that is conditional upon the first signal. On C2 side a position must be closed first before it can be reversed.</li>
+            <li>Scaling - enable or disable order quantity scaling in the range between 1/100 (1%) and 100x (10000%). If enabled a C2 signal will have a different (upscaled or downscaled) quantity from the matching IB order.</li>
+            <li>Split View - display both IB Orders and C2 Signals on the same screen or on separate tabs</li>
+        </ul>
+
+        <div style="margin-top: 40px;">
+        <span style="color: green;">IB Orders and C2 Signals Toolbars</span><br/>
+        <img src="resources/images/order_toolbar.png" alt=""/><br/>
+        <img src="resources/images/signal_toolbar.png" alt=""/>
+        <ul>
+            <li>Page navigation arrows</li>
+            <li>Number of entries per page</li>
+            <li>Undl - check which underlyings to display in a tab</li>
+            <li>Filter IB order entries according to orders status - submitted and updated, cancelled, filled, unknown</li>
+            <li>Filter C2 signal entries according to signals status - working, cancelled, filled, expired, unknown</li>
+            <li>Export table content into CSV file</li>
+            <li>Refresh page</li>
+            <li>Sort entries by clicking table column header</li>
+        </ul>
+        </div>
+
+        <div style="margin-top: 40px;">
+        <span style="color: green;">Underlyings Window</span><br/>
+        <img src="resources/images/underlyings.png" alt=""/>
+        <ul>
+            <li>Filter displayed underlyings</li>
+        </ul>
+        </div>
+    </body>
+</html>
