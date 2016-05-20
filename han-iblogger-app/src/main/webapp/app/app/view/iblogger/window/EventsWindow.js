@@ -9,5 +9,5 @@ Ext.define('IbLogger.view.iblogger.window.EventsWindow', {
     modal: false,
     closeAction: 'hide',
     resizable: false,
-    width: 540
+    width: 480
 });

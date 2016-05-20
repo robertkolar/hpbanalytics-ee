@@ -35,17 +35,9 @@ Ext.define('IbLogger.view.iblogger.grid.EventsGrid', {
             return val.toLowerCase();
         }
     }, {
-        text: 'Upd',
-        width: 80,
-        dataIndex: 'updatePrice',
-        align: 'right',
-        renderer: function(val, metadata, record) {
-            return (val ? Ext.util.Format.number(val, '0.00###') : '-');
-        }
-    }, {
-        text: 'Fill',
+        text: 'Price',
         flex: 1,
-        dataIndex: 'fillPrice',
+        dataIndex: 'price',
         align: 'right',
         renderer: function(val, metadata, record) {
             return (val ? Ext.util.Format.number(val, '0.00###') : '-');

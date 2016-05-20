@@ -101,19 +101,17 @@ public class OpenOrderHandler {
         if (!IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrderDb.getStatus()) && !IbLoggerDefinitions.IbOrderStatus.UPDATED.equals(ibOrderDb.getStatus())) {
             return;
         }
-        Double updatePrice = null;
+        boolean update = true;
         // if order already exists, check if the lmt/stp price has been updated
-        if (IbApiEnums.OrderType.LMT.name().equalsIgnoreCase(order.m_orderType)) {
-            if (ibOrderDb.getOrderPrice() != order.m_lmtPrice) {
-                updatePrice = order.m_lmtPrice;
-            }
-        } else if (IbApiEnums.OrderType.STP.name().equalsIgnoreCase(order.m_orderType)) {
-            if (ibOrderDb.getOrderPrice() != order.m_auxPrice) {
-                updatePrice = order.m_auxPrice;
-            }
+        if (IbApiEnums.OrderType.LMT.name().equalsIgnoreCase(order.m_orderType) && ibOrderDb.getOrderPrice() != order.m_lmtPrice) {
+            ibOrderDb.setOrderPrice(order.m_lmtPrice);
+        } else if (IbApiEnums.OrderType.STP.name().equalsIgnoreCase(order.m_orderType) && ibOrderDb.getOrderPrice() != order.m_auxPrice) {
+            ibOrderDb.setOrderPrice(order.m_auxPrice);
+        } else {
+            update = false;
         }
-        if (updatePrice != null) {
-            ibOrderDb.addEvent(IbLoggerDefinitions.IbOrderStatus.UPDATED, updatePrice, null);
+        if (update) {
+            ibOrderDb.addEvent(IbLoggerDefinitions.IbOrderStatus.UPDATED, ibOrderDb.getOrderPrice());
             ibLoggerDao.updateIbOrder(ibOrderDb);
             outputProcessor.processConversion(ibOrderDb, IbLoggerDefinitions.RequestType.UPDATE);
         }
@@ -140,7 +138,7 @@ public class OpenOrderHandler {
         ibOrder.setTif(order.m_tif);
         ibOrder.setParentId(order.m_parentId);
         ibOrder.setOcaGroup(order.m_ocaGroup);
-        ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.SUBMITTED, null, null);
+        ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.SUBMITTED, ibOrder.getOrderPrice());
         ibLoggerDao.newIbOrder(ibOrder);
         heartbeatControl.addHeartbeat(ibOrder);
         outputProcessor.processConversion(ibOrder, IbLoggerDefinitions.RequestType.SUBMIT);

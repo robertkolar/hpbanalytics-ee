@@ -36,7 +36,7 @@ public class HeartbeatControl {
             Integer failedHeartbeatsLeft = hm.get(ibOrder);
             if (failedHeartbeatsLeft <= 0) {
                 if (!IbLoggerDefinitions.IbOrderStatus.UNKNOWN.equals(ibOrder.getStatus())) {
-                    ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.UNKNOWN, null, null);
+                    ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.UNKNOWN, null);
                     ibLoggerDao.updateIbOrder(ibOrder);
                 }
                 hm.remove(ibOrder);

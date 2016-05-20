@@ -58,23 +58,19 @@ public class IbOrder implements Serializable {
         return ibAccount.getAccountId();
     }
 
-    public void addEvent(IbLoggerDefinitions.IbOrderStatus status, Double updatePrice, Double fillPrice) {
+    public void addEvent(IbLoggerDefinitions.IbOrderStatus status, Double price) {
         this.status = status;
         this.statusDate = Calendar.getInstance();
         IbOrderEvent e = new IbOrderEvent();
         e.setIbOrder(this);
         e.setEventDate(this.statusDate );
         e.setStatus(this.status);
-        e.setUpdatePrice(updatePrice);
-        e.setFillPrice(fillPrice);
+        e.setPrice(price);
         if (IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(status)) {
             this.submitDate = this.statusDate;
         }
-        if (IbLoggerDefinitions.IbOrderStatus.UPDATED.equals(status)) {
-            this.orderPrice = updatePrice;
-        }
         if (IbLoggerDefinitions.IbOrderStatus.FILLED.equals(status)) {
-            this.fillPrice = e.getFillPrice();
+            this.fillPrice = price;
         }
         if (ibOrderEvents == null) {
             ibOrderEvents = new ArrayList<>();

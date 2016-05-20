@@ -8,8 +8,7 @@ Ext.define('IbLogger.model.iblogger.IbOrderEvent', {
         {name: 'id', type: 'string'},
         {name: 'eventDate', type: 'date', dateFormat: 'time'},
         'status',
-        'updatePrice',
-        'fillPrice',
+        'price',
         {name: 'ibOrderDbId', type: 'string', reference: {type: 'IbOrder', inverse: 'ibOrderEvents'}}
     ]
 });

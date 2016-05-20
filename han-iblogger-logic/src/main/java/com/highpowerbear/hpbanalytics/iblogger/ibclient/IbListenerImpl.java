@@ -53,12 +53,12 @@ public class IbListenerImpl extends GenericIbListener {
         if ((IbApiEnums.OrderStatus.SUBMITTED.getValue().equalsIgnoreCase(status) || IbApiEnums.OrderStatus.PRESUBMITTED.getValue().equalsIgnoreCase(status)) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
             heartbeatControl.heartbeatReceived(ibOrder);
         } else if (IbApiEnums.OrderStatus.FILLED.getValue().equalsIgnoreCase(status) && remaining == 0 && !IbLoggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
-            ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.FILLED, null, avgFillPrice);
+            ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.FILLED, avgFillPrice);
             ibLoggerDao.updateIbOrder(ibOrder);
             heartbeatControl.removeHeartbeat(ibOrder);
             outputProcessor.processExecution(ibOrder);
         } else if (IbApiEnums.OrderStatus.CANCELLED.getValue().equalsIgnoreCase(status) && !IbLoggerDefinitions.IbOrderStatus.CANCELLED.equals(ibOrder.getStatus())) {
-            ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.CANCELLED, null, null);
+            ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.CANCELLED, null);
             ibLoggerDao.updateIbOrder(ibOrder);
             heartbeatControl.removeHeartbeat(ibOrder);
             outputProcessor.processConversion(ibOrder, IbLoggerDefinitions.RequestType.CANCEL);

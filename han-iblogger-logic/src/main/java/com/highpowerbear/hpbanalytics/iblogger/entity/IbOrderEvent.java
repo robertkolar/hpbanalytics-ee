@@ -26,8 +26,7 @@ public class IbOrderEvent implements Serializable {
     private Calendar eventDate;
     @Enumerated(EnumType.STRING)
     private IbLoggerDefinitions.IbOrderStatus status;
-    private Double updatePrice;
-    private Double fillPrice;
+    private Double price;
     @XmlTransient
     @ManyToOne
     private IbOrder ibOrder;
@@ -77,20 +76,12 @@ public class IbOrderEvent implements Serializable {
         this.status = status;
     }
 
-    public Double getUpdatePrice() {
-        return updatePrice;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setUpdatePrice(Double updatePrice) {
-        this.updatePrice = updatePrice;
-    }
-
-    public Double getFillPrice() {
-        return fillPrice;
-    }
-
-    public void setFillPrice(Double fillPrice) {
-        this.fillPrice = fillPrice;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public IbOrder getIbOrder() {
