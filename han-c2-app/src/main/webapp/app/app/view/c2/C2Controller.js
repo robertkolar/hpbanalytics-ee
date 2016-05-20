@@ -86,7 +86,7 @@ Ext.define('C2.view.c2.C2Controller', {
     showPublishEvents: function (record) {
         var me = this;
         if (!me.publishEventsGrid) {
-            me.publishEventsGrid =  Ext.create('C2.view.c2.PublishEventsGrid');
+            me.publishEventsGrid =  Ext.create('C2.view.c2.grid.PublishEventsGrid');
             me.publishEventsWindow = Ext.create('widget.han-c2-events-window');
             me.publishEventsWindow.add(me.publishEventsGrid);
         }
@@ -100,7 +100,7 @@ Ext.define('C2.view.c2.C2Controller', {
         var me = this;
         var dbId = record.get(record.getFields()[0].getName());
         if (!me.pollEventsGrid) {
-            me.pollEventsGrid =  Ext.create('C2.view.c2.PollEventsGrid', {
+            me.pollEventsGrid =  Ext.create('C2.view.c2.grid.PollEventsGrid', {
                 store: Ext.create('C2.store.PollEventStore')
             });
             var paging = Ext.create('Ext.toolbar.Paging', {

@@ -14,7 +14,8 @@ Ext.define('C2.view.main.Main', {
         'Ext.button.Button',
         'Ext.layout.container.VBox',
         'C2.model.c2.C2Signal',
-        'C2.model.c2.PublishEvent'
+        'C2.model.c2.PublishEvent',
+        'C2.model.c2.PollEvent'
     ],
 
     xtype: 'app-main',
