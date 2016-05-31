@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * Created by robertk on 3/28/15.
  */
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/iblogger_c2"),
+        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/IbLoggerToC2Q"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         //@ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
 })
@@ -41,7 +41,7 @@ public class MqListenerBean implements MessageListener {
         try {
             if (message instanceof TextMessage) {
                 String inputXml = ((TextMessage) message).getText();
-                l.info("Text message received from MQ=iblogtoc2pub, xml=" + inputXml);
+                l.info("Text message received from MQ=IbLoggerToC2Q, xml=" + inputXml);
                 InputRequest inputRequest = C2Util.toInputRequest(inputXml);
                 Calendar now = Calendar.getInstance();
                 inputRequest.setReceivedDate(now);
@@ -59,7 +59,7 @@ public class MqListenerBean implements MessageListener {
                 inputProcessor.process(c2System, inputRequest);
                 websocketController.broadcastC2Message("input processed");
             } else {
-                l.warning("Non-text message received from MQ=iblogtoc2pub, ignoring");
+                l.warning("Non-text message received from MQ=IbLoggerToC2Q, ignoring");
             }
         } catch (Exception e) {
             l.log(Level.SEVERE, "Error", e);
