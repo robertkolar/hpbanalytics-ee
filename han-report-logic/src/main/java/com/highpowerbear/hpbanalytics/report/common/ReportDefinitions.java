@@ -7,6 +7,7 @@ package com.highpowerbear.hpbanalytics.report.common;
 public class ReportDefinitions {
     // settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
+    public static final String IBLOGGER_TO_REPORT_QUEUE = "java:/jms/queue/IbLoggerToReportQ";
     public static final int JPA_MAX_RESULTS = 1000;
     public static final String TIMEZONE = "America/New_York";
 

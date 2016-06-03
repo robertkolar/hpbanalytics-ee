@@ -10,6 +10,8 @@ public class IbLoggerDefinitions {
 
     // Settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
+    public static final String IBLOGGER_TO_C2_QUEUE = "java:/jms/queue/IbLoggerToC2Q";
+    public static final String IBLOGGER_TO_REPORT_QUEUE = "java:/jms/queue/IbLoggerToReportQ";
     public static final Integer IB_CONNECT_CLIENT_ID = 0;
     public static final Integer JPA_MAX_RESULTS = 1000;
     public static final Integer MAX_ORDER_HEARTBEAT_FAILS = 5;

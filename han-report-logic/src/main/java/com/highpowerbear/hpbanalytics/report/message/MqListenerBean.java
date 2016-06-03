@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * Created by robertk on 4/26/15.
  */
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queue/IbLoggerToReportQ"),
+        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = ReportDefinitions.IBLOGGER_TO_REPORT_QUEUE),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
 })
@@ -39,7 +39,7 @@ public class MqListenerBean implements MessageListener {
         try {
             if (message instanceof TextMessage) {
                 String inputXml = ((TextMessage) message).getText();
-                l.info("Text message received from MQ=IbLoggerToReportQ, xml=" + inputXml);
+                l.info("Text message received from MQ=" + ReportDefinitions.IBLOGGER_TO_REPORT_QUEUE + ", xml=" + inputXml);
                 Execution execution = ReportUtil.toExecution(inputXml);
                 Calendar now = Calendar.getInstance();
                 execution.setReceivedDate(now);
@@ -51,7 +51,7 @@ public class MqListenerBean implements MessageListener {
                 execution.setReport(report);
                 reportProcessor.newExecution(execution);
             } else {
-                l.warning("Non-text message received from MQ=IbLoggerToReportQ, ignoring");
+                l.warning("Non-text message received from MQ=" + ReportDefinitions.IBLOGGER_TO_REPORT_QUEUE + ", ignoring");
             }
         } catch (Exception e) {
             l.log(Level.SEVERE, "Error", e);

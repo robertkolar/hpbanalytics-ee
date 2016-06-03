@@ -9,6 +9,7 @@ public class C2Definitions {
 
     // Settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
+    public static final String IBLOGGER_TO_C2_QUEUE = "java:/jms/queue/IbLoggerToC2Q";
     public static int C2_STATUS_POLLING_MAX_FAILED = 10;
     public static final String C2_BASE_URL = "www.collective2.com/cgi-perl/signal.mpl";
     public static final int JPA_MAX_RESULTS = 1000;
