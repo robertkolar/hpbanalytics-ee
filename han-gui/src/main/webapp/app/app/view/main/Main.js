@@ -10,7 +10,10 @@ Ext.define('Report.view.main.Main', {
     requires: [
         'Report.view.main.MainController',
         'Report.view.main.MainModel',
-        'Report.view.report.Report'
+        'Report.view.report.Report',
+        'C2.model.c2.C2Signal',
+        'C2.model.c2.PublishEvent',
+        'C2.model.c2.PollEvent'
     ],
 
     xtype: 'app-main',

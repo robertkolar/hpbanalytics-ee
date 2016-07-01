@@ -6,8 +6,7 @@
     <artifactId>hpbanalytics</artifactId>
     <version>3.0</version>
     <modules>
-        <module>han-c2-logic</module>
-        <module>han-c2-app</module>
+        <module>han-c2</module>
         <module>han-iblogger-logic</module>
         <module>han-iblogger-app</module>
         <module>han-report</module>

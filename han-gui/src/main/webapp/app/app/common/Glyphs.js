@@ -15,7 +15,8 @@ Ext.define('Report.common.Glyphs', {
         barchart: 'xf080',
         orderedlist: 'xf0cb',
         money: 'xf0d6',
-        gear: 'xf013'
+        gear: 'xf013',
+        destroy: 'xf1f8'
     },
 
     constructor: function(config) {

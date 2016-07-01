@@ -3,10 +3,58 @@
  */
 Ext.define('Report.common.Definitions', {
     statics: {
-        //urlPrefix: 'http://localhost:28080/han-report/rest/report',
-        urlPrefix: 'http://' + window.location.host + '/han-report/rest/report',
+        //urlPrefixReport: 'http://localhost:28080/han-report/rest/report',
+        urlPrefixReport: 'http://' + window.location.host + '/han-report/rest/report',
 
-        //wsUrl: 'ws://localhost:28080/han-report/websocket/report'
-        wsUrl: 'ws://' + window.location.host + '/han-report/websocket/report'
+        //wsUrlReport: 'ws://localhost:28080/han-report/websocket/report'
+        wsUrlReport: 'ws://' + window.location.host + '/han-report/websocket/report',
+
+        //urlPrefixC2: 'http://localhost:28080/han-c2/rest/c2',
+        urlPrefixC2: 'http://' + window.location.host + '/han-c2/rest/c2',
+
+        //wsUrlC2: 'ws://localhost:28080/han-c2/websocket/c2',
+        wsUrlC2: 'ws://' + window.location.host + '/han-c2/websocket/c2',
+
+        getRequestStatusColor: function(status) {
+            var statusColor;
+            switch(status) {
+                case 'NEW':         statusColor = 'blue';   break;
+                case 'PROCESSED':   statusColor = 'green';  break;
+                case 'IGNORED':     statusColor = 'brown';  break;
+                case 'ERROR':       statusColor = 'red';    break;
+            }
+            return statusColor;
+        },
+
+        getPublishStatusColor: function(status) {
+            var statusColor;
+            switch(status) {
+                case 'POSOK':       statusColor = 'green';  break;
+                case 'POSERR':      statusColor = 'red';    break;
+                case 'SBMOK':       statusColor = 'green';  break;
+                case 'SBMERR':      statusColor = 'red';    break;
+                case 'CNCOK':       statusColor = 'green';  break;
+                case 'CNCERR':      statusColor = 'red';    break;
+                case 'UPDCNCOK':    statusColor = 'green';  break;
+                case 'UPDCNCERR':   statusColor = 'red';    break;
+                case 'UPDSBMOK':    statusColor = 'green';  break;
+                case 'UPDSBMERR':   statusColor = 'red';    break;
+            }
+            return statusColor;
+        },
+
+        getPollStatusColor: function(status) {
+            var statusColor;
+            switch(status) {
+                case 'NOTPOLLED':   statusColor = 'gray';   break;
+                case 'WORKING':     statusColor = 'blue';   break;
+                case 'CANCELLED':   statusColor = 'brown';  break;
+                case 'FILLED':      statusColor = 'green';  break;
+                case 'EXPIRED':     statusColor = 'orange'; break;
+                case 'POLLERR':     statusColor = 'red';    break;
+                case 'UNKNOWN':     statusColor = 'gray';   break;
+            }
+            return statusColor;
+        }
     }
 });
