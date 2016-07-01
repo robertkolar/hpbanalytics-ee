@@ -27,6 +27,7 @@ import java.util.logging.Logger;
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
 })
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class MqListenerBean implements MessageListener {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 

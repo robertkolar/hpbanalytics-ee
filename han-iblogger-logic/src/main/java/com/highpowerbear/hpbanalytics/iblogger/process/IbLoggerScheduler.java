@@ -1,4 +1,4 @@
-package com.highpowerbear.hpbanalytics.iblogger.common;
+package com.highpowerbear.hpbanalytics.iblogger.process;
 
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.HeartbeatControl;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbController;

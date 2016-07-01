@@ -26,8 +26,9 @@ import java.util.logging.Logger;
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = C2Definitions.IBLOGGER_TO_C2_QUEUE),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        //@ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")
+        @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")
 })
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class MqListenerBean implements MessageListener {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
 
