@@ -1,7 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
-import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.model.IbConnection;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
@@ -29,11 +28,17 @@ public class IbController {
 
     private Map<IbAccount, IbConnection> ibConnectionMap = new HashMap<>(); // ibAccount --> ibConnection
 
+    public IbConnection getIbConnection(IbAccount ibAccount) {
+        return ibConnectionMap.get(ibAccount);
+    }
+
     @PostConstruct
     private void init() {
-        for (IbAccount ibAccount : ibLoggerDao.getIbAccounts()) {
-            ibConnectionMap.put(ibAccount, new IbConnection());
-        }
+        ibLoggerDao.getIbAccounts().forEach(ibAccount -> {
+            EClientSocket eClientSocket = new EClientSocket(ibListeners.get().configure(ibAccount));
+            IbConnection ibConnection = new IbConnection(IbLoggerDefinitions.IbConnectionType.IBLOGGER, ibAccount.getHost(), ibAccount.getPort(), IbLoggerDefinitions.IB_CONNECT_CLIENT_ID, eClientSocket);
+            ibConnectionMap.put(ibAccount, ibConnection);
+        });
     }
 
     @PreDestroy
@@ -41,47 +46,12 @@ public class IbController {
         ibConnectionMap.keySet().forEach(this::disconnect);
     }
 
-    public Map<IbAccount, IbConnection> getIbConnectionMap() {
-        return ibConnectionMap;
-    }
-
     public void connect(IbAccount ibAccount) {
-        IbConnection c = ibConnectionMap.get(ibAccount);
-
-        if (c.getClientSocket() == null)  {
-            c.setClientSocket(new EClientSocket(ibListeners.get().configure(ibAccount)));
-        }
-        if (c.getClientSocket() != null && !c.getClientSocket().isConnected()) {
-            c.setAccounts(null);
-            c.setIsConnected(false);
-            l.info("Connecting ibAccount " + ibAccount.print());
-            c.getClientSocket().eConnect(ibAccount.getHost(), ibAccount.getPort(), IbLoggerDefinitions.IB_CONNECT_CLIENT_ID);
-            IbLoggerUtil.waitMilliseconds(IbLoggerDefinitions.ONE_SECOND);
-            if (isConnected(ibAccount)) {
-                c.setIsConnected(true);
-                l.info("Sucessfully connected ibAccount " + ibAccount.print());
-                requestOpenOrders(ibAccount);
-                requestAccounts(ibAccount);
-            }
-        }
+        ibConnectionMap.get(ibAccount).connect();
     }
 
     public void disconnect(IbAccount ibAccount) {
-        IbConnection c = ibConnectionMap.get(ibAccount);
-        if (c.getClientSocket() != null && c.getClientSocket().isConnected()) {
-            l.info("Disconnecting ibAccount " + ibAccount.print());
-            c.getClientSocket().eDisconnect();
-            IbLoggerUtil.waitMilliseconds(IbLoggerDefinitions.ONE_SECOND);
-            if (!isConnected(ibAccount)) {
-                l.info("Successfully disconnected ibAccount " + ibAccount.print());
-                c.clear();
-            }
-        }
-    }
-
-    public boolean isConnected(IbAccount ibAccount) {
-        IbConnection c = ibConnectionMap.get(ibAccount);
-        return (c.getClientSocket() != null && c.getClientSocket().isConnected());
+        ibConnectionMap.get(ibAccount).disconnect();
     }
 
     public void requestOpenOrders(IbAccount ibAccount) {
@@ -90,10 +60,5 @@ public class IbController {
         c.getClientSocket().reqOpenOrders();
         c.getClientSocket().reqAllOpenOrders();
         c.getClientSocket().reqAutoOpenOrders(true);
-    }
-
-    private void requestAccounts(IbAccount ibAccount) {
-        l.info("Requesting account for ibAccount " + ibAccount.print());
-        ibConnectionMap.get(ibAccount).getClientSocket().reqManagedAccts();
     }
 }

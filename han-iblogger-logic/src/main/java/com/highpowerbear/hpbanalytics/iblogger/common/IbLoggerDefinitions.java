@@ -7,6 +7,7 @@ public class IbLoggerDefinitions {
     // Constants
     public static final int ONE_SECOND = 1000; // milliseconds
     public static final String CONVERSION_ORIGIN_PREFIX_IB = "IB:";
+    public static final Integer ONE_SECOND_MILLIS = 1000;
 
     // Settings
     public static final String LOGGER = "com.highpowerbear.hpbanalytics";
@@ -109,6 +110,9 @@ public class IbLoggerDefinitions {
         public String getVarName() {
             return varName;
         }
+    }
 
+    public enum IbConnectionType {
+        IBLOGGER
     }
 }

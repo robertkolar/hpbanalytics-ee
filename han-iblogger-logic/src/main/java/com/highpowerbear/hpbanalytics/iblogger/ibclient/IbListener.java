@@ -72,6 +72,6 @@ public class IbListener extends GenericIbListener {
     @Override
     public void managedAccounts(String accountsList) {
         super.managedAccounts(accountsList);
-        ibController.getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
+        ibController.getIbConnection(ibAccount).setAccounts(accountsList);
     }
 }

@@ -34,12 +34,8 @@ public class IbLoggerService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("ibaccounts")
     public RestList<IbAccount> getIbAccounts() {
-        List<IbAccount> ibAccounts = new ArrayList<>();
-        for (IbAccount ibAccount : ibloggerDao.getIbAccounts()) {
-            ibAccount.setIbConnection(ibController.getIbConnectionMap().get(ibAccount));
-            ibAccount.getIbConnection().setIsConnected(ibController.isConnected(ibAccount));
-            ibAccounts.add(ibAccount);
-        }
+        List<IbAccount> ibAccounts = ibloggerDao.getIbAccounts();
+        ibAccounts.forEach(ibAccount -> ibAccount.setIbConnection(ibController.getIbConnection(ibAccount)));
         return new RestList<>(ibAccounts, (long) ibAccounts.size());
     }
 
@@ -66,8 +62,7 @@ public class IbLoggerService {
             ibController.disconnect(ibAccount);
         }
         IbLoggerUtil.waitMilliseconds(IbLoggerDefinitions.ONE_SECOND);
-        ibAccount.setIbConnection(ibController.getIbConnectionMap().get(ibAccount));
-        ibAccount.getIbConnection().setIsConnected(ibController.isConnected(ibAccount));
+        ibAccount.setIbConnection(ibController.getIbConnection(ibAccount));
         return ibAccount;
     }
 
