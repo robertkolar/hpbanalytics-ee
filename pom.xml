@@ -10,8 +10,8 @@
         <module>han-c2-app</module>
         <module>han-iblogger-logic</module>
         <module>han-iblogger-app</module>
-        <module>han-report-logic</module>
-        <module>han-report-app</module>
+        <module>han-report</module>
+        <module>han-gui</module>
         <module>han-doc</module>
     </modules>
     <packaging>pom</packaging>

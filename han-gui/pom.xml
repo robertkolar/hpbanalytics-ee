@@ -9,16 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>han-report-app</artifactId>
+    <artifactId>han-gui</artifactId>
     <packaging>war</packaging>
-    
-    <dependencies>
-        <dependency>
-            <groupId>com.highpowerbear</groupId>
-            <artifactId>han-report-logic</artifactId>
-            <version>3.0</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -57,7 +49,7 @@
                             <goal>war</goal>
                         </goals>
                         <configuration>
-                            <warSourceDirectory>${basedir}/src/main/webapp/app/build/production/Report</warSourceDirectory>
+                            <warSourceDirectory>${basedir}/src/main/webapp/app/build/production/HanGui</warSourceDirectory>
                             <packagingExcludes>app/**</packagingExcludes>
                         </configuration>
                     </execution>
