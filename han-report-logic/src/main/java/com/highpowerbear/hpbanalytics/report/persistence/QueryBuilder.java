@@ -8,7 +8,6 @@ import com.highpowerbear.hpbanalytics.report.rest.model.ExecutionFilter;
 import com.highpowerbear.hpbanalytics.report.rest.model.TradeFilter;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Calendar;
@@ -17,7 +16,6 @@ import java.util.logging.Logger;
 /**
  * Created by robertk on 21.10.2015.
  */
-@Named
 @ApplicationScoped
 public class QueryBuilder {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);

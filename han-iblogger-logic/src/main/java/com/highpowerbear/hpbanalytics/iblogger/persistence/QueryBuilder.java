@@ -6,7 +6,6 @@ import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.rest.model.IbOrderFilter;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Calendar;
@@ -15,7 +14,6 @@ import java.util.logging.Logger;
 /**
  * Created by robertk on 19.10.2015.
  */
-@Named
 @ApplicationScoped
 public class QueryBuilder {
     private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);

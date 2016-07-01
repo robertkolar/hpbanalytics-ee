@@ -8,7 +8,6 @@ import com.highpowerbear.hpbanalytics.c2.rest.model.C2SignalFilter;
 import com.highpowerbear.hpbanalytics.c2.rest.model.InputRequestFilter;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Calendar;
@@ -17,7 +16,6 @@ import java.util.logging.Logger;
 /**
  * Created by robertk on 20.10.2015.
  */
-@Named
 @ApplicationScoped
 public class QueryBuilder {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);

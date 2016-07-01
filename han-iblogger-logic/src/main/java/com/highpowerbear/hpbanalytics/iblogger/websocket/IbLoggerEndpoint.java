@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.iblogger.websocket;
 
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+
 import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;

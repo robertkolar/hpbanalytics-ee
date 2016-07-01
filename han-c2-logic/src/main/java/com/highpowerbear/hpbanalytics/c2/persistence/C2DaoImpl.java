@@ -10,7 +10,6 @@ import com.highpowerbear.hpbanalytics.c2.rest.model.InputRequestFilter;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -24,7 +23,6 @@ import java.util.logging.Logger;
  *
  * @author Robert
  */
-@Named
 @Stateless
 public class C2DaoImpl implements C2Dao {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);

@@ -5,7 +5,6 @@ import com.highpowerbear.hpbanalytics.c2.rest.model.C2SignalFilter;
 import com.highpowerbear.hpbanalytics.c2.rest.model.InputRequestFilter;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonReader;
@@ -18,7 +17,6 @@ import java.util.Set;
 /**
  * Created by robertk on 20.10.2015.
  */
-@Named
 @ApplicationScoped
 public class FilterParser {
 

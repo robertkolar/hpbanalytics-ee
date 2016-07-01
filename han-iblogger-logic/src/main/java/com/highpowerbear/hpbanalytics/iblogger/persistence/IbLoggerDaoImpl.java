@@ -62,7 +62,7 @@ public class IbLoggerDaoImpl implements IbLoggerDao {
     }
 
     @Override
-    public List<IbOrder> getIbOpenOrders(IbAccount ibAccount) {
+    public List<IbOrder> getOpenIbOrders(IbAccount ibAccount) {
         TypedQuery<IbOrder> q = em.createQuery("SELECT io FROM IbOrder io WHERE io.ibAccount = :ibAccount AND io.status IN :statuses", IbOrder.class);
         q.setParameter("ibAccount", ibAccount);
         Set<IbLoggerDefinitions.IbOrderStatus> statuses = new HashSet<>();

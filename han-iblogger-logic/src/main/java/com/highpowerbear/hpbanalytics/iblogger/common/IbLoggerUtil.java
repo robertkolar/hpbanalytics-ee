@@ -2,6 +2,7 @@ package com.highpowerbear.hpbanalytics.iblogger.common;
 
 import com.highpowerbear.hpbanalytics.iblogger.model.C2Request;
 import com.highpowerbear.hpbanalytics.iblogger.model.IbExecution;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;

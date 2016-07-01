@@ -1,8 +1,8 @@
 package com.highpowerbear.hpbanalytics.iblogger.websocket;
 
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.websocket.Session;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 /**
  * Created by robertk on 5/17/14.
  */
-@Named
 @ApplicationScoped
 public class WebsocketController implements Serializable {
     private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);

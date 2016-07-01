@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.iblogger.model;
 
 import com.ib.client.EClientSocket;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;

@@ -10,14 +10,12 @@ import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 
 /**
  *
  * @author Robert
  */
-@Named
 @ApplicationScoped
 public class InputProcessor {
     @Inject private C2Dao c2Dao;

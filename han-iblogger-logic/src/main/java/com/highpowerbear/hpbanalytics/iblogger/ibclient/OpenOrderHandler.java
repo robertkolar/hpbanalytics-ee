@@ -1,30 +1,27 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
-import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.ib.client.Contract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.logging.Logger;
 
 /**
  * Created by robertk on 3/4/14.
  */
-@Named
 @ApplicationScoped
 public class OpenOrderHandler {
     private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
     @Inject private IbLoggerDao ibLoggerDao;
-    @Inject private IbLoggerData ibLoggerData;
     @Inject private OutputProcessor outputProcessor;
     @Inject private HeartbeatControl heartbeatControl;
 
@@ -140,7 +137,7 @@ public class OpenOrderHandler {
         ibOrder.setOcaGroup(order.m_ocaGroup);
         ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.SUBMITTED, ibOrder.getOrderPrice());
         ibLoggerDao.newIbOrder(ibOrder);
-        heartbeatControl.addHeartbeat(ibOrder);
+        heartbeatControl.initHeartbeat(ibOrder);
         outputProcessor.processConversion(ibOrder, IbLoggerDefinitions.RequestType.SUBMIT);
     }
 }

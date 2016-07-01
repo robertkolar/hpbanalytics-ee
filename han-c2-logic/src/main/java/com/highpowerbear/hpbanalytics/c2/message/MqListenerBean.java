@@ -2,10 +2,10 @@ package com.highpowerbear.hpbanalytics.c2.message;
 
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
 import com.highpowerbear.hpbanalytics.c2.common.C2Util;
-import com.highpowerbear.hpbanalytics.c2.process.InputProcessor;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
+import com.highpowerbear.hpbanalytics.c2.process.InputProcessor;
 import com.highpowerbear.hpbanalytics.c2.websocket.WebsocketController;
 
 import javax.ejb.ActivationConfigProperty;

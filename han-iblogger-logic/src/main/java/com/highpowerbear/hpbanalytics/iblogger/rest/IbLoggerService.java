@@ -1,10 +1,10 @@
 package com.highpowerbear.hpbanalytics.iblogger.rest;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerUtil;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
+import com.highpowerbear.hpbanalytics.iblogger.ibclient.HeartbeatControl;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbController;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
 import com.highpowerbear.hpbanalytics.iblogger.rest.model.IbOrderFilter;
@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Created by robertk on 3/28/15.
@@ -25,11 +24,10 @@ import java.util.logging.Logger;
 @Path("iblogger")
 @ApplicationScoped
 public class IbLoggerService {
-    private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
     @Inject private IbLoggerDao ibloggerDao;
     @Inject private IbController ibController;
-    @Inject private IbLoggerData ibloggerData;
+    @Inject private HeartbeatControl heartbeatControl;
     @Inject private FilterParser filterParser;
 
     @GET
@@ -38,7 +36,7 @@ public class IbLoggerService {
     public RestList<IbAccount> getIbAccounts() {
         List<IbAccount> ibAccounts = new ArrayList<>();
         for (IbAccount ibAccount : ibloggerDao.getIbAccounts()) {
-            ibAccount.setIbConnection(ibloggerData.getIbConnectionMap().get(ibAccount));
+            ibAccount.setIbConnection(ibController.getIbConnectionMap().get(ibAccount));
             ibAccount.getIbConnection().setIsConnected(ibController.isConnected(ibAccount));
             ibAccounts.add(ibAccount);
         }
@@ -68,7 +66,7 @@ public class IbLoggerService {
             ibController.disconnect(ibAccount);
         }
         IbLoggerUtil.waitMilliseconds(IbLoggerDefinitions.ONE_SECOND);
-        ibAccount.setIbConnection(ibloggerData.getIbConnectionMap().get(ibAccount));
+        ibAccount.setIbConnection(ibController.getIbConnectionMap().get(ibAccount));
         ibAccount.getIbConnection().setIsConnected(ibController.isConnected(ibAccount));
         return ibAccount;
     }
@@ -91,7 +89,7 @@ public class IbLoggerService {
         }
         IbOrderFilter filter = filterParser.parseIbOrderFilter(jsonFilter);
         for (IbOrder ibOrder : ibloggerDao.getFilteredIbOrders(ibAccount, filter, start, limit)) {
-            Map<IbOrder, Integer> hm = ibloggerData.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
+            Map<IbOrder, Integer> hm = heartbeatControl.getOpenOrderHeartbeatMap().get(ibOrder.getIbAccount());
             ibOrder.setHeartbeatCount(hm.get(ibOrder));
             ibOrders.add(ibOrder);
         }

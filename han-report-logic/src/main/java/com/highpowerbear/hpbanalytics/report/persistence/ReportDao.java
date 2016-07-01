@@ -7,7 +7,6 @@ import com.highpowerbear.hpbanalytics.report.entity.Trade;
 import com.highpowerbear.hpbanalytics.report.rest.model.ExecutionFilter;
 import com.highpowerbear.hpbanalytics.report.rest.model.TradeFilter;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 

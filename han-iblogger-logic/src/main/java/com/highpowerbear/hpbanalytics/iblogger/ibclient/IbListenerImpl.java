@@ -1,12 +1,11 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
-import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerData;
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.common.SingletonRepo;
-import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.websocket.WebsocketController;
 import com.ib.client.Contract;
 import com.ib.client.Order;
@@ -19,7 +18,6 @@ import com.ib.client.OrderState;
 
 public class IbListenerImpl extends GenericIbListener {
     private IbLoggerDao ibLoggerDao = SingletonRepo.getInstance().getIbLoggerDao();
-    private IbLoggerData ibLoggerData = SingletonRepo.getInstance().getIbLoggerData();
     private OpenOrderHandler openOrderHandler = SingletonRepo.getInstance().getOpenOrderHandler();
     private OutputProcessor outputProcessor = SingletonRepo.getInstance().getOutputProcessor();
     private HeartbeatControl heartbeatControl = SingletonRepo.getInstance().getHeartbeatControl();
@@ -51,7 +49,7 @@ public class IbListenerImpl extends GenericIbListener {
             return;
         }
         if ((IbApiEnums.OrderStatus.SUBMITTED.getValue().equalsIgnoreCase(status) || IbApiEnums.OrderStatus.PRESUBMITTED.getValue().equalsIgnoreCase(status)) && IbLoggerDefinitions.IbOrderStatus.SUBMITTED.equals(ibOrder.getStatus())) {
-            heartbeatControl.heartbeatReceived(ibOrder);
+            heartbeatControl.initHeartbeat(ibOrder);
         } else if (IbApiEnums.OrderStatus.FILLED.getValue().equalsIgnoreCase(status) && remaining == 0 && !IbLoggerDefinitions.IbOrderStatus.FILLED.equals(ibOrder.getStatus())) {
             ibOrder.addEvent(IbLoggerDefinitions.IbOrderStatus.FILLED, avgFillPrice);
             ibLoggerDao.updateIbOrder(ibOrder);
@@ -69,6 +67,6 @@ public class IbListenerImpl extends GenericIbListener {
     @Override
     public void managedAccounts(String accountsList) {
         super.managedAccounts(accountsList);
-        ibLoggerData.getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
+        SingletonRepo.getInstance().getIbController().getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
     }
 }

@@ -4,7 +4,6 @@ import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
 import com.highpowerbear.hpbanalytics.iblogger.rest.model.IbOrderFilter;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonReader;
@@ -17,7 +16,6 @@ import java.util.Set;
 /**
  * Created by robertk on 19.10.2015.
  */
-@Named
 @ApplicationScoped
 public class FilterParser {
 

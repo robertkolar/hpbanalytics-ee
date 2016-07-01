@@ -9,7 +9,6 @@ import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 /**
  * Created by robertk on 4/26/15.
  */
-@Named
 @ApplicationScoped
 public class StatisticsCalculator implements Serializable {
     private static final long serialVersionUID = 1L;

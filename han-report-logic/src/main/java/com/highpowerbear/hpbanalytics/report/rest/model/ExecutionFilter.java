@@ -1,7 +1,6 @@
 package com.highpowerbear.hpbanalytics.report.rest.model;
 
 import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
-import com.highpowerbear.hpbanalytics.report.entity.Report;
 
 import java.util.Calendar;
 import java.util.HashMap;

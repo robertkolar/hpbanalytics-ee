@@ -2,6 +2,7 @@ package com.highpowerbear.hpbanalytics.c2.common;
 
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import org.w3c.dom.Document;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;

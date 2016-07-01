@@ -1,19 +1,18 @@
 package com.highpowerbear.hpbanalytics.iblogger.common;
 
-import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.HeartbeatControl;
+import com.highpowerbear.hpbanalytics.iblogger.ibclient.IbController;
 import com.highpowerbear.hpbanalytics.iblogger.ibclient.OpenOrderHandler;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+import com.highpowerbear.hpbanalytics.iblogger.process.OutputProcessor;
 import com.highpowerbear.hpbanalytics.iblogger.websocket.WebsocketController;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * Created by robertk on 3/8/15.
  */
-@Named
 @ApplicationScoped
 public class SingletonRepo {
     private static SingletonRepo srepo;
@@ -28,18 +27,14 @@ public class SingletonRepo {
     }
 
     @Inject private IbLoggerDao ibLoggerDao;
-    @Inject private IbLoggerData ibLoggerData;
     @Inject private OpenOrderHandler openOrderHandler;
     @Inject private OutputProcessor outputProcessor;
     @Inject private HeartbeatControl heartbeatControl;
     @Inject private WebsocketController websocketController;
+    @Inject private IbController ibController;
 
     public IbLoggerDao getIbLoggerDao() {
         return ibLoggerDao;
-    }
-
-    public IbLoggerData getIbLoggerData() {
-        return ibLoggerData;
     }
 
     public OpenOrderHandler getOpenOrderHandler() {
@@ -56,5 +51,9 @@ public class SingletonRepo {
 
     public WebsocketController getWebsocketController() {
         return websocketController;
+    }
+
+    public IbController getIbController() {
+        return ibController;
     }
 }

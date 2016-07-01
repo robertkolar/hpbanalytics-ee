@@ -7,16 +7,15 @@ import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 import com.highpowerbear.hpbanalytics.c2.entity.C2System;
 import com.highpowerbear.hpbanalytics.c2.entity.InputRequest;
 import com.highpowerbear.hpbanalytics.c2.persistence.C2Dao;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
 /**
  * Created by rkolar on 2/7/14.
  */
-@Named
 @ApplicationScoped
 public class SignalCreator {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);

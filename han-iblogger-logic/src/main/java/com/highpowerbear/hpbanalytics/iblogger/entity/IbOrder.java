@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.iblogger.entity;
 
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;

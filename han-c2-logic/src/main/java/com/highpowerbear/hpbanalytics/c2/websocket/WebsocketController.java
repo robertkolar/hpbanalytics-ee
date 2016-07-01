@@ -3,7 +3,6 @@ package com.highpowerbear.hpbanalytics.c2.websocket;
 import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.websocket.Session;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 /**
  * Created by robertk on 5/17/14.
  */
-@Named
 @ApplicationScoped
 public class WebsocketController implements Serializable {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);

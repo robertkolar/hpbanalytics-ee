@@ -3,7 +3,6 @@ package com.highpowerbear.hpbanalytics.report.websocket;
 import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.websocket.Session;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +12,6 @@ import java.util.logging.Logger;
 /**
  * Created by robertk on 17.9.2015.
  */
-@Named
 @ApplicationScoped
 public class WebsocketController {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);

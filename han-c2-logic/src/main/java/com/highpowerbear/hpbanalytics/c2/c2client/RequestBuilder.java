@@ -4,14 +4,12 @@ import com.highpowerbear.hpbanalytics.c2.common.C2Definitions;
 import com.highpowerbear.hpbanalytics.c2.entity.C2Signal;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import java.util.logging.Logger;
 
 /**
  *
  * @author Robert
  */
-@Named
 @ApplicationScoped
 public class RequestBuilder {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);

@@ -12,7 +12,6 @@ import org.w3c.dom.Node;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.net.URL;
 import java.util.Calendar;
@@ -23,7 +22,6 @@ import java.util.logging.Logger;
  *
  * @author Robert
  */
-@Named
 @ApplicationScoped
 public class RequestHandler {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);

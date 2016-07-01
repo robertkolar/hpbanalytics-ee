@@ -8,16 +8,15 @@ import com.highpowerbear.hpbanalytics.iblogger.message.MqSender;
 import com.highpowerbear.hpbanalytics.iblogger.model.C2Request;
 import com.highpowerbear.hpbanalytics.iblogger.model.IbExecution;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by robertk on 3/29/15.
  */
-@Named
 @ApplicationScoped
 public class OutputProcessor {
     private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);

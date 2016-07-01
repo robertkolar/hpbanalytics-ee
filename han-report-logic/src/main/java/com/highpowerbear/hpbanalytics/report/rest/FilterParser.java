@@ -5,7 +5,6 @@ import com.highpowerbear.hpbanalytics.report.rest.model.ExecutionFilter;
 import com.highpowerbear.hpbanalytics.report.rest.model.TradeFilter;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonReader;
@@ -18,7 +17,6 @@ import java.util.Set;
 /**
  * Created by robertk on 21.10.2015.
  */
-@Named
 @ApplicationScoped
 public class FilterParser {
 

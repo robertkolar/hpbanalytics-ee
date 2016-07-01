@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.iblogger.message;
 
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
