@@ -10,6 +10,7 @@ import com.ib.client.EClientSocket;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class IbController {
     private static final Logger l = Logger.getLogger(IbLoggerDefinitions.LOGGER);
 
     @Inject private IbLoggerDao ibLoggerDao;
+    @Inject private Instance<IbListener> ibListeners;
 
     private Map<IbAccount, IbConnection> ibConnectionMap = new HashMap<>(); // ibAccount --> ibConnection
 
@@ -47,7 +49,7 @@ public class IbController {
         IbConnection c = ibConnectionMap.get(ibAccount);
 
         if (c.getClientSocket() == null)  {
-            c.setClientSocket(new EClientSocket(new IbListenerImpl(ibAccount)));
+            c.setClientSocket(new EClientSocket(ibListeners.get().configure(ibAccount)));
         }
         if (c.getClientSocket() != null && !c.getClientSocket().isConnected()) {
             c.setAccounts(null);

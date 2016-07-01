@@ -1,7 +1,6 @@
 package com.highpowerbear.hpbanalytics.iblogger.ibclient;
 
 import com.highpowerbear.hpbanalytics.iblogger.common.IbLoggerDefinitions;
-import com.highpowerbear.hpbanalytics.iblogger.common.SingletonRepo;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbAccount;
 import com.highpowerbear.hpbanalytics.iblogger.entity.IbOrder;
 import com.highpowerbear.hpbanalytics.iblogger.persistence.IbLoggerDao;
@@ -11,22 +10,28 @@ import com.ib.client.Contract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
 /**
  *
  * @author Robert
  */
+@Dependent
+public class IbListener extends GenericIbListener {
 
-public class IbListenerImpl extends GenericIbListener {
-    private IbLoggerDao ibLoggerDao = SingletonRepo.getInstance().getIbLoggerDao();
-    private OpenOrderHandler openOrderHandler = SingletonRepo.getInstance().getOpenOrderHandler();
-    private OutputProcessor outputProcessor = SingletonRepo.getInstance().getOutputProcessor();
-    private HeartbeatControl heartbeatControl = SingletonRepo.getInstance().getHeartbeatControl();
-    private WebsocketController websocketController = SingletonRepo.getInstance().getWebsocketController();
+    @Inject private IbLoggerDao ibLoggerDao;
+    @Inject private OpenOrderHandler openOrderHandler;
+    @Inject private OutputProcessor outputProcessor;
+    @Inject private IbController ibController;
+    @Inject private HeartbeatControl heartbeatControl;
+    @Inject private WebsocketController websocketController;
 
     private IbAccount ibAccount;
 
-    public IbListenerImpl(IbAccount ibAccount) {
+    public IbListener configure(IbAccount ibAccount) {
         this.ibAccount = ibAccount;
+        return this;
     }
 
     @Override
@@ -67,6 +72,6 @@ public class IbListenerImpl extends GenericIbListener {
     @Override
     public void managedAccounts(String accountsList) {
         super.managedAccounts(accountsList);
-        SingletonRepo.getInstance().getIbController().getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
+        ibController.getIbConnectionMap().get(ibAccount).setAccounts(accountsList);
     }
 }
