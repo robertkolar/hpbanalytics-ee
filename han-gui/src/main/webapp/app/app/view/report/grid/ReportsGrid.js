@@ -1,14 +1,14 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.grid.ReportsGrid', {
+Ext.define('HanGui.view.report.grid.ReportsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-report-reports-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
         'Ext.grid.plugin.RowEditing',
-        'Report.view.report.ReportController'
+        'HanGui.view.report.ReportController'
     ],
     listeners: {
         select: 'onReportSelect'
@@ -109,7 +109,7 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             handler: 'onAnalyzeReport',
             listeners: {
                 beforerender: function(c, eOpts) {
-                    c.setGlyph(Report.common.Glyphs.getGlyph('gear'));
+                    c.setGlyph(HanGui.common.Glyphs.getGlyph('gear'));
                 }
             }
         }
@@ -123,7 +123,7 @@ Ext.define('Report.view.report.grid.ReportsGrid', {
             handler: 'onDeleteReport',
             listeners: {
                 beforerender: function(c, eOpts) {
-                    c.setGlyph(Report.common.Glyphs.getGlyph('delete'));
+                    c.setGlyph(HanGui.common.Glyphs.getGlyph('delete'));
                 }
             }
         }

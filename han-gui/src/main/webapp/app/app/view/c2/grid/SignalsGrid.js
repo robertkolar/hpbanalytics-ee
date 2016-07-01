@@ -1,11 +1,11 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.view.c2.grid.SignalsGrid', {
+Ext.define('HanGui.view.c2.grid.SignalsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-c2-signals-grid',
     requires: [
-        'C2.view.c2.C2Controller',
+        'HanGui.view.c2.C2Controller',
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
         'Ext.grid.filters.Filters'

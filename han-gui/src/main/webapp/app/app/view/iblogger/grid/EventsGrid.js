@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.view.iblogger.grid.EventsGrid', {
+Ext.define('HanGui.view.iblogger.grid.EventsGrid', {
     extend: 'Ext.grid.Panel',
 
     requires: [
@@ -31,7 +31,7 @@ Ext.define('IbLogger.view.iblogger.grid.EventsGrid', {
         width: 80,
         dataIndex: 'status',
         renderer: function(val, metadata, record) {
-            metadata.style = 'background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
+            metadata.style = 'background-color: ' + HanGui.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
             return val.toLowerCase();
         }
     }, {

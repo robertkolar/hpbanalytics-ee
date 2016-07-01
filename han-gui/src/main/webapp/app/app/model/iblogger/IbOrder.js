@@ -1,8 +1,8 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('IbLogger.model.iblogger.IbOrder', {
-    extend: 'IbLogger.model.iblogger.Base',
+Ext.define('HanGui.model.iblogger.IbOrder', {
+    extend: 'HanGui.model.iblogger.Base',
 
     fields: [
         {name: 'id', type: 'string'},

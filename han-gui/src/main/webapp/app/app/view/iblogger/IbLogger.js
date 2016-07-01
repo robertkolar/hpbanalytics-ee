@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.view.iblogger.IbLogger', {
+Ext.define('HanGui.view.iblogger.IbLogger', {
     extend: 'Ext.panel.Panel',
     xtype: 'han-iblogger',
     reference: 'iblogger',
@@ -9,10 +9,10 @@ Ext.define('IbLogger.view.iblogger.IbLogger', {
     border: false,
     requires: [
         'Ext.layout.container.VBox',
-        'IbLogger.view.iblogger.grid.AccountsGrid',
-        'IbLogger.view.iblogger.IbLoggerController',
-        'IbLogger.view.iblogger.IbLoggerModel',
-        'IbLogger.view.iblogger.grid.OrdersGrid'
+        'HanGui.view.iblogger.grid.AccountsGrid',
+        'HanGui.view.iblogger.IbLoggerController',
+        'HanGui.view.iblogger.IbLoggerModel',
+        'HanGui.view.iblogger.grid.OrdersGrid'
     ],
     controller: 'han-iblogger',
     viewModel: {
@@ -22,6 +22,7 @@ Ext.define('IbLogger.view.iblogger.IbLogger', {
         type: 'vbox',
         align: 'stretch'
     },
+    scrollable: true,
     items: [{
         xtype: 'han-iblogger-accounts-grid',
         reference: 'accountsGrid'

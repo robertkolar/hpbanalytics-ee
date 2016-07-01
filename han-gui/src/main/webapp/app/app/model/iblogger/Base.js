@@ -1,21 +1,21 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.model.iblogger.Base', {
+Ext.define('HanGui.model.iblogger.Base', {
     extend: 'Ext.data.Model',
 
     requires: [
         'Ext.data.proxy.Ajax',
         'Ext.data.reader.Json',
         'Ext.data.writer.Json',
-        'IbLogger.common.Definitions',
-        'IbLogger.common.Util'
+        'HanGui.common.Definitions',
+        'HanGui.common.Util'
     ],
 
     schema: {
         id: 'iblogger',
         namespace: 'IbLogger.model.iblogger',
-        urlPrefix: IbLogger.common.Definitions.urlPrefix,
+        urlPrefix: HanGui.Definitions.common.Definitions.urlPrefixIbLogger,
         proxy: {
             type: 'ajax',
             actionMethods: {
@@ -34,7 +34,7 @@ Ext.define('IbLogger.model.iblogger.Base', {
             },
             listeners: {
                 exception: function(proxy, response, operation) {
-                    //IbLogger.common.Util.showErrorMsg(response.responseText);
+                    //HanGui.common.Util.showErrorMsg(response.responseText);
                 }
             }
         }

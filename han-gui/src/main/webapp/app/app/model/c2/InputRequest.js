@@ -1,8 +1,8 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.model.c2.InputRequest', {
-    extend: 'C2.model.c2.Base',
+Ext.define('HanGui.model.c2.InputRequest', {
+    extend: 'HanGui.model.c2.Base',
 
     fields: [
         {name: 'id', type: 'string'},

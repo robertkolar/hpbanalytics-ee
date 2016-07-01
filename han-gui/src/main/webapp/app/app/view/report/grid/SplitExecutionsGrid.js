@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 19.10.2015.
  */
-Ext.define('Report.view.report.grid.SplitExecutionsGrid', {
+Ext.define('HanGui.view.report.grid.SplitExecutionsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-report-splitexecutions-grid',
     requires: [

@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.common.Definitions', {
+Ext.define('HanGui.common.Definitions', {
     statics: {
         //urlPrefixReport: 'http://localhost:28080/han-report/rest/report',
         urlPrefixReport: 'http://' + window.location.host + '/han-report/rest/report',

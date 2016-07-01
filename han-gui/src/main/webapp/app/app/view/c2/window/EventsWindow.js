@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('C2.view.c2.window.EventsWindow', {
+Ext.define('HanGui.view.c2.window.EventsWindow', {
     extend: 'Ext.window.Window',
     xtype: 'han-c2-events-window',
 

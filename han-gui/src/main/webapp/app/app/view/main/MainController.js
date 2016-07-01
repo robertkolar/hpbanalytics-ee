@@ -4,7 +4,7 @@
  * plugin to promote that instance of this class to the body element.
  *
  */
-Ext.define('Report.view.main.MainController', {
+Ext.define('HanGui.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
     requires: [

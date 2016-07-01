@@ -1,11 +1,11 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.ReportController', {
+Ext.define('HanGui.view.report.ReportController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
-        'Report.common.Definitions'
+        'HanGui.common.Definitions'
     ],
 
     alias: 'controller.han-report',
@@ -16,7 +16,7 @@ Ext.define('Report.view.report.ReportController', {
             reportsGrid = me.lookupReference('reportsGrid');
 
         if (reports) {
-            reports.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports');
+            reports.getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports');
             reports.load(function(records, operation, success) {
                 if (success) {
                     console.log('reloaded reports');
@@ -25,7 +25,7 @@ Ext.define('Report.view.report.ReportController', {
             });
         }
 
-        var ws = new WebSocket(Report.common.Definitions.wsUrl);
+        var ws = new WebSocket(HanGui.common.Definitions.wsUrlReport);
         ws.onopen = function(evt) {
             console.log('WS opened');
         };
@@ -71,13 +71,13 @@ Ext.define('Report.view.report.ReportController', {
 
         me.reportId = record.data.id;
 
-        executions.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/executions');
-        trades.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/trades');
-        statistics.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + interval);
-        charts.getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/charts/' + interval);
+        executions.getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId  + '/executions');
+        trades.getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/trades');
+        statistics.getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/statistics/' + interval);
+        charts.getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/charts/' + interval);
 
         Ext.Ajax.request({
-            url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/underlyings',
+            url: HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId  + '/underlyings',
             success: function(response, opts) {
                 var undls = Ext.decode(response.responseText);
                 var undlsData = [];
@@ -118,8 +118,8 @@ Ext.define('Report.view.report.ReportController', {
         var me = this;
 
         me.lookupReference('chartsButton').toggle(false);
-        me.getStore('statistics').getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/statistics/' + me.lookupReference('intervalCombo').getValue());
-        me.getStore('charts').getProxy().setUrl(Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/charts/' + me.lookupReference('intervalCombo').getValue());
+        me.getStore('statistics').getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/statistics/' + me.lookupReference('intervalCombo').getValue());
+        me.getStore('charts').getProxy().setUrl(HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/charts/' + me.lookupReference('intervalCombo').getValue());
         me.reloadStatisticsAndCharts();
     },
 
@@ -139,7 +139,7 @@ Ext.define('Report.view.report.ReportController', {
 
         Ext.Ajax.request({
             method: 'PUT',
-            url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId  + '/statistics/' + interval,
+            url: HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId  + '/statistics/' + interval,
             params: {underlying: underlying}
         });
         me.reloadStatisticsAndCharts();
@@ -157,7 +157,7 @@ Ext.define('Report.view.report.ReportController', {
                 if (btn === 'yes') {
                     Ext.Ajax.request({
                         method: 'PUT',
-                        url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId
+                        url: HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId
                     });
                 }
             }
@@ -178,7 +178,7 @@ Ext.define('Report.view.report.ReportController', {
                 if (btn === 'yes') {
                     Ext.Ajax.request({
                         method: 'DELETE',
-                        url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId ,
+                        url: HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId ,
                         success: function(response, opts) {
                             reports.load(function(records, operation, success) {
                                 if (success) {
@@ -209,7 +209,7 @@ Ext.define('Report.view.report.ReportController', {
         if (form && form.isValid()) {
             Ext.Ajax.request({
                 method: 'POST',
-                url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/executions',
+                url: HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/executions',
                 jsonData: {
                     origin: form.getForm().findField('origin').lastValue,
                     referenceId: form.getForm().findField('referenceId').lastValue,
@@ -248,7 +248,7 @@ Ext.define('Report.view.report.ReportController', {
                 if (btn === 'yes') {
                     Ext.Ajax.request({
                         method: 'DELETE',
-                        url: Report.common.Definitions.urlPrefix + '/reports/' + me.reportId + '/executions/' + execution.id
+                        url: HanGui.common.Definitions.urlPrefixReport + '/reports/' + me.reportId + '/executions/' + execution.id
                     });
                 }
             }

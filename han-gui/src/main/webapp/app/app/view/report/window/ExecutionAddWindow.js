@@ -1,12 +1,12 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.window.ExecutionAddWindow', {
+Ext.define('HanGui.view.report.window.ExecutionAddWindow', {
     extend: 'Ext.window.Window',
 
     requires: [
-        'Report.common.Glyphs',
-        'Report.view.report.ReportController'
+        'HanGui.common.Glyphs',
+        'HanGui.view.report.ReportController'
     ],
     layout: 'fit',
     closable: false,
@@ -130,7 +130,7 @@ Ext.define('Report.view.report.window.ExecutionAddWindow', {
                 listeners: {
                     click: 'onSubmitAddExecution',
                     beforerender: function(c, eOpts) {
-                        c.setGlyph(Report.common.Glyphs.getGlyph('save'));
+                        c.setGlyph(HanGui.common.Glyphs.getGlyph('save'));
                     }
                 }
             }, {
@@ -140,7 +140,7 @@ Ext.define('Report.view.report.window.ExecutionAddWindow', {
                 listeners: {
                     click: 'onCancelAddExecution',
                     beforerender: function(c, eOpts) {
-                        c.setGlyph(Report.common.Glyphs.getGlyph('cancel'));
+                        c.setGlyph(HanGui.common.Glyphs.getGlyph('cancel'));
                     }
                 }
             }]

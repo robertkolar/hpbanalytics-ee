@@ -1,13 +1,13 @@
 /**
  * Created by robertk on 15.10.2015.
  */
-Ext.define('Report.view.report.TradesController', {
+Ext.define('HanGui.view.report.TradesController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
-        'Report.common.Definitions',
-        'Report.view.report.window.TradeCloseWindow',
-        'Report.view.report.window.SplitExecutionsWindow'
+        'HanGui.common.Definitions',
+        'HanGui.view.report.window.TradeCloseWindow',
+        'HanGui.view.report.window.SplitExecutionsWindow'
     ],
 
     alias: 'controller.han-report-trades',
@@ -27,7 +27,7 @@ Ext.define('Report.view.report.TradesController', {
         } else {
             Ext.Ajax.request({
                 method: 'GET',
-                url: Report.common.Definitions.urlPrefix + '/optionutil/parse',
+                url: HanGui.common.Definitions.urlPrefixReport + '/optionutil/parse',
                 params: {
                     optionsymbol: trade.symbol
                 },
@@ -42,7 +42,7 @@ Ext.define('Report.view.report.TradesController', {
         var interval = setInterval(function() {
             if (ready) {
                 clearInterval(interval);
-                var window = Ext.create('Report.view.report.window.TradeCloseWindow', {
+                var window = Ext.create('HanGui.view.report.window.TradeCloseWindow', {
                     reference: 'tradeCloseWindow',
                     title: 'Close Trade, id=' + trade.id
                 });
@@ -67,7 +67,7 @@ Ext.define('Report.view.report.TradesController', {
             window = me.lookupReference('tradeCloseWindow'),
             trade = window.trade;
 
-        var urlString = Report.common.Definitions.urlPrefix + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/close';
+        var urlString = HanGui.common.Definitions.urlPrefixReport + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/close';
 
         if (form && form.isValid()) {
             Ext.Ajax.request({
@@ -103,7 +103,7 @@ Ext.define('Report.view.report.TradesController', {
     },
 
     assignOrExpire: function(requestType, trade, closeDate, closePrice) {
-        var urlString = Report.common.Definitions.urlPrefix + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/' + requestType.toLowerCase();
+        var urlString = HanGui.common.Definitions.urlPrefixReport + '/reports/' + trade.reportId  + '/trades/' + trade.id + '/' + requestType.toLowerCase();
 
         Ext.Msg.show({
             title: requestType + ' Trade?',
@@ -139,8 +139,8 @@ Ext.define('Report.view.report.TradesController', {
         var me = this;
 
         if (!me.splitExecutionsGrid) {
-            me.splitExecutionsGrid =  Ext.create('Report.view.report.grid.SplitExecutionsGrid');
-            me.splitExecutionsWindow = Ext.create('Report.view.report.window.SplitExecutionsWindow');
+            me.splitExecutionsGrid =  Ext.create('HanGui.view.report.grid.SplitExecutionsGrid');
+            me.splitExecutionsWindow = Ext.create('HanGui.view.report.window.SplitExecutionsWindow');
             me.splitExecutionsWindow.add(me.splitExecutionsGrid);
         }
         me.splitExecutionsGrid.setStore(record.splitExecutions());

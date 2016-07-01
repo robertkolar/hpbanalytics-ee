@@ -4,12 +4,12 @@
  * Sencha Cmd when upgrading.
  */
 Ext.application({
-    name: 'Report',
+    name: 'HanGui',
 
-    extend: 'Report.Application'
+    extend: 'HanGui.Application'
 	
     //-------------------------------------------------------------------------
-    // Most customizations should be made to Report.Application. If you need to
+    // Most customizations should be made to HanGui.Application. If you need to
     // customize this file, doing so below this section reduces the likelihood
     // of merge conflicts when upgrading to new versions of Sencha Cmd.
     //-------------------------------------------------------------------------

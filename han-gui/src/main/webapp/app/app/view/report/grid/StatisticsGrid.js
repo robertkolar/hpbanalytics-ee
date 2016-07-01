@@ -1,13 +1,13 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.grid.StatisticsGrid', {
+Ext.define('HanGui.view.report.grid.StatisticsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-report-statistics-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.ReportController',
+        'HanGui.view.report.ReportController',
         'Ext.form.field.ComboBox'
     ],
     bind: '{statistics}',
@@ -148,7 +148,7 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
             handler: 'onRecalculateStatistics',
             listeners: {
                 beforerender: function(c, eOpts) {
-                    c.setGlyph(Report.common.Glyphs.getGlyph('gear'));
+                    c.setGlyph(HanGui.common.Glyphs.getGlyph('gear'));
                 }
             }
         }, {
@@ -159,7 +159,7 @@ Ext.define('Report.view.report.grid.StatisticsGrid', {
             text: 'Charts',
             listeners: {
                 beforerender: function(c, eOpts) {
-                    c.setGlyph(Report.common.Glyphs.getGlyph('barchart'));
+                    c.setGlyph(HanGui.common.Glyphs.getGlyph('barchart'));
                 },
                 toggle: 'onChartsToggle'
             }

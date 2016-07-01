@@ -1,10 +1,10 @@
 /**
  * Created by robertk on 4/18/15.
  */
-Ext.define('C2.view.c2.grid.SystemsGrid', {
+Ext.define('HanGui.view.c2.grid.SystemsGrid', {
     extend: 'Ext.grid.Panel',
     requires: [
-        'C2.view.c2.C2Controller',
+        'HanGui.view.c2.C2Controller',
         'Ext.form.field.Checkbox',
         'Ext.form.field.Text',
         'Ext.grid.column.Check',

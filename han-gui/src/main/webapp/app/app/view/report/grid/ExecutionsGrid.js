@@ -1,13 +1,13 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.grid.ExecutionsGrid', {
+Ext.define('HanGui.view.report.grid.ExecutionsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-report-executions-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.ReportController',
+        'HanGui.view.report.ReportController',
         'Ext.grid.filters.Filters'
     ],
     plugins: 'gridfilters',
@@ -105,7 +105,7 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
             handler: 'onDeleteExecution',
             listeners: {
                 beforerender: function(c, eOpts) {
-                    c.setGlyph(Report.common.Glyphs.getGlyph('delete'));
+                    c.setGlyph(HanGui.common.Glyphs.getGlyph('delete'));
                 }
             }
         }
@@ -125,7 +125,7 @@ Ext.define('Report.view.report.grid.ExecutionsGrid', {
             handler: 'onAddExecution',
             listeners: {
                 beforerender: function(c, eOpts) {
-                    c.setGlyph(Report.common.Glyphs.getGlyph('add'));
+                    c.setGlyph(HanGui.common.Glyphs.getGlyph('add'));
                 }
             }
         }]

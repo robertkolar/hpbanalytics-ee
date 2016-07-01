@@ -1,8 +1,8 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('IbLogger.model.iblogger.IbAccount', {
-    extend: 'IbLogger.model.iblogger.Base',
+Ext.define('HanGui.model.iblogger.IbAccount', {
+    extend: 'HanGui.model.iblogger.Base',
     idProperty: 'accountId',
 
     fields: [

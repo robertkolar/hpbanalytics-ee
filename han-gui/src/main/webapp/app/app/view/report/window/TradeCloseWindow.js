@@ -4,11 +4,11 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.window.TradeCloseWindow', {
+Ext.define('HanGui.view.report.window.TradeCloseWindow', {
     extend: 'Ext.window.Window',
 
     requires: [
-        'Report.common.Glyphs'
+        'HanGui.common.Glyphs'
     ],
 
     layout: 'fit',
@@ -59,7 +59,7 @@ Ext.define('Report.view.report.window.TradeCloseWindow', {
                 listeners: {
                     click: 'onSubmitCloseTrade',
                     beforerender: function(c, eOpts) {
-                        c.setGlyph(Report.common.Glyphs.getGlyph('save'));
+                        c.setGlyph(HanGui.common.Glyphs.getGlyph('save'));
                     }
                 }
             }, {
@@ -69,7 +69,7 @@ Ext.define('Report.view.report.window.TradeCloseWindow', {
                 listeners: {
                     click: 'onCancelCloseTrade',
                     beforerender: function(c, eOpts) {
-                        c.setGlyph(Report.common.Glyphs.getGlyph('cancel'));
+                        c.setGlyph(HanGui.common.Glyphs.getGlyph('cancel'));
                     }
                 }
             }]

@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.common.Glyphs', {
+Ext.define('HanGui.common.Glyphs', {
     singleton: true,
 
     config: {

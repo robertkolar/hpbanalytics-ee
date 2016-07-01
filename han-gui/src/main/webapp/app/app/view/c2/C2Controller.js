@@ -1,14 +1,14 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('C2.view.c2.C2Controller', {
+Ext.define('HanGui.view.c2.C2Controller', {
     extend: 'Ext.app.ViewController',
     requires: [
-        'C2.common.Definitions',
-        'C2.store.PollEventStore',
-        'C2.view.c2.grid.PollEventsGrid',
-        'C2.view.c2.grid.PublishEventsGrid',
-        'C2.view.c2.window.EventsWindow',
+        'HanGui.common.Definitions',
+        'HanGui.store.PollEventStore',
+        'HanGui.view.c2.grid.PollEventsGrid',
+        'HanGui.view.c2.grid.PublishEventsGrid',
+        'HanGui.view.c2.window.EventsWindow',
         'Ext.String',
         'Ext.toolbar.Paging'
     ],
@@ -23,7 +23,7 @@ Ext.define('C2.view.c2.C2Controller', {
             systemsGrid = me.lookupReference('systemsGrid');
 
         if (c2Systems) {
-            c2Systems.getProxy().setUrl(C2.common.Definitions.urlPrefix + '/c2systems');
+            c2Systems.getProxy().setUrl(HanGui.common.Definitions.urlPrefixC2 + '/c2systems');
             c2Systems.load(function (records, operation, success) {
                 if (success) {
                     systemsGrid.setSelection(c2Systems.first());
@@ -31,7 +31,7 @@ Ext.define('C2.view.c2.C2Controller', {
             });
         }
         if (inputRequests) {
-            inputRequests.getProxy().setUrl(C2.common.Definitions.urlPrefix + '/inputrequests');
+            inputRequests.getProxy().setUrl(HanGui.common.Definitions.urlPrefixC2 + '/inputrequests');
             inputRequests.load(function(records, operation, success) {
                 if (success) {
                     console.log('reloaded inputRequests');
@@ -39,7 +39,7 @@ Ext.define('C2.view.c2.C2Controller', {
             });
         }
 
-        var ws = new WebSocket(C2.common.Definitions.wsUrl);
+        var ws = new WebSocket(HanGui.common.Definitions.wsUrlC2);
         ws.onopen = function(evt) {
             console.log('WS opened');
         };
@@ -62,7 +62,7 @@ Ext.define('C2.view.c2.C2Controller', {
             signalsPaging = me.lookupReference('signalsPaging');
 
         me.c2SystemId = record.data.systemId;
-        c2Signals.getProxy().setUrl(C2.common.Definitions.urlPrefix + '/c2systems/' + me.c2SystemId  + '/c2signals');
+        c2Signals.getProxy().setUrl(HanGui.common.Definitions.urlPrefixC2 + '/c2systems/' + me.c2SystemId  + '/c2signals');
 
         if (signalsPaging.getStore().isLoaded()) {
             signalsPaging.moveFirst();
@@ -86,7 +86,7 @@ Ext.define('C2.view.c2.C2Controller', {
     showPublishEvents: function (record) {
         var me = this;
         if (!me.publishEventsGrid) {
-            me.publishEventsGrid =  Ext.create('C2.view.c2.grid.PublishEventsGrid');
+            me.publishEventsGrid =  Ext.create('HanGui.view.c2.grid.PublishEventsGrid');
             me.publishEventsWindow = Ext.create('widget.han-c2-events-window');
             me.publishEventsWindow.add(me.publishEventsGrid);
         }
@@ -100,7 +100,7 @@ Ext.define('C2.view.c2.C2Controller', {
         var me = this;
         var dbId = record.get(record.getFields()[0].getName());
         if (!me.pollEventsGrid) {
-            me.pollEventsGrid =  Ext.create('C2.view.c2.grid.PollEventsGrid', {
+            me.pollEventsGrid =  Ext.create('HanGui.view.c2.grid.PollEventsGrid', {
                 store: Ext.create('C2.store.PollEventStore')
             });
             var paging = Ext.create('Ext.toolbar.Paging', {
@@ -121,17 +121,17 @@ Ext.define('C2.view.c2.C2Controller', {
     },
 
     requestStatusRenderer: function(val, metadata, record) {
-        metadata.style = 'background-color: ' + C2.common.Definitions.getRequestStatusColor(val) + '; color: white;';
+        metadata.style = 'background-color: ' + HanGui.common.Definitions.getRequestStatusColor(val) + '; color: white;';
         return val.toLowerCase();
     },
 
     publishStatusRenderer: function(val, metadata, record) {
-        metadata.style = 'cursor: pointer; background-color: ' + C2.common.Definitions.getPublishStatusColor(val) + '; color: white;';
+        metadata.style = 'cursor: pointer; background-color: ' + HanGui.common.Definitions.getPublishStatusColor(val) + '; color: white;';
         return val.toLowerCase();
     },
 
     pollStatusRenderer: function(val, metadata, record) {
-        metadata.style = 'cursor: pointer; background-color: ' + C2.common.Definitions.getPollStatusColor(val) + '; color: white;';
+        metadata.style = 'cursor: pointer; background-color: ' + HanGui.common.Definitions.getPollStatusColor(val) + '; color: white;';
         return val.toLowerCase();
     }
 });

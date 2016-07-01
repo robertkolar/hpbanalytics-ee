@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.view.c2.grid.RequestsGrid', {
+Ext.define('HanGui.view.c2.grid.RequestsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-c2-requests-grid',
     requires: [

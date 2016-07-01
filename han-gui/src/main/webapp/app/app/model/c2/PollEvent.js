@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/11/15.
  */
-Ext.define('C2.model.c2.PollEvent', {
+Ext.define('HanGui.model.c2.PollEvent', {
     extend: 'Ext.data.Model',
 
     fields: [

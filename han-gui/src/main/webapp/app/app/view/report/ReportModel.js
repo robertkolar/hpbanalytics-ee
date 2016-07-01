@@ -1,41 +1,41 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.ReportModel', {
+Ext.define('HanGui.view.report.ReportModel', {
     extend: 'Ext.app.ViewModel',
     requires: [
-        'Report.model.report.Report',
-        'Report.model.report.Execution',
-        'Report.model.report.SplitExecution',
-        'Report.model.report.Trade',
-        'Report.model.report.Statistics'
+        'HanGui.model.report.Report',
+        'HanGui.model.report.Execution',
+        'HanGui.model.report.SplitExecution',
+        'HanGui.model.report.Trade',
+        'HanGui.model.report.Statistics'
     ],
 
     alias: 'viewmodel.han-report',
 
     stores: {
         reports: {
-            model: 'Report.model.report.Report',
+            model: 'HanGui.model.report.Report',
             pageSize: 10
         },
         executions: {
-            model: 'Report.model.report.Execution',
+            model: 'HanGui.model.report.Execution',
             pageSize: 25,
             remoteFilter: true,
             remoteSort: false
         },
         trades: {
-            model: 'Report.model.report.Trade',
+            model: 'HanGui.model.report.Trade',
             pageSize: 25,
             remoteFilter: true,
             remoteSort: false
         },
         statistics: {
-            model: 'Report.model.report.Statistics',
+            model: 'HanGui.model.report.Statistics',
             pageSize: 10
         },
         charts: {
-            model: 'Report.model.report.Chart'
+            model: 'HanGui.model.report.Chart'
         }
     }
 });

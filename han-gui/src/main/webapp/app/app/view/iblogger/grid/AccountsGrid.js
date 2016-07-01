@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 4/18/15.
  */
-Ext.define('IbLogger.view.iblogger.grid.AccountsGrid', {
+Ext.define('HanGui.view.iblogger.grid.AccountsGrid', {
     extend: 'Ext.grid.Panel',
     requires: [
         'Ext.form.field.Checkbox',
@@ -10,7 +10,7 @@ Ext.define('IbLogger.view.iblogger.grid.AccountsGrid', {
         'Ext.grid.column.Action',
         'Ext.grid.column.Check',
         'Ext.grid.plugin.RowEditing',
-        'IbLogger.view.iblogger.IbLoggerController'
+        'HanGui.view.iblogger.IbLoggerController'
     ],
     xtype: 'han-iblogger-accounts-grid',
     listeners: {

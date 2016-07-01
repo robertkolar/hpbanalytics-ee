@@ -3,14 +3,14 @@
  * Ext.application(). This is the ideal place to handle application launch and initialization
  * details.
  */
-Ext.define('Report.Application', {
+Ext.define('HanGui.Application', {
     extend: 'Ext.app.Application',
 
     requires: [
-        'Report.view.main.Main'
+        'HanGui.view.main.Main'
     ],
 
-    name: 'Report',
+    name: 'HPB Analytics',
 
     stores: [
     ],
@@ -22,7 +22,7 @@ Ext.define('Report.Application', {
         link.href = 'resources/images/favicon.ico';
         document.getElementsByTagName('head')[0].appendChild(link);
 
-        var main = Ext.create('Report.view.main.Main');
+        var main = Ext.create('HanGui.view.main.Main');
 
         var viewport = Ext.create('Ext.container.Viewport', {
             layout: 'fit'

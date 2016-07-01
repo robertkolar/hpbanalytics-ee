@@ -1,19 +1,19 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('C2.model.c2.Base', {
+Ext.define('HanGui.model.c2.Base', {
     extend: 'Ext.data.Model',
 
     requires: [
-        'C2.common.Definitions',
-        'C2.common.Util',
+        'HanGui.common.Definitions',
+        'HanGui.common.Util',
         'Ext.data.proxy.Ajax',
         'Ext.data.reader.Json',
         'Ext.data.writer.Json'
     ],
 
     schema: {
-        namespace: 'C2.model.c2',
+        namespace: 'HanGui.model.c2',
         proxy: {
             type: 'ajax',
             actionMethods: {

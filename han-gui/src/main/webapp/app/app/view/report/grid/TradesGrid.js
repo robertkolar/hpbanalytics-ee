@@ -1,13 +1,13 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.grid.TradesGrid', {
+Ext.define('HanGui.view.report.grid.TradesGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'han-report-trades-grid',
     requires: [
         'Ext.grid.column.Date',
         'Ext.toolbar.Paging',
-        'Report.view.report.TradesController',
+        'HanGui.view.report.TradesController',
         'Ext.grid.filters.Filters'
     ],
     plugins: 'gridfilters',

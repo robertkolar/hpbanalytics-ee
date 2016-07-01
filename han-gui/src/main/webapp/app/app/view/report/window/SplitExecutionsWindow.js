@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.window.SplitExecutionsWindow', {
+Ext.define('HanGui.view.report.window.SplitExecutionsWindow', {
     extend: 'Ext.window.Window',
 
     layout: 'fit',

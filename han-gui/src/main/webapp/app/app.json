@@ -2,7 +2,7 @@
     /**
      * The application's namespace.
      */
-    "name": "Report",
+    "name": "HanGui",
     
     /**
      * The version of the application.
@@ -53,13 +53,13 @@
     "sass": {
         /**
          * The root namespace to use when mapping *.scss files to classes in the
-         * sass/src and sass/var directories. For example, "Report.view.Foo" would
-         * map to "sass/src/view/Foo.scss". If we changed this to "Report.view" then
+         * sass/src and sass/var directories. For example, "HanGui.view.Foo" would
+         * map to "sass/src/view/Foo.scss". If we changed this to "HanGui.view" then
          * it would map to "sass/src/Foo.scss". To style classes outside the app's
          * root namespace, change this to "". Doing so would change the mapping of
-         * "Report.view.Foo" to "sass/src/Report/view/Foo.scss".
+         * "HanGui.view.Foo" to "sass/src/Report/view/Foo.scss".
          */
-        "namespace": "Report"
+        "namespace": "HanGui"
     },
 
     /**

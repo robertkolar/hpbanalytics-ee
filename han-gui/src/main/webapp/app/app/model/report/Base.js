@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.model.report.Base', {
+Ext.define('HanGui.model.report.Base', {
     extend: 'Ext.data.Model',
 
     idProperty: 'id',

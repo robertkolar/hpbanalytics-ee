@@ -1,20 +1,20 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.view.report.Report', {
+Ext.define('HanGui.view.report.Report', {
     extend: 'Ext.panel.Panel',
 
     requires: [
         'Ext.layout.container.VBox',
-        'Report.view.report.ReportController',
-        'Report.view.report.ReportModel',
-        'Report.view.report.grid.ReportsGrid',
-        'Report.view.report.grid.ExecutionsGrid',
-        'Report.view.report.grid.TradesGrid',
-        'Report.view.report.grid.StatisticsGrid',
-        'Report.common.Glyphs',
+        'HanGui.view.report.ReportController',
+        'HanGui.view.report.ReportModel',
+        'HanGui.view.report.grid.ReportsGrid',
+        'HanGui.view.report.grid.ExecutionsGrid',
+        'HanGui.view.report.grid.TradesGrid',
+        'HanGui.view.report.grid.StatisticsGrid',
+        'HanGui.common.Glyphs',
         'Ext.tab.Panel',
-        'Report.view.report.window.ExecutionAddWindow'
+        'HanGui.view.report.window.ExecutionAddWindow'
     ],
 
     xtype: 'han-report',
@@ -28,6 +28,7 @@ Ext.define('Report.view.report.Report', {
         type: 'vbox',
         align: 'stretch'
     },
+    scrollable: true,
     items: [{
         xtype: 'han-report-reports-grid',
         title: 'Reports',

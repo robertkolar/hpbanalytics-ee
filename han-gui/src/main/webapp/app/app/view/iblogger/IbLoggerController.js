@@ -1,16 +1,16 @@
 /**
  * Created by robertk on 4/17/15.
  */
-Ext.define('IbLogger.view.iblogger.IbLoggerController', {
+Ext.define('HanGui.view.iblogger.IbLoggerController', {
     extend: 'Ext.app.ViewController',
 
     alias: 'controller.han-iblogger',
 
     requires: [
         'Ext.Ajax',
-        'IbLogger.common.Definitions',
-        'IbLogger.view.iblogger.grid.EventsGrid',
-        'IbLogger.view.iblogger.window.EventsWindow'
+        'HanGui.common.Definitions',
+        'HanGui.view.iblogger.grid.EventsGrid',
+        'HanGui.view.iblogger.window.EventsWindow'
     ],
 
     init: function() {
@@ -20,7 +20,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
             accountsGrid = me.lookupReference('accountsGrid');
 
         if (ibAccounts) {
-            ibAccounts.getProxy().setUrl(IbLogger.common.Definitions.urlPrefix + '/ibaccounts');
+            ibAccounts.getProxy().setUrl(HanGui.common.Definitions.urlPrefixIbLogger + '/ibaccounts');
             ibAccounts.load(function (records, operation, success) {
                 if (success) {
                     accountsGrid.setSelection(ibAccounts.first());
@@ -28,7 +28,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
             });
         }
 
-        var ws = new WebSocket(IbLogger.common.Definitions.wsUrl);
+        var ws = new WebSocket(HanGui.common.Definitions.wsUrlIbLogger);
         ws.onopen = function(evt) {
             console.log('WS opened');
         };
@@ -50,7 +50,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
             ordersPaging = me.lookupReference('ordersPaging');
 
         me.ibAccountId = record.data.accountId;
-        ibOrders.getProxy().setUrl(IbLogger.common.Definitions.urlPrefix + '/ibaccounts/' + me.ibAccountId  + '/iborders');
+        ibOrders.getProxy().setUrl(HanGui.common.Definitions.urlPrefixIbLogger + '/ibaccounts/' + me.ibAccountId  + '/iborders');
 
         if (ordersPaging.getStore().isLoaded()) {
             ordersPaging.moveFirst();
@@ -70,7 +70,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
         var me = this;
 
         if (!me.eventsGrid) {
-            me.eventsGrid =  Ext.create('IbLogger.view.iblogger.grid.EventsGrid');
+            me.eventsGrid =  Ext.create('HanGui.view.iblogger.grid.EventsGrid');
             me.eventsWindow = Ext.create('widget.han-iblogger-events-window');
             me.eventsWindow.add(me.eventsGrid);
         }
@@ -81,7 +81,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
     },
 
     statusRenderer: function(val, metadata, record) {
-        metadata.style = 'cursor: pointer; background-color: ' + IbLogger.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
+        metadata.style = 'cursor: pointer; background-color: ' + HanGui.common.Definitions.getIbOrderStatusColor(val) + '; color: white;';
         return val.toLowerCase();
     },
 
@@ -108,7 +108,7 @@ Ext.define('IbLogger.view.iblogger.IbLoggerController', {
 
         Ext.Ajax.request({
             method: 'PUT',
-            url: IbLogger.common.Definitions.urlPrefix + '/ibaccounts/' + accountId + '/connect/' + (con ? 'true' : 'false'),
+            url: HanGui.common.Definitions.urlPrefixIbLogger + '/ibaccounts/' + accountId + '/connect/' + (con ? 'true' : 'false'),
             success: function(response) {
                 box.hide();
                 grid.getStore().reload();

@@ -1,16 +1,16 @@
 /**
  * Created by robertk on 4/18/15.
  */
-Ext.define('C2.store.PollEventStore', {
+Ext.define('HanGui.store.c2.PollEventStore', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'C2.common.Definitions',
-        'C2.common.Util',
-        'C2.model.c2.PollEvent'
+        'HanGui.common.Definitions',
+        'HanGui.common.Util',
+        'HanGui.model.c2.PollEvent'
     ],
 
-    model: 'C2.model.c2.PollEvent',
+    model: 'HanGui.model.c2.PollEvent',
     autoload: true,
     pageSize: 5,
 
@@ -23,11 +23,11 @@ Ext.define('C2.store.PollEventStore', {
         },
         listeners: {
             exception: function(proxy, response, operation) {
-                C2.common.Util.showErrorMsg(response.responseText);
+                HanGui.common.Util.showErrorMsg(response.responseText);
             }
         },
         getUrlTemplate: function() {
-            return C2.common.Definitions.urlPrefix + '/c2signals/{dbId}/pollevents'
+            return HanGui.Definitions.common.Definitions.urlPrefixC2 + '/c2signals/{dbId}/pollevents'
         }
     }
 });

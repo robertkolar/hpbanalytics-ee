@@ -5,31 +5,30 @@
  *
  */
 Ext.define('Report.view.main.Main', {
-    extend: 'Ext.container.Container',
+    extend: 'Ext.tab.Panel',
 
     requires: [
-        'Report.view.main.MainController',
-        'Report.view.main.MainModel',
-        'Report.view.report.Report',
-        'C2.model.c2.C2Signal',
-        'C2.model.c2.PublishEvent',
-        'C2.model.c2.PollEvent',
-        'IbLogger.model.iblogger.IbOrder',
-        'IbLogger.model.iblogger.IbOrderEvent'
+        'HanGui.view.main.MainController',
+        'HanGui.view.main.MainModel',
+        'HanGui.view.iblogger.IbLogger',
+        'HanGui.view.c2.C2',
+        'HanGui.view.report.Report',
+        'HanGui.model.c2.C2Signal',
+        'HanGui.model.c2.PublishEvent',
+        'HanGui.model.c2.PollEvent',
+        'HanGui.model.iblogger.IbOrder',
+        'HanGui.model.iblogger.IbOrderEvent'
     ],
-
-    xtype: 'app-main',
     
     controller: 'main',
     viewModel: {
         type: 'main'
     },
-    layout: {
-        type: 'vbox',
-        align: 'stretch'
-    },
-    scrollable: true,
     items: [{
+        xtype: 'han-iblogger'
+    }, {
+        xtype: 'han-c2'
+    }, {
         xtype: 'han-report'
     }]
 });

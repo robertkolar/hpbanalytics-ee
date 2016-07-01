@@ -1,8 +1,8 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.model.report.SplitExecution', {
-    extend: 'Report.model.report.Base',
+Ext.define('HanGui.model.report.SplitExecution', {
+    extend: 'HanGui.model.report.Base',
 
     fields: [
         'splitQuantity',

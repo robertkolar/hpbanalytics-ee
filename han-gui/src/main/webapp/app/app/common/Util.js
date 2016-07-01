@@ -1,7 +1,7 @@
 /**
  * Created by robertk on 9/6/15.
  */
-Ext.define('Report.common.Util', {
+Ext.define('HanGui.common.Util', {
     statics: {
         showErrorMsg: function(text) {
             Ext.Msg.show({
