@@ -13,7 +13,9 @@ Ext.define('Report.view.main.Main', {
         'Report.view.report.Report',
         'C2.model.c2.C2Signal',
         'C2.model.c2.PublishEvent',
-        'C2.model.c2.PollEvent'
+        'C2.model.c2.PollEvent',
+        'IbLogger.model.iblogger.IbOrder',
+        'IbLogger.model.iblogger.IbOrderEvent'
     ],
 
     xtype: 'app-main',

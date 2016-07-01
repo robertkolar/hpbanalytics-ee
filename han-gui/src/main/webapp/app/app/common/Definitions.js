@@ -15,6 +15,12 @@ Ext.define('Report.common.Definitions', {
         //wsUrlC2: 'ws://localhost:28080/han-c2/websocket/c2',
         wsUrlC2: 'ws://' + window.location.host + '/han-c2/websocket/c2',
 
+        //urlPrefixIbLogger: 'http://localhost:28080/han-iblogger/rest/iblogger',
+        urlPrefixIbLogger: 'http://' + window.location.host + '/han-iblogger/rest/iblogger',
+
+        //wsUrlIbLogger: 'ws://localhost:28080/han-iblogger/websocket/iblogger',
+        wsUrlIbLogger: 'ws://' + window.location.host + '/han-iblogger/websocket/iblogger',
+
         getRequestStatusColor: function(status) {
             var statusColor;
             switch(status) {
@@ -52,6 +58,19 @@ Ext.define('Report.common.Definitions', {
                 case 'FILLED':      statusColor = 'green';  break;
                 case 'EXPIRED':     statusColor = 'orange'; break;
                 case 'POLLERR':     statusColor = 'red';    break;
+                case 'UNKNOWN':     statusColor = 'gray';   break;
+            }
+            return statusColor;
+        },
+
+        getIbOrderStatusColor: function(status) {
+            var statusColor;
+
+            switch(status) {
+                case 'SUBMITTED':   statusColor = 'blue';   break;
+                case 'UPDATED':     statusColor = 'blue';   break;
+                case 'CANCELLED':   statusColor = 'brown';  break;
+                case 'FILLED':      statusColor = 'green';  break;
                 case 'UNKNOWN':     statusColor = 'gray';   break;
             }
             return statusColor;
