@@ -5,7 +5,7 @@ Ext.define('HanGui.view.c2.C2Controller', {
     extend: 'Ext.app.ViewController',
     requires: [
         'HanGui.common.Definitions',
-        'HanGui.store.PollEventStore',
+        'HanGui.store.c2.PollEventStore',
         'HanGui.view.c2.grid.PollEventsGrid',
         'HanGui.view.c2.grid.PublishEventsGrid',
         'HanGui.view.c2.window.EventsWindow',

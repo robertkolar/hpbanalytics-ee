@@ -4,7 +4,7 @@
  * plugin to promote that instance of this class to the body element.
  *
  */
-Ext.define('Report.view.main.Main', {
+Ext.define('HanGui.view.main.Main', {
     extend: 'Ext.tab.Panel',
 
     requires: [
