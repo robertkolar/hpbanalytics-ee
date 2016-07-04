@@ -101,7 +101,7 @@ Ext.define('HanGui.view.c2.C2Controller', {
         var dbId = record.get(record.getFields()[0].getName());
         if (!me.pollEventsGrid) {
             me.pollEventsGrid =  Ext.create('HanGui.view.c2.grid.PollEventsGrid', {
-                store: Ext.create('C2.store.PollEventStore')
+                store: Ext.create('HanGui.store.c2.PollEventStore')
             });
             var paging = Ext.create('Ext.toolbar.Paging', {
                 displayInfo: true,

@@ -6,7 +6,7 @@ Ext.define('HanGui.common.Definitions', {
         //urlPrefixReport: 'http://localhost:28080/han-report/rest/report',
         urlPrefixReport: 'http://' + window.location.host + '/han-report/rest/report',
 
-        //wsUrlReport: 'ws://localhost:28080/han-report/websocket/report'
+        //wsUrlReport: 'ws://localhost:28080/han-report/websocket/report',
         wsUrlReport: 'ws://' + window.location.host + '/han-report/websocket/report',
 
         //urlPrefixC2: 'http://localhost:28080/han-c2/rest/c2',

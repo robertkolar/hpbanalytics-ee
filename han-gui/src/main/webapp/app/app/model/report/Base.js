@@ -10,7 +10,7 @@ Ext.define('HanGui.model.report.Base', {
     ],
     schema: {
         id: 'reportSchema',
-        namespace: 'Report.model.report',  // generate auto entityName,
+        namespace: 'HanGui.model.report',  // generate auto entityName,
         proxy: {
             type: 'ajax',
             actionMethods: {

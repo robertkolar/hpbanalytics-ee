@@ -31,7 +31,7 @@ Ext.define('HanGui.view.c2.grid.PublishEventsGrid', {
         width: 80,
         dataIndex: 'status',
         renderer: function(val, metadata, record) {
-            metadata.style = 'background-color: ' + C2.common.Definitions.getPublishStatusColor(val) + '; color: white;';
+            metadata.style = 'background-color: ' + HanGui.common.Definitions.getPublishStatusColor(val) + '; color: white;';
             return val.toLowerCase();;
         }
     }, {

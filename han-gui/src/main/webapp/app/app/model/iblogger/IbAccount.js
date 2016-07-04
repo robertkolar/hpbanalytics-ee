@@ -19,7 +19,8 @@ Ext.define('HanGui.model.iblogger.IbAccount', {
         'fx',
         'permittedClients',
         'permittedAccounts',
-        {name: 'ibConnectionAccounts', mapping: 'ibConnection.accounts', persist: false},
-        {name: 'ibConnectionIsConnected', mapping: 'ibConnection.isConnected', persist: false}
+        {name: 'ibConnection', persist: false},
+        {name: 'accounts', mapping: 'ibConnection.accounts', persist: false},
+        {name: 'connected', mapping: 'ibConnection.connected', persist: false}
     ]
 });

@@ -14,7 +14,7 @@ Ext.define('HanGui.model.iblogger.Base', {
 
     schema: {
         id: 'iblogger',
-        namespace: 'IbLogger.model.iblogger',
+        namespace: 'HanGui.model.iblogger',
         urlPrefix: HanGui.common.Definitions.urlPrefixIbLogger,
         proxy: {
             type: 'ajax',

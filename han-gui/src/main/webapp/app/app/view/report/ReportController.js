@@ -170,8 +170,8 @@ Ext.define('HanGui.view.report.ReportController', {
             reportsGrid = me.lookupReference('reportsGrid');
 
         Ext.Msg.show({
-            title:'Analyze Report?',
-            message: 'All trades will be deleted and recreated again...',
+            title:'Delete Report?',
+            message: 'All trades will be deleted',
             buttons: Ext.Msg.YESNO,
             icon: Ext.Msg.QUESTION,
             fn: function(btn) {
@@ -195,7 +195,7 @@ Ext.define('HanGui.view.report.ReportController', {
     onAddExecution: function(button, e, options) {
         var me = this;
 
-        me.lookupReference('executionsPanel').add(Ext.create('Report.view.report.window.ExecutionAddWindow', {
+        me.lookupReference('executionsPanel').add(Ext.create('HanGui.view.report.window.ExecutionAddWindow', {
             reference: 'executionAddWindow',
             title: 'Add New Execution for Report id=' + me.reportId
         })).show();

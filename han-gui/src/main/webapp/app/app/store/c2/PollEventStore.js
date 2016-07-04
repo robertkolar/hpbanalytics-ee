@@ -27,7 +27,7 @@ Ext.define('HanGui.store.c2.PollEventStore', {
             }
         },
         getUrlTemplate: function() {
-            return HanGui.Definitions.common.Definitions.urlPrefixC2 + '/c2signals/{dbId}/pollevents'
+            return HanGui.common.Definitions.urlPrefixC2 + '/c2signals/{dbId}/pollevents'
         }
     }
 });

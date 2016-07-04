@@ -43,12 +43,12 @@ Ext.define('HanGui.view.iblogger.grid.AccountsGrid', {
         text: 'Status',
         width: 80,
         align: 'center',
-        dataIndex: 'ibConnectionIsConnected',
+        dataIndex: 'connected',
         renderer: 'connectStatusRenderer'
     }, {
         text: 'Accounts',
         width: 200,
-        dataIndex: 'ibConnectionAccounts'
+        dataIndex: 'accounts'
     }, {
         text: 'Host',
         width: 150,

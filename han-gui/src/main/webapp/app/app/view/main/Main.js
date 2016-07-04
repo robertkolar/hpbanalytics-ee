@@ -13,11 +13,13 @@ Ext.define('HanGui.view.main.Main', {
         'HanGui.view.iblogger.IbLogger',
         'HanGui.view.c2.C2',
         'HanGui.view.report.Report',
+        'HanGui.model.iblogger.IbOrder',
+        'HanGui.model.iblogger.IbOrderEvent',
         'HanGui.model.c2.C2Signal',
         'HanGui.model.c2.PublishEvent',
         'HanGui.model.c2.PollEvent',
-        'HanGui.model.iblogger.IbOrder',
-        'HanGui.model.iblogger.IbOrderEvent'
+        'HanGui.model.report.Trade',
+        'HanGui.model.report.SplitExecution'
     ],
     
     controller: 'main',
