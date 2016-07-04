@@ -16,7 +16,10 @@ Ext.define('HanGui.common.Glyphs', {
         orderedlist: 'xf0cb',
         money: 'xf0d6',
         gear: 'xf013',
-        destroy: 'xf1f8'
+        destroy: 'xf1f8',
+        logger: 'xf039',
+        signal: 'xf012',
+        report: 'xf201'
     },
 
     constructor: function(config) {

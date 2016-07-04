@@ -24,11 +24,20 @@ Ext.define('HanGui.view.main.Main', {
     viewModel: {
         type: 'main'
     },
+    listeners: {
+        beforerender: 'setGlyphs'
+    },
     items: [{
-        xtype: 'han-iblogger'
+        xtype: 'han-iblogger',
+        title: 'IB Orders',
+        reference: 'ibLoggerPanel'
     }, {
-        xtype: 'han-c2'
+        xtype: 'han-c2',
+        title: 'C2 Signals',
+        reference: 'c2Panel'
     }, {
-        xtype: 'han-report'
+        xtype: 'han-report',
+        title: 'Reports',
+        reference: 'reportPanel'
     }]
 });

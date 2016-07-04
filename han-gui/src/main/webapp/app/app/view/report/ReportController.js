@@ -329,9 +329,9 @@ Ext.define('HanGui.view.report.ReportController', {
     setGlyphs: function() {
         var me = this;
 
-        me.lookupReference('executionsPanel').setGlyph(Report.common.Glyphs.getGlyph('orderedlist'));
-        me.lookupReference('tradesPanel').setGlyph(Report.common.Glyphs.getGlyph('money'));
-        me.lookupReference('statisticsPanel').setGlyph(Report.common.Glyphs.getGlyph('barchart'));
+        me.lookupReference('executionsPanel').setGlyph(HanGui.common.Glyphs.getGlyph('orderedlist'));
+        me.lookupReference('tradesPanel').setGlyph(HanGui.common.Glyphs.getGlyph('money'));
+        me.lookupReference('statisticsPanel').setGlyph(HanGui.common.Glyphs.getGlyph('barchart'));
     },
 
     onChartsToggle: function(button, pressed, eOpts) {
