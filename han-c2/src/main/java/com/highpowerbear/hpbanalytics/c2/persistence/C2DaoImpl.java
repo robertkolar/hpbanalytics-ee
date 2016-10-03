@@ -41,13 +41,13 @@ public class C2DaoImpl implements C2Dao {
         boolean fut = C2Definitions.SecType.FUT.equals(secType);
         boolean fx =  C2Definitions.SecType.CASH.equals(secType);
 
-        TypedQuery<C2System> q = em.createQuery("SELECT s FROM C2System s WHERE s.origin = :origin" +
+        TypedQuery<C2System> q = em.createQuery("SELECT s FROM C2System s WHERE s.origin LIKE :origin" +
                 (stk ? " AND s.stk IS TRUE" : "") +
                 (opt ? " AND s.opt IS TRUE" : "") +
                 (fut ? " AND s.fut IS TRUE" : "") +
                 (fx  ? " AND s.fx  IS TRUE" : ""), C2System.class);
 
-        q.setParameter("origin", origin);
+        q.setParameter("origin", "%" + origin + "%");
         List<C2System> list = q.getResultList();
         return (!list.isEmpty() ? list.get(0) : null);
     }
