@@ -32,7 +32,7 @@ Ext.define('HanGui.view.report.grid.ReportsGrid', {
         }
     }, {
         text: 'Origin',
-        width: 100,
+        width: 250,
         dataIndex: 'origin',
         editor: {
             xtype: 'textfield',

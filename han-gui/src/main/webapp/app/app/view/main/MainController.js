@@ -19,5 +19,5 @@ Ext.define('HanGui.view.main.MainController', {
         me.lookupReference('ibLoggerPanel').setGlyph(HanGui.common.Glyphs.getGlyph('logger'));
         me.lookupReference('c2Panel').setGlyph(HanGui.common.Glyphs.getGlyph('signal'));
         me.lookupReference('reportPanel').setGlyph(HanGui.common.Glyphs.getGlyph('report'));
-    },
+    }
 });
