@@ -31,6 +31,7 @@ public class C2System implements Serializable {
     @XmlTransient
     private String password;
     private boolean useSsl;
+    private Integer displayOrder;
 
     @Override
     public boolean equals(Object o) {
@@ -126,5 +127,13 @@ public class C2System implements Serializable {
 
     public void setUseSsl(boolean useSsl) {
         this.useSsl = useSsl;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
     }
 }

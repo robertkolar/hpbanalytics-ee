@@ -59,7 +59,7 @@ public class C2DaoImpl implements C2Dao {
 
     @Override
     public List<C2System> getC2Systems() {
-        TypedQuery<C2System> q = em.createQuery("SELECT s FROM C2System s", C2System.class);
+        TypedQuery<C2System> q = em.createQuery("SELECT s FROM C2System s ORDER BY s.displayOrder", C2System.class);
         return q.getResultList();
     }
 
