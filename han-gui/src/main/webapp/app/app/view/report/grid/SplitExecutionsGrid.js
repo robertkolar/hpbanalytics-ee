@@ -14,8 +14,7 @@ Ext.define('HanGui.view.report.grid.SplitExecutionsGrid', {
         xtype: 'templatecolumn',
         text: 'ID',
         width: 100,
-        tpl: '{tradeId}/{id}',
-        align: 'right'
+        tpl: '{tradeId}/{id}'
     }, {
         text: 'Split Q',
         width: 80,

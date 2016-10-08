@@ -22,8 +22,7 @@ Ext.define('HanGui.view.iblogger.grid.OrdersGrid', {
     columns: [{
         text: 'ID',
         width: 80,
-        dataIndex: 'id',
-        align: 'right'
+        dataIndex: 'id'
     }, {
         text: 'Submit Date',
         width: 180,

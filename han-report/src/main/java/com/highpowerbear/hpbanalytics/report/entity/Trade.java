@@ -56,7 +56,7 @@ public class Trade implements Serializable {
     @JsonIgnore
     private Report report;
     @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @OrderBy("fillDate ASC")
+    @OrderBy("fillDate DESC")
     private List<SplitExecution> splitExecutions;
 
     @JsonProperty

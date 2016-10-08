@@ -18,8 +18,7 @@ Ext.define('HanGui.view.c2.grid.RequestsGrid', {
     columns: [{
         text: 'ID',
         width: 60,
-        dataIndex: 'id',
-        align: 'right'
+        dataIndex: 'id'
     }, {
         text: 'Received Date',
         width: 180,

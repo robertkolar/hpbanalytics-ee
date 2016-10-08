@@ -19,8 +19,7 @@ Ext.define('HanGui.view.report.grid.ExecutionsGrid', {
         xtype: 'templatecolumn',
         text: 'ID',
         width: 80,
-        tpl: '{reportId}/{id}',
-        align: 'right'
+        tpl: '{reportId}/{id}'
     }, {
         text: 'Fill Date',
         width: 180,

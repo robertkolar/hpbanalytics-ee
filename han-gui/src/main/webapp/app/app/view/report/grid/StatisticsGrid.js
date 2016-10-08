@@ -17,8 +17,7 @@ Ext.define('HanGui.view.report.grid.StatisticsGrid', {
     columns: [{
         text: '#',
         width: 60,
-        dataIndex: 'id',
-        align: 'right'
+        dataIndex: 'id'
     }, {
         text: 'Period',
         width: 100,

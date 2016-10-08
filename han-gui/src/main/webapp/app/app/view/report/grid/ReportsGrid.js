@@ -20,8 +20,7 @@ Ext.define('HanGui.view.report.grid.ReportsGrid', {
     columns: [{
         text: 'ID',
         width: 60,
-        dataIndex: 'id',
-        align: 'right'
+        dataIndex: 'id'
     }, {
         text: 'Name',
         width: 120,

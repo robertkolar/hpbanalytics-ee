@@ -22,8 +22,7 @@ Ext.define('HanGui.view.c2.grid.SignalsGrid', {
     columns: [{
         text: 'ID',
         width: 60,
-        dataIndex: 'id',
-        align: 'right'
+        dataIndex: 'id'
     }, {
         text: 'Created Date',
         width: 180,
