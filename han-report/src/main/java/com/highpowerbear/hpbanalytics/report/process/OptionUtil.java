@@ -14,9 +14,7 @@ import java.util.logging.Logger;
  *
  * @author robertk
  */
-public class OptionUtil implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class OptionUtil {
     private static final Logger logger = Logger.getLogger(ReportDefinitions.LOGGER);
 
     private static final List<String> miniOptionRoots = new ArrayList<>();

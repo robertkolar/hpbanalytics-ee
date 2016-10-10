@@ -10,6 +10,8 @@ public class ReportDefinitions {
     public static final String IBLOGGER_TO_REPORT_QUEUE = "java:/jms/queue/IbLoggerToReportQ";
     public static final int JPA_MAX_RESULTS = 1000;
     public static final String TIMEZONE = "America/New_York";
+    public static final String EXCHANGE_RATE_URL = "http://api.fixer.io/";
+    public static final Integer EXCHANGE_RATE_DAYS_BACK = 5;
 
     // constants
     public static final String ORIGIN_INTERNAL = "INTERNAL";

@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.report.persistence;
 
 import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
+import com.highpowerbear.hpbanalytics.report.entity.ExchangeRate;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author Robert
  */
 @Stateless
-public class ReportDaoImpl implements Serializable, ReportDao {
+public class ReportDaoImpl implements ReportDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -262,5 +263,15 @@ public class ReportDaoImpl implements Serializable, ReportDao {
         query.setParameter("report", report);
         query.setParameter("tradeStatus", ReportDefinitions.TradeStatus.OPEN);
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public ExchangeRate getExchangeRate(Calendar date) {
+        return em.find(ExchangeRate.class, date);
+    }
+
+    @Override
+    public void createOrUpdateExchangeRate(ExchangeRate exchangeRate) {
+        em.merge(exchangeRate);
     }
 }

@@ -23,10 +23,9 @@ import java.util.stream.Collectors;
  * @author rkolar
  */
 @ApplicationScoped
-public class ReportProcessor implements Serializable  {
-    private static final long serialVersionUID = 1L;
-
+public class ReportProcessor {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
+
     @Inject private ReportDao reportDao;
     @Inject private WebsocketController websocketController;
     @Inject private StatisticsCalculator statisticsCalculator;

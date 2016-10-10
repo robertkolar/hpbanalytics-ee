@@ -1,6 +1,7 @@
 package com.highpowerbear.hpbanalytics.report.persistence;
 
 import com.highpowerbear.hpbanalytics.report.common.ReportDefinitions;
+import com.highpowerbear.hpbanalytics.report.entity.ExchangeRate;
 import com.highpowerbear.hpbanalytics.report.entity.Execution;
 import com.highpowerbear.hpbanalytics.report.entity.Report;
 import com.highpowerbear.hpbanalytics.report.entity.Trade;
@@ -47,4 +48,7 @@ public interface ReportDao {
     List<String> getUnderlyings(Report report);
     Long getNumUnderlyings(Report report);
     Long getNumOpenUnderlyings(Report report);
+
+    ExchangeRate getExchangeRate(Calendar date);
+    void createOrUpdateExchangeRate(ExchangeRate exchangeRate);
 }

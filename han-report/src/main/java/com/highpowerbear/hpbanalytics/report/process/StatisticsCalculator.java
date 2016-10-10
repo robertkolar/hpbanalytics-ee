@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
  * Created by robertk on 4/26/15.
  */
 @ApplicationScoped
-public class StatisticsCalculator implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class StatisticsCalculator {
     private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
     @Inject private ReportDao reportDao;

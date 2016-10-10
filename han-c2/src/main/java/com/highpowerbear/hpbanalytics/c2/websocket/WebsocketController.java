@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Created by robertk on 5/17/14.
  */
 @ApplicationScoped
-public class WebsocketController implements Serializable {
+public class WebsocketController {
     private static final Logger l = Logger.getLogger(C2Definitions.LOGGER);
 
     private Set<Session> c2Sessions = new HashSet<>();
