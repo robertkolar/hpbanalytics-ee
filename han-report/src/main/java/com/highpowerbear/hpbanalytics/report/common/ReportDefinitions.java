@@ -75,7 +75,8 @@ public class ReportDefinitions {
     
     public enum StatisticsInterval {
         DAY("Daily"),
-        MONTH("Monthly");
+        MONTH("Monthly"),
+        YEAR("Yearly");
         
         private String name;
         StatisticsInterval(String name) {

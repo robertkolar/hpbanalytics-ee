@@ -7,6 +7,7 @@ import com.highpowerbear.hpbanalytics.report.entity.Trade;
 import com.highpowerbear.hpbanalytics.report.model.OptionParseResult;
 import com.highpowerbear.hpbanalytics.report.model.Statistics;
 import com.highpowerbear.hpbanalytics.report.persistence.ReportDao;
+import com.highpowerbear.hpbanalytics.report.process.IfiCsvGenerator;
 import com.highpowerbear.hpbanalytics.report.process.OptionUtil;
 import com.highpowerbear.hpbanalytics.report.process.ReportProcessor;
 import com.highpowerbear.hpbanalytics.report.process.StatisticsCalculator;
@@ -33,6 +34,7 @@ public class ReportService {
     @Inject private StatisticsCalculator statisticsCalculator;
     @Inject private ReportProcessor reportProcessor;
     @Inject private FilterParser filterParser;
+    @Inject private IfiCsvGenerator ifiCsvGenerator;
 
     @GET
     @Path("reports")
@@ -275,5 +277,16 @@ public class ReportService {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.ok(optionParseResult).build();
+    }
+
+    @GET
+    @Path("reports/{id}/{year}/ificsv/{tradetype}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getIfiCsv(@PathParam("id") Integer id, @PathParam("id") Integer year, @PathParam("tradetype") ReportDefinitions.TradeType tradeType) {
+        Report report = reportDao.findReport(id);
+        if (report == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(ifiCsvGenerator.generate(report, year, tradeType)).build();
     }
 }

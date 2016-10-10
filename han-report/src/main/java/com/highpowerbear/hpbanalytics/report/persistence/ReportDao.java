@@ -44,6 +44,7 @@ public interface ReportDao {
     Trade findTrade(Long id);
     List<Trade> getFilteredTrades(Report report, TradeFilter filter, Integer start, Integer limit);
     Long getNumFilteredTrades(Report report, TradeFilter filter);
+    List<Trade> getTradesBetweenDates(Report report, Calendar beginDate, Calendar endDate, ReportDefinitions.TradeType tradeType);
 
     List<String> getUnderlyings(Report report);
     Long getNumUnderlyings(Report report);

@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -241,6 +240,18 @@ public class ReportDaoImpl implements ReportDao {
     public Long getNumFilteredTrades(Report report, TradeFilter filter) {
         Query q = queryBuilder.buildFilteredTradesQuery(em, report, filter, true);
         return (Long) q.getSingleResult();
+    }
+
+    @Override
+    public List<Trade> getTradesBetweenDates(Report report, Calendar beginDate, Calendar endDate, ReportDefinitions.TradeType tradeType) {
+        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report AND t.openDate >= :beginDate AND t.openDate < :endDate AND t.type = :tradeType ORDER BY t.openDate ASC", Trade.class);
+        q.setParameter("report", report);
+        q.setParameter("beginDate", beginDate);
+        q.setParameter("endDate", endDate);
+        q.setParameter("tradeType", tradeType);
+        List<Trade> list = q.getResultList();
+        list.forEach(Trade::getSplitExecutions);
+        return list;
     }
 
     @Override
