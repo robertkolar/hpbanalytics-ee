@@ -74,7 +74,7 @@ Ext.define('HanGui.view.report.TradesController', {
                 method: 'PUT',
                 url: urlString,
                 jsonData: {
-                    closeDate: form.getForm().findField('closeDate').lastValue,
+                    closeDate: new Date(form.getForm().findField('closeDate').lastValue).getTime(),
                     closePrice: form.getForm().findField('closePrice').lastValue
                 },
                 success: function (response, opts) {

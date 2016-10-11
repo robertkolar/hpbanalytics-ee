@@ -172,6 +172,8 @@ public class ReportService {
         if (!ReportDefinitions.TradeStatus.OPEN.equals(trade.getStatus())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        // fix fill date timezone, JAXB JSON converter sets it to UTC
+        closeTradeDto.getCloseDate().setTimeZone(TimeZone.getTimeZone(ReportDefinitions.TIMEZONE));
         return Response.ok(reportProcessor.closeTrade(trade, closeTradeDto.getCloseDate(), closeTradeDto.getClosePrice())).build();
     }
 

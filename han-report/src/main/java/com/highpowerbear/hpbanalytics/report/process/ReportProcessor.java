@@ -87,19 +87,25 @@ public class ReportProcessor {
             }
         }
         l.info(sb.toString());
+        l.info("Deleting " + tl.size() + " trades");
         reportDao.deleteTrades(tl);
         reportDao.createExecution(execution);
+        // refresh from db
+        execution = reportDao.findExecution(execution.getId());
         List<Execution> executionsToAnalyzeAgain = new ArrayList<>();
         List<Trade> trades;
         if (!tl.isEmpty()) {
             SplitExecution firstSe = tl.get(0).getSplitExecutions().get(0);
+            l.info("firstSe=" + firstSe.print());
             boolean isNewAfterFirst = execution.getFillDate().after(firstSe.getExecution().getFillDate());
+            l.info("isNewAfterFirst=" + isNewAfterFirst + ", " + execution.getFillDate().getTime() + ", " + firstSe.getExecution().getFillDate().getTime());
             executionsToAnalyzeAgain = (isNewAfterFirst ? reportDao.getExecutionsAfterExecution(firstSe.getExecution()) : reportDao.getExecutionsAfterExecutionInclusive(execution));
             trades = analyzeSingleSymbol(executionsToAnalyzeAgain, (isNewAfterFirst ? firstSe : null));
         } else {
             executionsToAnalyzeAgain.add(execution);
             trades = analyzeSingleSymbol(executionsToAnalyzeAgain, null);
         }
+        l.info("Creating " + trades.size() + " trades");
         reportDao.createTrades(trades);
         statisticsCalculator.clearCache(execution.getReport());
         websocketController.broadcastReportMessage("new execution processed");

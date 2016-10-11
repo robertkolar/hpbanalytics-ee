@@ -66,7 +66,7 @@ public class ReportDaoImpl implements ReportDao {
 
     @Override
     public List<Report> getReports() {
-        TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r", Report.class);
+        TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r ORDER BY r.id", Report.class);
         return q.getResultList();
     }
 
@@ -214,10 +214,10 @@ public class ReportDaoImpl implements ReportDao {
             return;
         }
         for (Trade trade : trades) {
-            trade = em.find(Trade.class, trade.getId()); // make sure it is managed by entitymanager
+            Trade tradeDb = em.find(Trade.class, trade.getId()); // make sure it is managed by entitymanager
             // it is managed, since trade is managed
-            trade.getSplitExecutions().forEach(em::remove);
-            em.remove(trade);
+            tradeDb.getSplitExecutions().forEach(em::remove);
+            em.remove(tradeDb);
         }
     }
 
