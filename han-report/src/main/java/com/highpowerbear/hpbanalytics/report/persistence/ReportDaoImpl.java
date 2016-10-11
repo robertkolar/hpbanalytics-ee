@@ -277,7 +277,7 @@ public class ReportDaoImpl implements ReportDao {
     }
 
     @Override
-    public ExchangeRate getExchangeRate(Calendar date) {
+    public ExchangeRate getExchangeRate(String date) {
         return em.find(ExchangeRate.class, date);
     }
 

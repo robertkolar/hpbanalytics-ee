@@ -15,22 +15,26 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by robertk on 10/10/2016.
  */
 @ApplicationScoped
 public class IfiCsvGenerator {
+    private static final Logger l = Logger.getLogger(ReportDefinitions.LOGGER);
 
     @Inject private ReportDao reportDao;
 
     private final Integer optionMultiplier = 100;
     private final String NL = "\n";
-    private final String DL = ",";
+    private final String DL = ";";
     private final String acquireType = "A - nakup";
     private Map<ReportDefinitions.SecType, String> secTypeMap = new HashMap<>();
     private Map<ReportDefinitions.TradeType, String> tradeTypeMap = new HashMap<>();
     private DateFormat df = new SimpleDateFormat("dd. MM. yyyy");
+    private DateFormat dfLog = new SimpleDateFormat("MM/dd/yyyy");
+    private DateFormat dfRate = new SimpleDateFormat("yyyy-MM-dd");
     private NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
 
     @PostConstruct
@@ -44,12 +48,14 @@ public class IfiCsvGenerator {
     }
 
     public String generate(Report report, Integer year, ReportDefinitions.TradeType tradeType) {
+        l.info("BEGIN IfiCsvGenerator.generatem, report=" + report.getId() + ", year=" + year + ", tradeType=" + tradeType);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         Calendar beginDate = ReportUtil.toBeginOfPeriod(cal, ReportDefinitions.StatisticsInterval.YEAR);
         cal.set(Calendar.YEAR, year + 1);
         Calendar endDate = ReportUtil.toBeginOfPeriod(cal, ReportDefinitions.StatisticsInterval.YEAR);
         List<Trade> trades = reportDao.getTradesBetweenDates(report, beginDate, endDate, tradeType);
+        l.info("Begin date=" + dfLog.format(beginDate.getTime()) + ", endDate=" + dfLog.format(endDate.getTime()) + ", trades=" + trades.size());
         StringBuilder sb = new StringBuilder();
         if (ReportDefinitions.TradeType.SHORT.equals(tradeType)) {
             writeCsvHeaderShort(sb);
@@ -64,7 +70,6 @@ public class IfiCsvGenerator {
             i++;
             writeTrade(sb, trade, i);
             List<SplitExecution> splitExecutions = trade.getSplitExecutions();
-            Collections.reverse(splitExecutions);
             int j = 0;
             for (SplitExecution se : splitExecutions) {
                 j++;
@@ -78,44 +83,46 @@ public class IfiCsvGenerator {
                     writeTradeLongSplitExecutionSell(sb, se, i, j);
                 }
             }
+            sb.append(NL);
         }
+        l.info("END IfiCsvGenerator.generatem, report=" + report.getId() + ", year=" + year + ", tradeType=" + tradeType);
         return sb.toString();
     }
 
     private void writeCsvHeaderShort(StringBuilder sb) {
-        sb.append("Zap.").append(NL).append("št.").append(DL);
+        sb.append("Zap. št.").append(DL);
         sb.append("Vrsta IFI").append(DL);
         sb.append("Vrsta posla").append(DL);
-        sb.append("Trgovalna").append(NL).append("koda").append(DL);
-        sb.append("Datum").append(NL).append("odsvojitve").append(DL);
-        sb.append("Količina").append(NL).append("odsvojenega").append(NL).append("IFI").append(DL);
-        sb.append("Vrednost").append(NL).append("ob odsvojitvi").append(NL).append("(na enoto)").append(NL).append("USD").append(DL);
-        sb.append("Vrednost").append(NL).append("ob odsvojitvi").append(NL).append("(na enoto)").append(NL).append("EUR").append(DL);
-        sb.append("Datum").append(NL).append("pridobitve").append(DL);
-        sb.append("Način").append(NL).append("pridobitve").append(DL);
+        sb.append("Trgovalna koda").append(DL);
+        sb.append("Datum odsvojitve").append(DL);
+        sb.append("Količina odsvojenega IFI").append(DL);
+        sb.append("Vrednost ob odsvojitvi (na enoto) USD").append(DL);
+        sb.append("Vrednost ob odsvojitvi (na enoto) EUR").append(DL);
+        sb.append("Datum pridobitve").append(DL);
+        sb.append("Način pridobitve").append(DL);
         sb.append("Količina").append(DL);
-        sb.append("Vrednost").append(NL).append("ob pridobitvi").append(NL).append("(na enoto)").append(NL).append("USD").append(DL);
-        sb.append("Vrednost").append(NL).append("ob pridobitvi").append(NL).append("(na enoto)").append(NL).append("EUR").append(DL);
-        sb.append("Zaloga").append(NL).append("IFI").append(DL);
-        sb.append("Dobiček").append(NL).append("Izguba").append(NL).append("EUR").append(NL);
+        sb.append("Vrednost ob pridobitvi na enoto) USD").append(DL);
+        sb.append("Vrednost ob pridobitvi (na enoto) EUR").append(DL);
+        sb.append("Zaloga IFI").append(DL);
+        sb.append("Dobiček Izguba EUR").append(NL);
     }
 
     private void writeCsvHeaderLong(StringBuilder sb) {
-        sb.append("Zap.").append(NL).append("št.").append(DL);
+        sb.append("Zap. št.").append(DL);
         sb.append("Vrsta IFI").append(DL);
         sb.append("Vrsta posla").append(DL);
-        sb.append("Trgovalna").append(NL).append("koda").append(DL);
-        sb.append("Datum").append(NL).append("pridobitve").append(DL);
-        sb.append("Način").append(NL).append("pridobitve").append(DL);
+        sb.append("Trgovalna koda").append(DL);
+        sb.append("Datum pridobitve").append(DL);
+        sb.append("Način pridobitve").append(DL);
         sb.append("Količina").append(DL);
-        sb.append("Nabavna").append(NL).append("vrednost").append(NL).append("ob pridobitvi").append(NL).append("(na enoto)").append(NL).append("USD").append(DL);
-        sb.append("Nabavna").append(NL).append("vrednost").append(NL).append("ob pridobitvi").append(NL).append("(na enoto)").append(NL).append("EUR").append(DL);
-        sb.append("Datum").append(NL).append("odsvojitve").append(DL);
-        sb.append("Količina").append(NL).append("odsvojenega").append(NL).append("IFI").append(DL);
-        sb.append("Vrednost").append(NL).append("ob odsvojitvi").append(NL).append("(na enoto)").append(NL).append("USD").append(DL);
-        sb.append("Vrednost").append(NL).append("ob odsvojitvi").append(NL).append("(na enoto)").append(NL).append("EUR").append(DL);
-        sb.append("Zaloga").append(NL).append("IFI").append(DL);
-        sb.append("Dobiček").append(NL).append("Izguba").append(NL).append("EUR").append(NL);
+        sb.append("Nabavna vrednost ob pridobitvi (na enoto) USD").append(DL);
+        sb.append("Nabavna vrednost ob pridobitvi (na enoto) EUR").append(DL);
+        sb.append("Datum odsvojitve").append(DL);
+        sb.append("Količina odsvojenega IFI").append(DL);
+        sb.append("Vrednost ob odsvojitvi (na enoto) USD").append(DL);
+        sb.append("Vrednost ob odsvojitvi (na enoto) EUR").append(DL);
+        sb.append("Zaloga IFI").append(DL);
+        sb.append("Dobiček Izguba EUR").append(NL);
     }
 
     private void writeTrade(StringBuilder sb, Trade trade, int i) {
@@ -126,13 +133,47 @@ public class IfiCsvGenerator {
         for (int k = 0; k < 10; k++) {
             sb.append(DL);
         }
-        sb.append(nf.format(trade.getProfitLoss()));
+        Double profitLoss = calculatePlEur(trade);
+        sb.append(profitLoss != null ? nf.format(profitLoss) : "");
         sb.append(NL);
     }
 
+    private Double calculatePlEur(Trade trade) {
+        Double cumulativeOpenPrice = 0d;
+        Double cumulativeClosePrice = 0d;
+        for (SplitExecution se : trade.getSplitExecutions()) {
+            ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+            Double fillPrice = se.getExecution().getFillPrice().doubleValue() / exchangeRate.getEurUsd();
+
+            if (    (ReportDefinitions.TradeType.LONG. equals(trade.getType()) && ReportDefinitions.Action.BUY. equals(se.getExecution().getAction())) ||
+                    (ReportDefinitions.TradeType.SHORT.equals(trade.getType()) && ReportDefinitions.Action.SELL.equals(se.getExecution().getAction()))) {
+
+                cumulativeOpenPrice += se.getSplitQuantity() * fillPrice;
+            }
+            if (ReportDefinitions.TradeStatus.CLOSED.equals(trade.getStatus())) {
+                if (    (ReportDefinitions.TradeType.LONG. equals(trade.getType()) && ReportDefinitions.Action.SELL.equals(se.getExecution().getAction())) ||
+                        (ReportDefinitions.TradeType.SHORT.equals(trade.getType()) && ReportDefinitions.Action.BUY. equals(se.getExecution().getAction()))) {
+
+                    cumulativeClosePrice += se.getSplitQuantity() * fillPrice;
+                }
+            }
+        }
+        Double profitLoss = null;
+        if (ReportDefinitions.TradeStatus.CLOSED.equals(trade.getStatus())) {
+            profitLoss = (ReportDefinitions.TradeType.LONG.equals(trade.getType()) ? cumulativeClosePrice - cumulativeOpenPrice : cumulativeOpenPrice - cumulativeClosePrice);
+            if (ReportDefinitions.SecType.OPT.equals(trade.getSecType())) {
+                profitLoss *= OptionUtil.isMini(trade.getSymbol()) ? 10d : 100d;
+            }
+            if (ReportDefinitions.SecType.FUT.equals(trade.getSecType())) {
+                profitLoss *= ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(trade.getUnderlying());
+            }
+        }
+        return profitLoss;
+    }
+
     private void writeTradeShortSplitExecutionSell(StringBuilder sb, SplitExecution se, int i, int j) {
-        ExchangeRate exchangeRate = reportDao.getExchangeRate(se.getFillDate());
-        sb.append(i).append("-").append(j).append(DL).append(DL).append(DL);
+        ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+        sb.append(i).append("-").append(j).append(DL).append(DL).append(DL).append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
         Double fillPrice = se.getExecution().getFillPrice().doubleValue();
@@ -148,7 +189,7 @@ public class IfiCsvGenerator {
     }
 
     private void writeTradeShortSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
-        ExchangeRate exchangeRate = reportDao.getExchangeRate(se.getFillDate());
+        ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
         sb.append(i).append("-").append(j);
         for (int k = 0; k < 8; k++) {
             sb.append(DL);
@@ -167,8 +208,8 @@ public class IfiCsvGenerator {
     }
 
     private void writeTradeLongSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
-        ExchangeRate exchangeRate = reportDao.getExchangeRate(se.getFillDate());
-        sb.append(i).append("-").append(j).append(DL).append(DL).append(DL);
+        ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+        sb.append(i).append("-").append(j).append(DL).append(DL).append(DL).append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(acquireType).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
@@ -182,7 +223,7 @@ public class IfiCsvGenerator {
     }
 
     private void writeTradeLongSplitExecutionSell(StringBuilder sb, SplitExecution se, int i, int j) {
-        ExchangeRate exchangeRate = reportDao.getExchangeRate(se.getFillDate());
+        ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
         sb.append(i).append("-");
         for (int k = 0; k < 8; k++) {
             sb.append(DL);

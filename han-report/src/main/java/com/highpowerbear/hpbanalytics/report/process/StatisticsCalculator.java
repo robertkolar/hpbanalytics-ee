@@ -41,7 +41,7 @@ public class StatisticsCalculator {
         List<Trade> trades = reportDao.getTradesByUnderlying(report, underlying);
         List<Statistics> stats = doCalculate(trades, interval);
         statisticsMap.put(report.getId() + "_" + interval.name() + "_" + underlying, stats);
-        l.info("END statistics statistics calculation for " + report.getReportName() + ", interval=" + interval);
+        l.info("END statistics calculation for " + report.getReportName() + ", interval=" + interval);
         return stats;
     }
 

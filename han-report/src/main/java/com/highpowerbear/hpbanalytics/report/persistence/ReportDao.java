@@ -50,6 +50,6 @@ public interface ReportDao {
     Long getNumUnderlyings(Report report);
     Long getNumOpenUnderlyings(Report report);
 
-    ExchangeRate getExchangeRate(Calendar date);
+    ExchangeRate getExchangeRate(String date);
     void createOrUpdateExchangeRate(ExchangeRate exchangeRate);
 }

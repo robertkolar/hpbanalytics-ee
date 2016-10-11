@@ -38,41 +38,28 @@ public class ExchangeRateRetriever {
             cal.add(Calendar.DAY_OF_MONTH, i - ReportDefinitions.EXCHANGE_RATE_DAYS_BACK);
             String date = df.format(cal.getTime());
             target = target.path(date);
-            DateRate dateRate = retrievePair(target, "EUR", "USD");
-            exchangeRate.setDate(dateRate.date);
-            exchangeRate.setEurUsd(dateRate.rate);
-
-            exchangeRate.setGbpUsd(retrievePair(target, "GBP", "USD").rate);
-            exchangeRate.setAudUsd(retrievePair(target, "AUD", "USD").rate);
-            exchangeRate.setNzdUsd(retrievePair(target, "NZD", "USD").rate);
-            exchangeRate.setUsdChf(retrievePair(target, "USD", "CHF").rate);
-            exchangeRate.setUsdJpy(retrievePair(target, "USD", "JPY").rate);
-            exchangeRate.setUsdCad(retrievePair(target, "USD", "CAD").rate);
+            exchangeRate.setDate(date);
+            exchangeRate.setEurUsd(retrievePair(target, "EUR", "USD"));
+            exchangeRate.setGbpUsd(retrievePair(target, "GBP", "USD"));
+            exchangeRate.setAudUsd(retrievePair(target, "AUD", "USD"));
+            exchangeRate.setNzdUsd(retrievePair(target, "NZD", "USD"));
+            exchangeRate.setUsdChf(retrievePair(target, "USD", "CHF"));
+            exchangeRate.setUsdJpy(retrievePair(target, "USD", "JPY"));
+            exchangeRate.setUsdCad(retrievePair(target, "USD", "CAD"));
             reportDao.createOrUpdateExchangeRate(exchangeRate);
         }
         client.close();
         l.info("END ExchangeRateRetriever.retrive");
     }
 
-    private class DateRate {
-        private String date;
-        private Double rate;
-
-        public DateRate(String date, Double rate) {
-            this.date = date;
-            this.rate = rate;
-        }
-    }
-
-    private DateRate retrievePair(WebTarget target, String base, String symbol) {
+    private double retrievePair(WebTarget target, String base, String symbol) {
         target = target.queryParam("base", base).queryParam("symbols", symbol);
         String response = target.request().get(String.class);
         l.info(response);
         JsonReader reader = Json.createReader(new StringReader(response));
         JsonObject jsonObject = (JsonObject) reader.read();
-        String date = jsonObject.getJsonString("date").getString();
         Double rate = jsonObject.getJsonObject("rates").getJsonNumber(symbol).doubleValue();
         reader.close();
-        return new DateRate(date, rate);
+        return rate;
     }
 }

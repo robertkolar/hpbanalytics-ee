@@ -280,9 +280,9 @@ public class ReportService {
     }
 
     @GET
-    @Path("reports/{id}/{year}/ificsv/{tradetype}")
+    @Path("reports/{id}/ificsv/{year}/{tradetype}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getIfiCsv(@PathParam("id") Integer id, @PathParam("id") Integer year, @PathParam("tradetype") ReportDefinitions.TradeType tradeType) {
+    public Response getIfiCsv(@PathParam("id") Integer id, @PathParam("year") Integer year, @PathParam("tradetype") ReportDefinitions.TradeType tradeType) {
         Report report = reportDao.findReport(id);
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
