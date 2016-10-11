@@ -139,10 +139,19 @@ public class IfiCsvGenerator {
     }
 
     private Double calculatePlEur(Trade trade) {
+        if (!ReportDefinitions.TradeStatus.CLOSED.equals(trade.getStatus())) {
+            return null;
+        }
         Double cumulativeOpenPrice = 0d;
         Double cumulativeClosePrice = 0d;
+        boolean firstStepOk = true;
+        // first step
         for (SplitExecution se : trade.getSplitExecutions()) {
             ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+            if (exchangeRate == null) {
+                firstStepOk = false;
+                break;
+            }
             Double fillPrice = se.getExecution().getFillPrice().doubleValue() / exchangeRate.getEurUsd();
 
             if (    (ReportDefinitions.TradeType.LONG. equals(trade.getType()) && ReportDefinitions.Action.BUY. equals(se.getExecution().getAction())) ||
@@ -158,21 +167,25 @@ public class IfiCsvGenerator {
                 }
             }
         }
-        Double profitLoss = null;
-        if (ReportDefinitions.TradeStatus.CLOSED.equals(trade.getStatus())) {
-            profitLoss = (ReportDefinitions.TradeType.LONG.equals(trade.getType()) ? cumulativeClosePrice - cumulativeOpenPrice : cumulativeOpenPrice - cumulativeClosePrice);
-            if (ReportDefinitions.SecType.OPT.equals(trade.getSecType())) {
-                profitLoss *= OptionUtil.isMini(trade.getSymbol()) ? 10d : 100d;
-            }
-            if (ReportDefinitions.SecType.FUT.equals(trade.getSecType())) {
-                profitLoss *= ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(trade.getUnderlying());
-            }
+        if (!firstStepOk) {
+            return null;
+        }
+        // second step
+        Double profitLoss = (ReportDefinitions.TradeType.LONG.equals(trade.getType()) ? cumulativeClosePrice - cumulativeOpenPrice : cumulativeOpenPrice - cumulativeClosePrice);
+        if (ReportDefinitions.SecType.OPT.equals(trade.getSecType())) {
+            profitLoss *= OptionUtil.isMini(trade.getSymbol()) ? 10d : 100d;
+        }
+        if (ReportDefinitions.SecType.FUT.equals(trade.getSecType())) {
+            profitLoss *= ReportDefinitions.FuturePlMultiplier.getMultiplierByUnderlying(trade.getUnderlying());
         }
         return profitLoss;
     }
 
     private void writeTradeShortSplitExecutionSell(StringBuilder sb, SplitExecution se, int i, int j) {
         ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+        if (exchangeRate == null) {
+            return;
+        }
         sb.append(i).append("-").append(j).append(DL).append(DL).append(DL).append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
@@ -190,6 +203,9 @@ public class IfiCsvGenerator {
 
     private void writeTradeShortSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
         ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+        if (exchangeRate == null) {
+            return;
+        }
         sb.append(i).append("-").append(j);
         for (int k = 0; k < 8; k++) {
             sb.append(DL);
@@ -209,6 +225,9 @@ public class IfiCsvGenerator {
 
     private void writeTradeLongSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
         ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+        if (exchangeRate == null) {
+            return;
+        }
         sb.append(i).append("-").append(j).append(DL).append(DL).append(DL).append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(acquireType).append(DL);
@@ -224,6 +243,9 @@ public class IfiCsvGenerator {
 
     private void writeTradeLongSplitExecutionSell(StringBuilder sb, SplitExecution se, int i, int j) {
         ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
+        if (exchangeRate == null) {
+            return;
+        }
         sb.append(i).append("-");
         for (int k = 0; k < 8; k++) {
             sb.append(DL);
