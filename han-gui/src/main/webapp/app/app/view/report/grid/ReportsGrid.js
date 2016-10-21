@@ -99,6 +99,14 @@ Ext.define('HanGui.view.report.grid.ReportsGrid', {
             xtype: 'checkboxfield'
         }
     }, {
+        text: 'Cfd',
+        width: 60,
+        dataIndex: 'cfd',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
+    }, {
         xtype: 'widgetcolumn',
         width : 50,
         widget: {

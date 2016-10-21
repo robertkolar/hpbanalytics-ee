@@ -113,7 +113,8 @@ public class ReportDefinitions {
         STK ("STK"),
         OPT ("OPT"),
         FUT ("FUT"),
-        CASH ("CASH");
+        CASH ("CASH"),
+        CFD("CFD");
 
         private String name;
 

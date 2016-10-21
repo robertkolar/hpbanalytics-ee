@@ -33,7 +33,11 @@ public class OutputProcessor {
             cr.setAction(IbApiEnums.Action.valueOf(ibOrder.getAction()));
             cr.setQuantity(ibOrder.getQuantity());
             cr.setSymbol(ibOrder.getSymbol());
-            cr.setSecType(IbApiEnums.SecType.valueOf(ibOrder.getSecType()));
+            if (IbApiEnums.SecType.CFD.name().equals(ibOrder.getSecType())) {
+                cr.setSecType(IbApiEnums.SecType.STK);
+            } else {
+                cr.setSecType(IbApiEnums.SecType.valueOf(ibOrder.getSecType()));
+            }
             cr.setOrderType(IbApiEnums.OrderType.valueOf(ibOrder.getOrderType()));
             cr.setOrderPrice(ibOrder.getOrderPrice());
             cr.setTif(IbApiEnums.Tif.valueOf(ibOrder.getTif()));

@@ -87,7 +87,7 @@ Ext.define('HanGui.view.report.window.ExecutionAddWindow', {
             fieldLabel: 'Sec Type',
             store: Ext.create('Ext.data.Store', {
                 fields: ['text'],
-                data: [{"text": "STK"}, {"text": "OPT"}, {"text": "FUT"}, {"text": "CASH"}]
+                data: [{"text": "STK"}, {"text": "OPT"}, {"text": "FUT"}, {"text": "CASH"}, {"text": "CFD"}]
             }),
             value: 'STK'
         }, {

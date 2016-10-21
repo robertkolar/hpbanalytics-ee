@@ -33,6 +33,7 @@ public class IbAccount implements Serializable {
     private boolean fut;
     private boolean opt;
     private boolean fx;
+    private boolean cfd;
     private String permittedClients; // csv, null means all
     private String permittedAccounts; // csv, null means all - applicable to FA subaccounts
     @Transient
@@ -175,6 +176,14 @@ public class IbAccount implements Serializable {
 
     public void setFx(boolean fx) {
         this.fx = fx;
+    }
+
+    public boolean isCfd() {
+        return cfd;
+    }
+
+    public void setCfd(boolean cfd) {
+        this.cfd = cfd;
     }
 
     public String getPermittedClients() {

@@ -11,6 +11,7 @@ Ext.define('HanGui.model.report.Report', {
         'opt',
         'fut',
         'fx',
+        'cfd',
         'numExecutions',
         'numTrades',
         'numOpenTrades',

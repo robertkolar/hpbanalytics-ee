@@ -17,6 +17,7 @@ Ext.define('HanGui.model.iblogger.IbAccount', {
         'fut',
         'opt',
         'fx',
+        'cfd',
         'permittedClients',
         'permittedAccounts',
         {name: 'ibConnection', persist: false},

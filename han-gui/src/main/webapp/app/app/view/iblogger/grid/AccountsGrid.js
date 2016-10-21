@@ -148,6 +148,14 @@ Ext.define('HanGui.view.iblogger.grid.AccountsGrid', {
         editor: {
             xtype: 'checkboxfield'
         }
+    }, {
+        text: 'Cfd',
+        width: 60,
+        dataIndex: 'cfd',
+        xtype: 'checkcolumn',
+        editor: {
+            xtype: 'checkboxfield'
+        }
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',

@@ -80,14 +80,16 @@ public class OpenOrderHandler {
         return  IbApiEnums.SecType.STK.name().equalsIgnoreCase(secType) ||
                 IbApiEnums.SecType.FUT.name().equalsIgnoreCase(secType) ||
                 IbApiEnums.SecType.OPT.name().equalsIgnoreCase(secType) ||
-                IbApiEnums.SecType.CASH.name().equalsIgnoreCase(secType);
+                IbApiEnums.SecType.CASH.name().equalsIgnoreCase(secType) ||
+                IbApiEnums.SecType.CFD.name().equalsIgnoreCase(secType);
     }
 
     private boolean checkInstrumentFilter(IbAccount ibAccount, String secType) {
         return  (IbApiEnums.SecType.STK.name().equalsIgnoreCase(secType) && ibAccount.isStk()) ||
                 (IbApiEnums.SecType.FUT.name().equalsIgnoreCase(secType) && ibAccount.isFut()) ||
                 (IbApiEnums.SecType.OPT.name().equalsIgnoreCase(secType) && ibAccount.isOpt()) ||
-                (IbApiEnums.SecType.CASH.name().equalsIgnoreCase(secType) && ibAccount.isFx());
+                (IbApiEnums.SecType.CASH.name().equalsIgnoreCase(secType) && ibAccount.isFx()) ||
+                (IbApiEnums.SecType.CFD.name().equalsIgnoreCase(secType) && ibAccount.isCfd());
     }
 
     private void updateExistingOrder(IbOrder ibOrderDb, Order order) {

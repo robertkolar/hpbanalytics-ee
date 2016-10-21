@@ -29,6 +29,7 @@ public class Report implements Serializable {
     private boolean fut;
     private boolean opt;
     private boolean fx;
+    private boolean cfd;
     @Transient
     private Long numExecutions;
     @Transient
@@ -94,6 +95,14 @@ public class Report implements Serializable {
 
     public void setFx(boolean fx) {
         this.fx = fx;
+    }
+
+    public boolean isCfd() {
+        return cfd;
+    }
+
+    public void setCfd(boolean cfd) {
+        this.cfd = cfd;
     }
 
     public void setReportName(String name) {

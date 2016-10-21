@@ -53,7 +53,8 @@ public class IbApiEnums {
         IND,
         FOP,
         CASH,
-        BAG
+        BAG,
+        CFD
     }
 
     public enum Tif {

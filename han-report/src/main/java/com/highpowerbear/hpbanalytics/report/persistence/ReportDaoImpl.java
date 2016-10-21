@@ -34,12 +34,14 @@ public class ReportDaoImpl implements ReportDao {
         boolean opt = ReportDefinitions.SecType.OPT.equals(secType);
         boolean fut = ReportDefinitions.SecType.FUT.equals(secType);
         boolean fx =  ReportDefinitions.SecType.CASH.equals(secType);
+        boolean cfd =  ReportDefinitions.SecType.CFD.equals(secType);
 
         TypedQuery<Report> q = em.createQuery("SELECT r FROM Report r WHERE r.origin = :origin" +
                 (stk ? " AND r.stk IS TRUE" : "") +
                 (opt ? " AND r.opt IS TRUE" : "") +
                 (fut ? " AND r.fut IS TRUE" : "") +
-                (fx  ? " AND r.fx  IS TRUE" : ""), Report.class);
+                (fx  ? " AND r.fx  IS TRUE" : "") +
+                (cfd ? " AND r.cfd IS TRUE" : ""), Report.class);
 
         q.setParameter("origin", origin);
         List<Report> list = q.getResultList();
