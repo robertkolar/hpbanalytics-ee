@@ -12,7 +12,7 @@ public class ReportScheduler {
 
     @Inject private ExchangeRateRetriever exchangeRateRetriever;
 
-    @Schedule(hour = "18", timezone="US/Eastern", persistent=false)
+    @Schedule(hour = "01", timezone="US/Eastern", persistent=false)
     private void retrieveExchangeRates() {
         exchangeRateRetriever.retrieve();
     }
