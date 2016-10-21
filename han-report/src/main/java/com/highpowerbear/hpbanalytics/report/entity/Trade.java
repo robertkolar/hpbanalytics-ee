@@ -70,7 +70,7 @@ public class Trade implements Serializable {
     }
 
     public void calculate() {
-        MathContext mc = new MathContext(5);
+        MathContext mc = new MathContext(7);
         this.report = splitExecutions.iterator().next().execution.getReport();
         this.type = (splitExecutions.iterator().next().getCurrentPosition() > 0 ? ReportDefinitions.TradeType.LONG : ReportDefinitions.TradeType.SHORT);
         this.symbol = (this.splitExecutions == null || this.splitExecutions.isEmpty() ? null : this.splitExecutions.iterator().next().execution.getSymbol());
