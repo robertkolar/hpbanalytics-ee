@@ -40,7 +40,8 @@ public class IfiCsvGenerator {
     @PostConstruct
     private void init() {
         secTypeMap.put(ReportDefinitions.SecType.FUT, "01 - terminska pogodba");
-        secTypeMap.put(ReportDefinitions.SecType.OPT, "03 - opcija in certifikat");
+        secTypeMap.put(ReportDefinitions.SecType.CFD, "02 - pogodba na razliko");
+        secTypeMap.put(ReportDefinitions.SecType.OPT, "03 - opcija");
         tradeTypeMap.put(ReportDefinitions.TradeType.LONG, "običajni");
         tradeTypeMap.put(ReportDefinitions.TradeType.SHORT, "na kratko");
         nf.setMinimumFractionDigits(4);
@@ -64,7 +65,11 @@ public class IfiCsvGenerator {
         }
         int i = 0;
         for (Trade trade : trades) {
-            if (!(ReportDefinitions.SecType.FUT.equals(trade.getSecType()) || ReportDefinitions.SecType.OPT.equals(trade.getSecType()))) {
+            if (!(
+                    ReportDefinitions.SecType.FUT.equals(trade.getSecType()) ||
+                    ReportDefinitions.SecType.OPT.equals(trade.getSecType()) ||
+                    ReportDefinitions.SecType.CFD.equals(trade.getSecType()))
+            ) {
                 continue;
             }
             i++;
