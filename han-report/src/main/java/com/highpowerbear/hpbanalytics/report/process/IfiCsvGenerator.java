@@ -251,7 +251,7 @@ public class IfiCsvGenerator {
         if (exchangeRate == null) {
             return;
         }
-        sb.append(i).append("-");
+        sb.append(i).append("-").append(j);
         for (int k = 0; k < 8; k++) {
             sb.append(DL);
         }
