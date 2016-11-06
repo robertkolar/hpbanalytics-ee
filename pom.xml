@@ -10,7 +10,6 @@
         <module>han-iblogger</module>
         <module>han-report</module>
         <module>han-gui</module>
-        <module>han-doc</module>
     </modules>
     <packaging>pom</packaging>
 
