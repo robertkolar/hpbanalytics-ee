@@ -112,9 +112,6 @@
             "bundle": true
         },
         {
-            "path": "resources/js/highstock-all.js"
-        },
-        {
             "path": "resources/js/statistics.js"
         }
     ],

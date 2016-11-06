@@ -296,13 +296,6 @@ Ext.define('HanGui.view.report.ReportController', {
             return;
         }
 
-        if (me.hpbC1) {me.hpbC1.destroy();}
-        if (me.hpbC2) {me.hpbC2.destroy();}
-        if (me.hpbC3) {me.hpbC3.destroy();}
-        if (me.hpbC4) {me.hpbC4.destroy();}
-        if (me.hpbC5) {me.hpbC5.destroy();}
-        if (me.hpbC6) {me.hpbC6.destroy();}
-
         statistics.each(function (record, id) {
             var d = record.data;
 
