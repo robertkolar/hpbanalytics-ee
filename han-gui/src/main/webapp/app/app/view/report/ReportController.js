@@ -281,14 +281,10 @@ Ext.define('HanGui.view.report.ReportController', {
     createCharts: function(tabPanel, newCard, oldCard, eOpts) {
         var me = this,
             statistics = me.getStore('charts'),
-            numberOpened = [],
-            numberClosed = [],
-            numberWinners = [],
-            numberLosers = [],
-            maxWinner = [],
-            maxLoser = [],
-            winnersProfit = [],
-            losersLoss = [],
+            numberOpenedClosed = [],
+            numberWinnersLosers = [],
+            maxWinnerLoser = [],
+            plWinnersLosers = [],
             profitLoss = [],
             cumulativePl = [];
 
@@ -296,27 +292,33 @@ Ext.define('HanGui.view.report.ReportController', {
             return;
         }
 
+        var fromMillis = new Date().getTime();
+        var toMillis = 0;
+
         statistics.each(function (record, id) {
-            var d = record.data;
-
-            numberOpened.push([d.periodDate, d.numOpened]);
-            numberClosed.push([d.periodDate, d.numClosed]);
-            numberWinners.push([d.periodDate, d.numWinners]);
-            numberLosers.push([d.periodDate, d.numLosers]);
-            maxWinner.push([d.periodDate, d.maxWinner]);
-            maxLoser.push([d.periodDate, d.maxLoser]);
-            winnersProfit.push([d.periodDate, d.winnersProfit]);
-            losersLoss.push([d.periodDate, d.losersLoss]);
-            profitLoss.push([d.periodDate, d.profitLoss]);
-            cumulativePl.push([d.periodDate, d.cumulProfitLoss]);
+            var rd = record.data;
+            var periodMillis = rd.periodDate;
+            if (periodMillis < fromMillis) {
+                fromMillis = periodMillis;
+            }
+            if (periodMillis > toMillis) {
+                toMillis = periodMillis;
+            }
+            numberOpenedClosed.push({periodDate: periodMillis, v1: rd.numOpened, v2: rd.numClosed});
+            numberWinnersLosers.push({periodDate: periodMillis, v1: rd.numWinners, v2: rd.numLosers});
+            maxWinnerLoser.push({periodDate: periodMillis, v1: rd.maxWinner, v2: rd.maxLoser});
+            plWinnersLosers.push({periodDate: periodMillis, v1: rd.winnersProfit, v2: rd.losersLoss});
+            profitLoss.push({periodDate: periodMillis, v: rd.profitLoss});
+            cumulativePl.push({periodDate: periodMillis, v: rd.cumulProfitLoss});
         });
-
-        me.hpbC1 = HpbChart.createC1(numberOpened, numberClosed);
-        me.hpbC2 = HpbChart.createC2(numberWinners, numberLosers);
-        me.hpbC3 = HpbChart.createC3(maxWinner, maxLoser);
-        me.hpbC4 = HpbChart.createC4(winnersProfit, losersLoss);
-        me.hpbC5 = HpbChart.createC5(profitLoss);
-        me.hpbC6 = HpbChart.createC6(cumulativePl);
+        var timeFrame = {fromDate: fromMillis, toDate: toMillis};
+        HpbChart.clearAllCharts();
+        HpbChart.createBarChart(profitLoss, timeFrame, 'PL', 'hpb_c1');
+        HpbChart.ceateLineChart(cumulativePl, timeFrame, 'Cumulative PL', 'hpb_c2');
+        HpbChart.createCompoundBarChart(numberOpenedClosed, timeFrame, 'Num Ope/Clo', 'hpb_c3');
+        HpbChart.createCompoundBarChart(numberWinnersLosers, timeFrame, 'Num Win/Los', 'hpb_c4');
+        HpbChart.createCompoundBarChart(maxWinnerLoser, timeFrame, 'Max Win/Los', 'hpb_c5');
+        HpbChart.createCompoundBarChart(plWinnersLosers, timeFrame, 'PL Win/Los', 'hpb_c6');
     },
 
     setGlyphs: function() {

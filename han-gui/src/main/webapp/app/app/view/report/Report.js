@@ -57,7 +57,7 @@ Ext.define('HanGui.view.report.Report', {
                 xtype: 'container',
                 reference: 'chartsContainer',
                 defaults: {
-                    height: 400,
+                    height: 200,
                     width: 1210,
                     margin: '0 0 20 0'
                 },
