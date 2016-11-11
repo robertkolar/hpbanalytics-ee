@@ -12,6 +12,7 @@ public class ReportDefinitions {
     public static final String TIMEZONE = "America/New_York";
     public static final String EXCHANGE_RATE_URL = "http://api.fixer.io/";
     public static final Integer EXCHANGE_RATE_DAYS_BACK = 5;
+    public static final Integer MAX_STATS_RETURNED = 180;
 
     // constants
     public static final String ORIGIN_INTERNAL = "INTERNAL";

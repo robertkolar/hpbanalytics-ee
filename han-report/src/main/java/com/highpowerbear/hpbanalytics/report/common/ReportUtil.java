@@ -47,4 +47,13 @@ public class ReportUtil {
         StringReader stringReader = new StringReader(xml);
         return (Execution) jaxbUnmarshaller.unmarshal(stringReader);
     }
+    public static double round(double number, int decimalPlaces) {
+        double modifier = Math.pow(10.0, decimalPlaces);
+        return Math.round(number * modifier) / modifier;
+    }
+
+    public static double round2(double number) {
+        return round(number, 2);
+    }
+
 }

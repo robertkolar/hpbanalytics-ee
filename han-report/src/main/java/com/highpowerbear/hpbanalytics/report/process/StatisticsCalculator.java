@@ -29,11 +29,18 @@ public class StatisticsCalculator {
         shanpshotMap.keySet().stream().filter(key -> key.startsWith(report.getId() + "_")).forEach(statisticsMap::remove);
     }
 
-    public List<Statistics> getStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
+    public List<Statistics> getStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying, Integer maxPoints) {
         if(statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying) == null) {
             calculateStatistics(report, interval, underlying);
         }
-        return new ArrayList<>(statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying)); // copy because reverse will be performed on it
+        List<Statistics> allStatistics = statisticsMap.get(report.getId() + "_" + interval.name() + "_" + underlying);
+        Integer size = allStatistics.size();
+        if (maxPoints == null || size < maxPoints) {
+            maxPoints = size;
+        }
+        Integer firstIndex = size - maxPoints;
+        // copy because reverse will be performed on it
+        return new ArrayList<>(allStatistics.subList(firstIndex, size));
     }
 
     public List<Statistics> calculateStatistics(Report report, ReportDefinitions.StatisticsInterval interval, String underlying) {
@@ -91,12 +98,12 @@ public class StatisticsCalculator {
             cummulProfitLoss += profitLoss;
             s.setNumWinners(numWinners);
             s.setNumLosers(numLosers);
-            s.setWinnersProfit(winnersProfit);
-            s.setLosersLoss(losersLoss);
+            s.setWinnersProfit(ReportUtil.round2(winnersProfit));
+            s.setLosersLoss(ReportUtil.round2(losersLoss));
             s.setMaxWinner(maxWinner);
             s.setMaxLoser(maxLoser == 0.0 ? maxLoser : -maxLoser);
-            s.setProfitLoss(profitLoss);
-            s.setCumulProfitLoss(cummulProfitLoss);
+            s.setProfitLoss(ReportUtil.round2(profitLoss));
+            s.setCumulProfitLoss(ReportUtil.round2(cummulProfitLoss));
             stats.add(s);
 
             if (ReportDefinitions.StatisticsInterval.DAY.equals(interval)) {

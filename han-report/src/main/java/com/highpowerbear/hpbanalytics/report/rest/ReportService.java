@@ -220,7 +220,7 @@ public class ReportService {
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying);
+        List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying, ReportDefinitions.MAX_STATS_RETURNED);
         Collections.reverse(statistics);
         List<Statistics> statisticsPage = new ArrayList<>();
         for (int i = 0; i < statistics.size(); i++) {
@@ -242,7 +242,7 @@ public class ReportService {
         if (report == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying);
+        List<Statistics> statistics = statisticsCalculator.getStatistics(report, interval, underlying, ReportDefinitions.MAX_STATS_RETURNED);
         return Response.ok(new RestList<>(statistics, (long) statistics.size())).build();
     }
 
