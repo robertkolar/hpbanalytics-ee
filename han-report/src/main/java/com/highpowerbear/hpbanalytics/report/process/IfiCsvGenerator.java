@@ -28,14 +28,14 @@ public class IfiCsvGenerator {
 
     private final Integer optionMultiplier = 100;
     private final String NL = "\n";
-    private final String DL = ";";
+    private final String DL = ",";
     private final String acquireType = "A - nakup";
     private Map<ReportDefinitions.SecType, String> secTypeMap = new HashMap<>();
     private Map<ReportDefinitions.TradeType, String> tradeTypeMap = new HashMap<>();
-    private DateFormat df = new SimpleDateFormat("dd. MM. yyyy");
+    private DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     private DateFormat dfLog = new SimpleDateFormat("MM/dd/yyyy");
     private DateFormat dfRate = new SimpleDateFormat("yyyy-MM-dd");
-    private NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
+    private NumberFormat nf = NumberFormat.getInstance(Locale.US);
 
     @PostConstruct
     private void init() {
@@ -138,8 +138,6 @@ public class IfiCsvGenerator {
         for (int k = 0; k < 10; k++) {
             sb.append(DL);
         }
-        Double profitLoss = calculatePlEur(trade);
-        sb.append(profitLoss != null ? nf.format(profitLoss) : "");
         sb.append(NL);
     }
 
@@ -191,7 +189,7 @@ public class IfiCsvGenerator {
         if (exchangeRate == null) {
             return;
         }
-        sb.append(i).append("-").append(j).append(DL).append(DL).append(DL).append(DL);
+        sb.append(i).append("_").append(j).append(DL).append(DL).append(DL).append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
         Double fillPrice = se.getExecution().getFillPrice().doubleValue();
@@ -200,8 +198,9 @@ public class IfiCsvGenerator {
         }
         sb.append(nf.format(fillPrice)).append(DL);
         sb.append(nf.format(fillPrice / exchangeRate.getEurUsd())).append(DL);
-        for (int k = 0; k < 7; k++) {
-            sb.append(DL);
+        sb.append("");
+        for (int k = 0; k < 5; k++) {
+            sb.append(DL).append("");
         }
         sb.append(NL);
     }
@@ -211,10 +210,11 @@ public class IfiCsvGenerator {
         if (exchangeRate == null) {
             return;
         }
-        sb.append(i).append("-").append(j);
-        for (int k = 0; k < 8; k++) {
-            sb.append(DL);
+        sb.append(i).append("_").append(j);
+        for (int k = 0; k < 7; k++) {
+            sb.append(DL).append("");
         }
+        sb.append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(acquireType).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
@@ -224,7 +224,12 @@ public class IfiCsvGenerator {
         }
         sb.append(nf.format(fillPrice)).append(DL);
         sb.append(nf.format(fillPrice / exchangeRate.getEurUsd())).append(DL);
-        sb.append(se.getCurrentPosition()).append(DL);
+        sb.append(se.getCurrentPosition());
+        if (se.getCurrentPosition().equals(0)) {
+            Double profitLoss = calculatePlEur(se.getTrade());
+            sb.append(DL);
+            sb.append(profitLoss != null ? nf.format(profitLoss) : "");
+        }
         sb.append(NL);
     }
 
@@ -233,7 +238,7 @@ public class IfiCsvGenerator {
         if (exchangeRate == null) {
             return;
         }
-        sb.append(i).append("-").append(j).append(DL).append(DL).append(DL).append(DL);
+        sb.append(i).append("_").append(j).append(DL).append(DL).append(DL).append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(acquireType).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
@@ -243,6 +248,10 @@ public class IfiCsvGenerator {
         }
         sb.append(nf.format(fillPrice)).append(DL);
         sb.append(nf.format(fillPrice / exchangeRate.getEurUsd())).append(DL);
+        sb.append("");
+        for (int k = 0; k < 4; k++) {
+            sb.append(DL).append("");
+        }
         sb.append(NL);
     }
 
@@ -251,10 +260,11 @@ public class IfiCsvGenerator {
         if (exchangeRate == null) {
             return;
         }
-        sb.append(i).append("-").append(j);
+        sb.append(i).append("_").append(j);
         for (int k = 0; k < 8; k++) {
-            sb.append(DL);
+            sb.append(DL).append("");
         }
+        sb.append(DL);
         sb.append(df.format(se.getFillDate().getTime())).append(DL);
         sb.append(se.getSplitQuantity()).append(DL);
         Double fillPrice = se.getExecution().getFillPrice().doubleValue();
@@ -263,10 +273,12 @@ public class IfiCsvGenerator {
         }
         sb.append(nf.format(fillPrice)).append(DL);
         sb.append(nf.format(fillPrice / exchangeRate.getEurUsd())).append(DL);
-        for (int k = 0; k < 7; k++) {
+        sb.append(se.getCurrentPosition());
+        if (se.getCurrentPosition().equals(0)) {
+            Double profitLoss = calculatePlEur(se.getTrade());
             sb.append(DL);
+            sb.append(profitLoss != null ? nf.format(profitLoss) : "");
         }
-        sb.append(se.getCurrentPosition()).append(DL);
         sb.append(NL);
     }
 }
