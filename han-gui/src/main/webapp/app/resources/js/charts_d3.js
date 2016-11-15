@@ -8,7 +8,7 @@ var HpbChart = (function() {
         d3.selectAll("svg").remove();
     };
 
-    my.createBarChart = function(items, timeFrame, title, divEl) {
+    my.createBarChart = function(items, timeFrame, title, label, color1, color2, divEl) {
         var margin = {top: 20, right: 50, bottom: 20, left: 60},
             width = 1210 - margin.left - margin.right,
             height = 200 - margin.top - margin.bottom;
@@ -65,7 +65,7 @@ var HpbChart = (function() {
             .on("mouseover", function(d) {
                 tooltip.transition().duration(200)
                     .style("opacity", .9);
-                tooltip.html(Ext.Date.format(new Date(d.periodDate), 'm/d/Y') + '<br/><span style="color: ' + (d.v >= 0 ? 'green' : 'red') + '">' + d.v + '</span>')
+                tooltip.html(Ext.Date.format(new Date(d.periodDate), 'm/d/Y') + '<br/><span style="color: ' + (d.v >= 0 ? color1 : color2) + '">' + label + '=' +  + d.v + '</span>')
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })
@@ -75,7 +75,7 @@ var HpbChart = (function() {
             });
     };
 
-    my.createCompoundBarChart = function(items, timeFrame, title, divEl) {
+    my.createStackedBarChart = function(items, timeFrame, title, label1, label2, color1, color2, divEl) {
         var margin = {top: 20, right: 50, bottom: 20, left: 60},
             width = 1210 - margin.left - margin.right,
             height = 200 - margin.top - margin.bottom;
@@ -84,7 +84,7 @@ var HpbChart = (function() {
         var y = d3.scaleLinear().range([height, 0]);
 
         var color = d3.scaleOrdinal()
-            .range(["#339900", "#CC0000"]);
+            .range([color1, color2]);
 
         color.domain(['v1', 'v2']);
 
@@ -108,12 +108,13 @@ var HpbChart = (function() {
         items.forEach(function(d) {
             var y0 = 0;
             d.parts = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name], periodDate: d.periodDate}; });
-            d.total = d.parts[d.parts.length - 1].y1;
+            var cum = d.parts[d.parts.length - 1].y1;
+            d.cumulative = Math.round(cum * 100) / 100;
         });
 
         x.domain([timeFrame.fromDate, timeFrame.toDate]);
 
-        y.domain([0, d3.max(items, function(d) {return d.total})]);
+        y.domain([0, d3.max(items, function(d) {return d.cumulative})]);
 
         svg.append("g")
             .attr("class", "x d3-axis")
@@ -141,8 +142,9 @@ var HpbChart = (function() {
                     .style("opacity", .9);
                 tooltip
                     .html(Ext.Date.format(new Date(d.periodDate), 'm/d/Y') + '<br/>' +
-                        '<span style="color: green;">v1=' + d.v1 + '</span><br/>' +
-                        '<span style="color: red;">v2=' + d.v2 + '</span><br/>' + 'tot=' + d.total)
+                        '<span style="color: ' + color1 + ';">' + label1 + '=' + d.v1 + '</span><br/>' +
+                        '<span style="color: ' + color2 + ';">' + label2 + '=' + d.v2 + '</span><br/>' +
+                        'cum=' + d.cumulative)
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })

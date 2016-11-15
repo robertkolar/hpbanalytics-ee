@@ -115,7 +115,7 @@
             "path": "resources/js/d3.min.js"
         },
         {
-            "path": "resources/js/charts.js"
+            "path": "resources/js/charts_d3.js"
         }
     ],
 
