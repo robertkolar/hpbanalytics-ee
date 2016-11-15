@@ -57,14 +57,15 @@ Ext.define('HanGui.view.report.Report', {
                 xtype: 'container',
                 reference: 'chartsContainer',
                 defaults: {
-                    height: 200,
-                    width: 1210,
-                    margin: '0 0 20 0'
+                    width: 1500,
+                    height: 200
                 },
                 items: [{
-                    html: '<div id="hpb_c1"></div>'
+                    html: '<div id="hpb_c1" style="height: 100%"></div>',
+                    height: 400
                 }, {
-                    html: '<div id="hpb_c2"></div>'
+                    html: '<div id="hpb_c2" style="height: 100%"></div>',
+                    height: 400
                 }, {
                     html: '<div id="hpb_c3"></div>'
                 }, {
@@ -72,7 +73,8 @@ Ext.define('HanGui.view.report.Report', {
                 }, {
                     html: '<div id="hpb_c5"></div>'
                 }, {
-                    html: '<div id="hpb_c6"></div>'
+                    html: '<div id="hpb_c6"></div>',
+                    margin: '0 0 50 0'
                 }]
             }]
         }]

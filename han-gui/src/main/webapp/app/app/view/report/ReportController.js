@@ -27,10 +27,10 @@ Ext.define('HanGui.view.report.ReportController', {
 
         var ws = new WebSocket(HanGui.common.Definitions.wsUrlReport);
         ws.onopen = function(evt) {
-            console.log('WS opened');
+            console.log('WS report opened');
         };
         ws.onclose = function(evt) {
-            console.log('WS closed');
+            console.log('WS report closed');
         };
         ws.onmessage = function(evt) {
             console.log('WS message, content=' + evt.data + ' --> reloading stores...');
@@ -284,45 +284,38 @@ Ext.define('HanGui.view.report.ReportController', {
 
             profitLoss = [],
             cumulativePl = [],
-
-            numberOpenedClosedStack = [],
-            numberWinnersLosersStack = [],
-            maxWinnerLoserStack = [],
-            plWinnersLosersStack = [];
+            numberOpenedClosed = [],
+            numberWinnersLosers = [],
+            maxWinnerLoser = [],
+            plWinnersLosers = [];
 
         if (!Ext.get('hpb_c1')) {
             return;
         }
-
-        var fromDate = new Date().getTime(); // millis
-        var toDate = 0; // millis
+        profitLoss.push(['Date', 'PL', { role: 'style' }]);
+        cumulativePl.push(['Date', 'Cumulative PL']);
+        numberOpenedClosed.push(['Date', 'Opened', 'Closed']);
+        numberWinnersLosers.push(['Date', 'Winners', 'Losers']);
+        maxWinnerLoser.push(['Date', 'Max Winner', 'Max Loser']);
+        plWinnersLosers.push(['Date', 'Winners Profit', 'Losers Loss']);
 
         statistics.each(function (record, id) {
             var rd = record.data;
-            if (rd.periodDate < fromDate) {
-                fromDate = rd.periodDate;
-            }
-            if (rd.periodDate > toDate) {
-                toDate = rd.periodDate;
-            }
-            profitLoss.push({periodDate: rd.periodDate, v: rd.profitLoss});
-            cumulativePl.push({periodDate: rd.periodDate, v: rd.cumulProfitLoss});
 
-            numberOpenedClosedStack.push({periodDate: rd.periodDate, v1: rd.numOpened, v2: rd.numClosed});
-            numberWinnersLosersStack.push({periodDate: rd.periodDate, v1: rd.numWinners, v2: rd.numLosers});
-            maxWinnerLoserStack.push({periodDate: rd.periodDate, v1: rd.maxWinner, v2: rd.maxLoser});
-            plWinnersLosersStack.push({periodDate: rd.periodDate, v1: rd.winnersProfit, v2: rd.losersLoss});
+            profitLoss.push([new Date(rd.periodDate), rd.profitLoss, (rd.profitLoss > 0 ? 'green' : (rd.profitLoss == 0 ? 'white' : 'red'))]);
+            cumulativePl.push([new Date(rd.periodDate), rd.cumulProfitLoss]);
+            numberOpenedClosed.push([new Date(rd.periodDate), rd.numOpened, rd.numClosed]);
+            numberWinnersLosers.push([new Date(rd.periodDate), rd.numWinners, rd.numLosers]);
+            maxWinnerLoser.push([new Date(rd.periodDate), rd.maxWinner, rd.maxLoser]);
+            plWinnersLosers.push([new Date(rd.periodDate), rd.winnersProfit, rd.losersLoss]);
         });
-        var timeFrame = {fromDate: fromDate, toDate: toDate};
 
-        HpbChart.clearAllCharts();
-        HpbChart.createBarChart(profitLoss, timeFrame, 'PL', 'pl', 'Green', 'Red', 'hpb_c1');
-        HpbChart.ceateLineChart(cumulativePl, timeFrame, 'Cumulative PL', 'hpb_c2');
-
-        HpbChart.createStackedBarChart(numberOpenedClosedStack, timeFrame, 'Num Ope/Clo', 'numOpe', 'numClo', 'Green', 'Red', 'hpb_c3');
-        HpbChart.createStackedBarChart(numberWinnersLosersStack, timeFrame, 'Num Win/Los', 'numWin', 'numLos', 'Green', 'Red', 'hpb_c4');
-        HpbChart.createStackedBarChart(maxWinnerLoserStack, timeFrame, 'Max Win/Los', 'maxWin', 'maxLos', 'Green', 'Red', 'hpb_c5');
-        HpbChart.createStackedBarChart(plWinnersLosersStack, timeFrame, 'PL Win/Los', 'winPrf', 'losLos', 'Green', 'Red', 'hpb_c6');
+        GoogleChart.ceateLineChart(cumulativePl, 'Cumulative PL', 'hpb_c1');
+        GoogleChart.ceateColumnChart(profitLoss, 'Profit/Loss', 'hpb_c2');
+        GoogleChart.ceateColumnChart(numberOpenedClosed, 'Number Opened/Closed', 'hpb_c3');
+        GoogleChart.ceateColumnChart(numberWinnersLosers, 'Number Winners/Losers', 'hpb_c4');
+        GoogleChart.ceateColumnChart(maxWinnerLoser, 'Max Winner/Loser', 'hpb_c5');
+        GoogleChart.ceateColumnChart(plWinnersLosers, 'Winners Profit/Losers Loss', 'hpb_c6');
     },
 
     setGlyphs: function() {

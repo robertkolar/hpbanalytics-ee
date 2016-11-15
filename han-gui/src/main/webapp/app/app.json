@@ -112,10 +112,10 @@
             "bundle": true
         },
         {
-            "path": "resources/js/d3.min.js"
+            "path": "https://www.gstatic.com/charts/loader.js"
         },
         {
-            "path": "resources/js/charts_d3.js"
+            "path": "resources/js/charts_google.js"
         }
     ],
 

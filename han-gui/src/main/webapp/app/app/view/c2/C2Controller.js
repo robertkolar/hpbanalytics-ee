@@ -41,10 +41,10 @@ Ext.define('HanGui.view.c2.C2Controller', {
 
         var ws = new WebSocket(HanGui.common.Definitions.wsUrlC2);
         ws.onopen = function(evt) {
-            console.log('WS opened');
+            console.log('WS c2 opened');
         };
         ws.onclose = function(evt) {
-            console.log('WS closed');
+            console.log('WS c2 closed');
         };
         ws.onmessage = function(evt) {
             console.log('WS message, reloading stores...');

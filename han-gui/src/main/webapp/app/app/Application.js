@@ -16,6 +16,8 @@ Ext.define('HanGui.Application', {
     ],
     
     launch: function () {
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(console.log('Google charts loaded'));
         var link = document.createElement('link');
         link.type = 'image/ico';
         link.rel = 'icon';

@@ -30,10 +30,10 @@ Ext.define('HanGui.view.iblogger.IbLoggerController', {
 
         var ws = new WebSocket(HanGui.common.Definitions.wsUrlIbLogger);
         ws.onopen = function(evt) {
-            console.log('WS opened');
+            console.log('WS iblogger opened');
         };
         ws.onclose = function(evt) {
-            console.log('WS closed');
+            console.log('WS iblogger closed');
         };
         ws.onmessage = function(evt) {
             console.log('WS message, reloading store...');
