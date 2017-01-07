@@ -64,7 +64,9 @@ public class IfiCsvGenerator {
             writeCsvHeaderLong(sb);
         }
         int i = 0;
+        Double sumPlEur = 0D;
         for (Trade trade : trades) {
+            Double tradePlEur = 0D;
             if (!(
                     ReportDefinitions.SecType.FUT.equals(trade.getSecType()) ||
                     ReportDefinitions.SecType.OPT.equals(trade.getSecType()) ||
@@ -81,16 +83,30 @@ public class IfiCsvGenerator {
                 if (ReportDefinitions.TradeType.SHORT.equals(tradeType) && ReportDefinitions.Action.SELL.equals(se.getExecution().getAction())) {
                     writeTradeShortSplitExecutionSell(sb, se, i, j);
                 } else if (ReportDefinitions.TradeType.SHORT.equals(tradeType) && ReportDefinitions.Action.BUY.equals(se.getExecution().getAction())) {
-                    writeTradeShortSplitExecutionBuy(sb, se, i, j);
+                    Double plEur = writeTradeShortSplitExecutionBuy(sb, se, i, j);
+                    if (plEur != null) {
+                        tradePlEur = plEur;
+                    }
                 } else if (ReportDefinitions.TradeType.LONG.equals(tradeType) && ReportDefinitions.Action.BUY.equals(se.getExecution().getAction())) {
                     writeTradeLongSplitExecutionBuy(sb, se, i, j);
                 } else if (ReportDefinitions.TradeType.LONG.equals(tradeType) && ReportDefinitions.Action.SELL.equals(se.getExecution().getAction())) {
-                    writeTradeLongSplitExecutionSell(sb, se, i, j);
+                    Double plEur = writeTradeLongSplitExecutionSell(sb, se, i, j);
+                    if (plEur != null) {
+                        tradePlEur = plEur;
+                    }
                 }
             }
+            sumPlEur += tradePlEur;
             sb.append(NL);
         }
-        l.info("END IfiCsvGenerator.generatem, report=" + report.getId() + ", year=" + year + ", tradeType=" + tradeType);
+
+        sb.append(NL).append("SKUPAJ");
+        for (int k = 0; k < 14; k++) {
+            sb.append(DL).append("");
+        }
+        sb.append(nf.format(sumPlEur));
+
+        l.info("END IfiCsvGenerator.generate, report=" + report.getId() + ", year=" + year + ", tradeType=" + tradeType);
         return sb.toString();
     }
 
@@ -205,10 +221,10 @@ public class IfiCsvGenerator {
         sb.append(NL);
     }
 
-    private void writeTradeShortSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
+    private Double writeTradeShortSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
         ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
         if (exchangeRate == null) {
-            return;
+            return null;
         }
         sb.append(i).append("_").append(j);
         for (int k = 0; k < 7; k++) {
@@ -225,12 +241,14 @@ public class IfiCsvGenerator {
         sb.append(nf.format(fillPrice)).append(DL);
         sb.append(nf.format(fillPrice / exchangeRate.getEurUsd())).append(DL);
         sb.append(se.getCurrentPosition());
+        Double profitLoss = null;
         if (se.getCurrentPosition().equals(0)) {
-            Double profitLoss = calculatePlEur(se.getTrade());
+            profitLoss = calculatePlEur(se.getTrade());
             sb.append(DL);
             sb.append(profitLoss != null ? nf.format(profitLoss) : "");
         }
         sb.append(NL);
+        return profitLoss;
     }
 
     private void writeTradeLongSplitExecutionBuy(StringBuilder sb, SplitExecution se, int i, int j) {
@@ -255,10 +273,10 @@ public class IfiCsvGenerator {
         sb.append(NL);
     }
 
-    private void writeTradeLongSplitExecutionSell(StringBuilder sb, SplitExecution se, int i, int j) {
+    private Double writeTradeLongSplitExecutionSell(StringBuilder sb, SplitExecution se, int i, int j) {
         ExchangeRate exchangeRate = reportDao.getExchangeRate(dfRate.format(se.getFillDate().getTime()));
         if (exchangeRate == null) {
-            return;
+            return null;
         }
         sb.append(i).append("_").append(j);
         for (int k = 0; k < 8; k++) {
@@ -274,11 +292,13 @@ public class IfiCsvGenerator {
         sb.append(nf.format(fillPrice)).append(DL);
         sb.append(nf.format(fillPrice / exchangeRate.getEurUsd())).append(DL);
         sb.append(se.getCurrentPosition());
+        Double profitLoss = null;
         if (se.getCurrentPosition().equals(0)) {
-            Double profitLoss = calculatePlEur(se.getTrade());
+            profitLoss = calculatePlEur(se.getTrade());
             sb.append(DL);
             sb.append(profitLoss != null ? nf.format(profitLoss) : "");
         }
         sb.append(NL);
+        return profitLoss;
     }
 }

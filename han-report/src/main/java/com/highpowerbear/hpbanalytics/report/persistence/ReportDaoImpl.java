@@ -246,7 +246,7 @@ public class ReportDaoImpl implements ReportDao {
 
     @Override
     public List<Trade> getTradesBetweenDates(Report report, Calendar beginDate, Calendar endDate, ReportDefinitions.TradeType tradeType) {
-        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report AND t.openDate >= :beginDate AND t.openDate < :endDate AND t.type = :tradeType ORDER BY t.openDate ASC", Trade.class);
+        TypedQuery<Trade> q = em.createQuery("SELECT t FROM Trade t WHERE t.report = :report AND t.closeDate >= :beginDate AND t.closeDate < :endDate AND t.type = :tradeType ORDER BY t.openDate ASC", Trade.class);
         q.setParameter("report", report);
         q.setParameter("beginDate", beginDate);
         q.setParameter("endDate", endDate);
